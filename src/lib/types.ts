@@ -20,6 +20,18 @@ export interface CreateRewardProps {
   totalSupply: string;
 }
 
+export interface SetUpOpenRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+}
+
+export interface ChangeMainAccountProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+}
+
 export interface BrandDetailsProps {
   brandId: string;
   [0]: string;
@@ -36,4 +48,36 @@ export interface GetBrandDetailsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
   getOnlyId?: boolean;
+}
+
+export interface AllFnsProps {
+  loading: boolean;
+  setUpOpenReward: ({
+    magicEmail,
+    address,
+  }: Omit<SetUpOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  changeMainAccount: ({
+    magicEmail,
+    address,
+  }: Omit<ChangeMainAccountProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
+  createReward: ({
+    magicEmail,
+    name,
+    symbol,
+    descriptionLink,
+    totalSupply,
+  }: Omit<CreateRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  getBrandDetails: ({
+    magicEmail,
+    getOnlyId,
+  }: Omit<GetBrandDetailsProps, "setLoading">) => Promise<
+    { brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined
+  >;
+  meRegister: ({
+    magicEmail,
+    brandName,
+    onlinePresence,
+  }: Omit<MeRegisterProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
 }
