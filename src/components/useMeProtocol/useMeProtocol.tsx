@@ -1,13 +1,15 @@
 import { useContext } from "react";
-import { MeProtocolContext, MeRegisterProps } from "../MeProtocol/MeProtocolProvider";
+import { MeProtocolContext } from "../MeProtocol/MeProtocolProvider";
+import { MeRegisterProps } from "../../lib/types";
 
 const useMeProtocol = () => {
   const context = useContext<{
+    loading: boolean;
     meRegister: ({
       magicEmail,
       brandName,
       onlinePresence,
-    }: MeRegisterProps) => Promise<{ transactionHash: string } | undefined>;
+    }: Omit<MeRegisterProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   } | null>(MeProtocolContext);
 
   if (!context) {

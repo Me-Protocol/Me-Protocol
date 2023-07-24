@@ -1,21 +1,6 @@
-import React, { Dispatch, FC, SetStateAction, createContext, useContext, useState } from "react";
-import { magic } from "../../lib/magic";
-import { createWeb3 } from "../../lib/web3";
-import { ethers } from "ethers";
-import { OPEN_REWARD_DIAMOND, brandService } from "../../call";
-import { relay } from "../../call/services/gelatoRelayer";
-import { meRegisterFN } from "../../module/MeRegister";
-
-interface MeProtocolProviderProps {
-  children: React.ReactNode;
-}
-
-export interface MeRegisterProps {
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  magicEmail: string;
-  brandName: string;
-  onlinePresence: string;
-}
+import React, { Dispatch, FC, SetStateAction, createContext, useState } from "react";
+import { meRegisterFN } from "../../module/meRegister";
+import { MeRegisterProps, MeProtocolProviderProps } from "../../lib/types";
 
 export const MeProtocolContext = createContext<{
   loading: boolean;
@@ -23,7 +8,7 @@ export const MeProtocolContext = createContext<{
     magicEmail,
     brandName,
     onlinePresence,
-  }: MeRegisterProps) => Promise<{ transactionHash: string } | undefined>;
+  }: Omit<MeRegisterProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
 } | null>(null);
 
 const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {

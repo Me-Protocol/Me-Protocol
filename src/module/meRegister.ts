@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
 import { brandService, OPEN_REWARD_DIAMOND } from "../call";
-import { MeRegisterProps } from "../components/MeProtocol/MeProtocolProvider";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
 import { relay } from "../call/services/gelatoRelayer";
+import { MeRegisterProps } from "../lib/types";
 
 export async function meRegisterFN({
   magicEmail,
