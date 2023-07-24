@@ -1,6 +1,6 @@
 {
   "name": "@teepheh-git/me-protocol",
-  "version": "1.0.1",
+  "version": "1.0.9",
   "description": "A simple template for a custom React component library",
   "scripts": {
     "rollup": "rollup -c"
