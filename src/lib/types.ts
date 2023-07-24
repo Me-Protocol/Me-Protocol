@@ -32,6 +32,24 @@ export interface ChangeMainAccountProps {
   address: string;
 }
 
+export interface ActivateOpenRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+}
+
+export interface ResumeOpenRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+}
+
+export interface PauseOpenRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+}
+
 export interface BrandDetailsProps {
   brandId: string;
   [0]: string;
@@ -52,6 +70,18 @@ export interface GetBrandDetailsProps {
 
 export interface AllFnsProps {
   loading: boolean;
+  pauseOpenReward: ({
+    magicEmail,
+    address,
+  }: Omit<PauseOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  resumeOpenReward: ({
+    magicEmail,
+    address,
+  }: Omit<ResumeOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  activateOpenReward: ({
+    magicEmail,
+    address,
+  }: Omit<ActivateOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   setUpOpenReward: ({
     magicEmail,
     address,
