@@ -4,47 +4,17 @@ import {
   MeRegisterProps,
   MeProtocolProviderProps,
   BrandDetailsProps,
-  GetBrandDetailsProps,
   CreateRewardProps,
   SetUpOpenRewardProps,
   ChangeMainAccountProps,
+  AllFnsProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
 import { setUpOpenRewardFN } from "../../module/setUpOpenReward";
 import { changeMainAccountFN } from "../../module/changeMainAccount";
 
-export const MeProtocolContext = createContext<{
-  loading: boolean;
-  setUpOpenReward: ({
-    magicEmail,
-    address,
-  }: Omit<SetUpOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
-  changeMainAccount: ({
-    magicEmail,
-    address,
-  }: Omit<ChangeMainAccountProps, "setLoading">) => Promise<
-    { transactionHash: string } | undefined
-  >;
-  createReward: ({
-    magicEmail,
-    name,
-    symbol,
-    descriptionLink,
-    totalSupply,
-  }: Omit<CreateRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
-  getBrandDetails: ({
-    magicEmail,
-    getOnlyId,
-  }: Omit<GetBrandDetailsProps, "setLoading">) => Promise<
-    { brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined
-  >;
-  meRegister: ({
-    magicEmail,
-    brandName,
-    onlinePresence,
-  }: Omit<MeRegisterProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
-} | null>(null);
+export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
 const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(false);
