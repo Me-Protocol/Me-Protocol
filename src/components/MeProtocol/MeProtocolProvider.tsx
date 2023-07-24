@@ -11,6 +11,7 @@ import {
   ActivateOpenRewardProps,
   ResumeOpenRewardProps,
   PauseOpenRewardProps,
+  ChangeOptimalOpenRewardProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -19,6 +20,7 @@ import { changeMainAccountFN } from "../../module/changeMainAccount";
 import { activateOpenRewardFN } from "../../module/activateOpenReward";
 import { resumeOpenRewardFN } from "../../module/resumeOpenReward";
 import { pauseOpenRewardFN } from "../../module/pauseOpenReward";
+import { changeOptimalOpenRewardFN } from "../../module/changeOptimalOpenReward";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -112,7 +114,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     }
 
     // ========================================= THIS IS THE FUNCTION TO PAUSE OPEN REWRAD ==========================================================
-         async function pauseOpenReward({
+    async function pauseOpenReward({
           magicEmail,
           address,
         }: Omit<PauseOpenRewardProps, "setLoading">) {
@@ -122,6 +124,20 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
             setLoading,
           });
         }
+    
+    // ========================================= THIS IS THE FUNCTION TO CHANGE OPTIMAL OPEN REWRAD ==========================================================
+    async function changeOptimalOpenReward({
+      magicEmail,
+      name,
+      newOptimal,
+    }: Omit<ChangeOptimalOpenRewardProps, "setLoading">) {
+      return await changeOptimalOpenRewardFN({
+        magicEmail,
+        name,
+        newOptimal,
+        setLoading,
+      });
+    }
 
   return (
     <MeProtocolContext.Provider
@@ -134,7 +150,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
         changeMainAccount,
         activateOpenReward,
         resumeOpenReward,
-        pauseOpenReward
+        pauseOpenReward,
+        changeOptimalOpenReward
       }}
     >
       {children}
