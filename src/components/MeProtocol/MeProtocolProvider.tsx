@@ -56,12 +56,12 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
           data: data.data,
           to: OPEN_REWARD_DIAMOND,
         };
-        console.log(relayInput);
-        // const result: any = await relay(relayInput, signer);
+        // console.log(relayInput);
+        const result: any = await relay(relayInput, signer);
         // console.log(result);
 
-        // return { transactionHash: taskId };
-        return { transactionHash: "end of line" };
+        return { transactionHash: result.taskId };
+        // return { transactionHash: "end of line" };
       } else {
         let isConnected = magicWeb3;
         while (!isConnected) {
@@ -85,12 +85,12 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
           data: data.data,
           to: OPEN_REWARD_DIAMOND,
         };
-        console.log(relayInput);
-        // const result: any = await relay(relayInput, signer);
+        // console.log(relayInput);
+        const result: any = await relay(relayInput, signer);
         // console.log(result);
 
-        // return { transactionHash: taskId };
-        return { transactionHash: "end of line" };
+        return { transactionHash: result.taskId };
+        // return { transactionHash: "end of line" };
       }
     } catch (error) {
       throw error;
@@ -98,6 +98,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
       setRegisterLoading(false);
     }
   }
+
   return <MeProtocolContext.Provider value={{ meRegister }}>{children}</MeProtocolContext.Provider>;
 };
 
