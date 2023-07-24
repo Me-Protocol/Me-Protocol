@@ -1,15 +1,16 @@
 import { useContext } from "react";
 import { MeProtocolContext } from "../MeProtocol/MeProtocolProvider";
-import { MeRegisterProps } from "../../lib/types";
+import { BrandDetailsProps, GetBrandDetailsProps, MeRegisterProps } from "../../lib/types";
 
 const useMeProtocol = () => {
   const context = useContext<{
     loading: boolean;
-    getBrandId: ({
+    getBrandDetails: ({
       magicEmail,
-    }: {
-      magicEmail: string;
-    }) => Promise<{ brandId: string } | undefined>;
+      getOnlyId,
+    }: Omit<GetBrandDetailsProps, "setLoading">) => Promise<
+      { brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined
+    >;
     meRegister: ({
       magicEmail,
       brandName,
