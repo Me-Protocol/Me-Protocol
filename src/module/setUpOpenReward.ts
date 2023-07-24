@@ -5,10 +5,7 @@ import { createWeb3 } from "../lib/web3";
 import { relay } from "../call/services/gelatoRelayer";
 import { SetUpOpenRewardProps } from "../lib/types";
 
-export async function setUpOpenRewardFN({
-  magicEmail,
-  address,
-}: SetUpOpenRewardProps) {
+export async function setUpOpenRewardFN({ magicEmail, address, setLoading }: SetUpOpenRewardProps) {
   setLoading(true);
 
   try {
@@ -33,9 +30,7 @@ export async function setUpOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createPool(
-        address
-      );
+      const data = await brandService.createPool(address);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -63,9 +58,7 @@ export async function setUpOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createPool(
-        address
-      );
+      const data = await brandService.createPool(address);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -81,7 +74,3 @@ export async function setUpOpenRewardFN({
     setLoading(false);
   }
 }
-function setLoading(arg0: boolean) {
-    throw new Error("Function not implemented.");
-}
-

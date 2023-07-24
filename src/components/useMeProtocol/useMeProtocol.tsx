@@ -1,15 +1,29 @@
 import { useContext } from "react";
-import { MeProtocolContext } from "../MeProtocol/MeProtocolProvider";
 import {
   BrandDetailsProps,
+  ChangeMainAccountProps,
   CreateRewardProps,
   GetBrandDetailsProps,
   MeRegisterProps,
+  SetUpOpenRewardProps,
 } from "../../lib/types";
+import { MeProtocolContext } from "../MeProtocol/MeProtocolProvider";
 
 const useMeProtocol = () => {
   const context = useContext<{
     loading: boolean;
+    setUpOpenRewards: ({
+      magicEmail,
+      address,
+    }: Omit<SetUpOpenRewardProps, "setLoading">) => Promise<
+      { transactionHash: string } | undefined
+    >;
+    changeMainAccount: ({
+      magicEmail,
+      address,
+    }: Omit<ChangeMainAccountProps, "setLoading">) => Promise<
+      { transactionHash: string } | undefined
+    >;
     createReward: ({
       magicEmail,
       name,

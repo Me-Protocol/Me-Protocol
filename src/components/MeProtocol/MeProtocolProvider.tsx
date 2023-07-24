@@ -7,11 +7,11 @@ import {
   GetBrandDetailsProps,
   CreateRewardProps,
   SetUpOpenRewardProps,
-  ChangeMainAccountProps
+  ChangeMainAccountProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
-import { setUpOpenRewardFN } from "../../module/setUpReward";
+import { setUpOpenRewardFN } from "../../module/setUpOpenReward";
 import { changeMainAccountFN } from "../../module/changeMainAccount";
 
 export const MeProtocolContext = createContext<{
@@ -19,8 +19,10 @@ export const MeProtocolContext = createContext<{
   changeMainAccount: ({
     magicEmail,
     address,
-  }: Omit<ChangeMainAccountProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
-   setUpOpenReward: ({
+  }: Omit<ChangeMainAccountProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
+  setUpOpenReward: ({
     magicEmail,
     address,
   }: Omit<SetUpOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
@@ -85,10 +87,10 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
-   // =============================================================== THIS IS THE FUNCTION TO SETUP OPENREWARDS ===============================================================
-   async function setUpOpenReward({
+  // =============================================================== THIS IS THE FUNCTION TO SETUP OPENREWARDS ===============================================================
+  async function setUpOpenReward({
     magicEmail,
-    address
+    address,
   }: Omit<SetUpOpenRewardProps, "setLoading">) {
     return await setUpOpenRewardFN({
       magicEmail,
@@ -97,10 +99,10 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
-  // =============================================================== THIS IS THE FUNCTION TO CHANGE MAIN ACCOUNT (BRAND ADDRESS) ===============================================================
+  // ========================================= THIS IS THE FUNCTION TO CHANGE MAIN ACCOUNT (BRAND ADDRESS==========================================================
   async function changeMainAccount({
     magicEmail,
-    address
+    address,
   }: Omit<ChangeMainAccountProps, "setLoading">) {
     return await changeMainAccountFN({
       magicEmail,
@@ -110,7 +112,16 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
   }
 
   return (
-    <MeProtocolContext.Provider value={{ meRegister, loading, getBrandDetails, createReward, setUpOpenReward, changeMainAccount }}>
+    <MeProtocolContext.Provider
+      value={{
+        meRegister,
+        loading,
+        getBrandDetails,
+        createReward,
+        setUpOpenReward,
+        changeMainAccount,
+      }}
+    >
       {children}
     </MeProtocolContext.Provider>
   );
