@@ -1,8 +1,14 @@
 import { useContext } from "react";
-import { MeProtocolContext } from "../MeProtocol/MeProtocolProvider";
+import { MeProtocolContext, MeRegisterProps } from "../MeProtocol/MeProtocolProvider";
 
 const useMeProtocol = () => {
-  const context = useContext(MeProtocolContext);
+  const context = useContext<{
+    meRegister: ({
+      magicEmail,
+      brandName,
+      onlinePresence,
+    }: MeRegisterProps) => Promise<{ transactionHash: string } | undefined>;
+  } | null>(MeProtocolContext);
 
   if (!context) {
     throw new Error("useMeProtocol must be used within a MeProtocolProvider");
