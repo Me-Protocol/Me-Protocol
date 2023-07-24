@@ -3,16 +3,13 @@ import { brandService, OPEN_REWARD_DIAMOND } from "../call";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
 import { relay } from "../call/services/gelatoRelayer";
-import { CreateRewardProps } from "../lib/types";
+import { PauseOpenRewardProps } from "../lib/types";
 
-export async function createRewardFN({
+export async function pauseOpenRewardFN({
   magicEmail,
-  name,
-  symbol,
-  descriptionLink,
-  totalSupply,
+  address,
   setLoading,
-}: CreateRewardProps) {
+}: PauseOpenRewardProps) {
   setLoading(true);
 
   try {
@@ -37,13 +34,7 @@ export async function createRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createNewReward(
-        name,
-        symbol,
-        descriptionLink,
-        ethers.utils.parseEther(totalSupply),
-        loggedInUserInfo.publicAddress
-      );
+      const data = await brandService.pauseOpenRewards(address);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -71,13 +62,7 @@ export async function createRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createNewReward(
-        name,
-        symbol,
-        descriptionLink,
-        ethers.utils.parseEther(totalSupply),
-        loggedInUserInfo.publicAddress
-      );
+      const data = await brandService.pauseOpenRewards(address);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,

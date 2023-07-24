@@ -8,11 +8,19 @@ import {
   SetUpOpenRewardProps,
   ChangeMainAccountProps,
   AllFnsProps,
+  ActivateOpenRewardProps,
+  ResumeOpenRewardProps,
+  PauseOpenRewardProps,
+  ChangeOptimalOpenRewardProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
 import { setUpOpenRewardFN } from "../../module/setUpOpenReward";
 import { changeMainAccountFN } from "../../module/changeMainAccount";
+import { activateOpenRewardFN } from "../../module/activateOpenReward";
+import { resumeOpenRewardFN } from "../../module/resumeOpenReward";
+import { pauseOpenRewardFN } from "../../module/pauseOpenReward";
+import { changeOptimalOpenRewardFN } from "../../module/changeOptimalOpenReward";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -69,7 +77,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
-  // ========================================= THIS IS THE FUNCTION TO CHANGE MAIN ACCOUNT (BRAND ADDRESS==========================================================
+  // ========================================= THIS IS THE FUNCTION TO CHANGE MAIN ACCOUNT (BRAND ADDRESS) ==========================================================
   async function changeMainAccount({
     magicEmail,
     address,
@@ -81,6 +89,56 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
+   // ========================================= THIS IS THE FUNCTION TO ACTIVATE OPEN REWRAD ==========================================================
+   async function activateOpenReward({
+    magicEmail,
+    address,
+  }: Omit<ActivateOpenRewardProps, "setLoading">) {
+    return await activateOpenRewardFN({
+      magicEmail,
+      address,
+      setLoading,
+    });
+  }
+
+     // ========================================= THIS IS THE FUNCTION TO RESUME OPEN REWRAD ==========================================================
+     async function resumeOpenReward({
+      magicEmail,
+      address,
+    }: Omit<ResumeOpenRewardProps, "setLoading">) {
+      return await resumeOpenRewardFN({
+        magicEmail,
+        address,
+        setLoading,
+      });
+    }
+
+    // ========================================= THIS IS THE FUNCTION TO PAUSE OPEN REWRAD ==========================================================
+    async function pauseOpenReward({
+          magicEmail,
+          address,
+        }: Omit<PauseOpenRewardProps, "setLoading">) {
+          return await pauseOpenRewardFN({
+            magicEmail,
+            address,
+            setLoading,
+          });
+        }
+    
+    // ========================================= THIS IS THE FUNCTION TO CHANGE OPTIMAL OPEN REWRAD ==========================================================
+    async function changeOptimalOpenReward({
+      magicEmail,
+      name,
+      newOptimal,
+    }: Omit<ChangeOptimalOpenRewardProps, "setLoading">) {
+      return await changeOptimalOpenRewardFN({
+        magicEmail,
+        name,
+        newOptimal,
+        setLoading,
+      });
+    }
+
   return (
     <MeProtocolContext.Provider
       value={{
@@ -90,6 +148,10 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
         createReward,
         setUpOpenReward,
         changeMainAccount,
+        activateOpenReward,
+        resumeOpenReward,
+        pauseOpenReward,
+        changeOptimalOpenReward
       }}
     >
       {children}

@@ -3,16 +3,14 @@ import { brandService, OPEN_REWARD_DIAMOND } from "../call";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
 import { relay } from "../call/services/gelatoRelayer";
-import { CreateRewardProps } from "../lib/types";
+import { ChangeOptimalOpenRewardProps } from "../lib/types";
 
-export async function createRewardFN({
+export async function changeOptimalOpenRewardFN({
   magicEmail,
   name,
-  symbol,
-  descriptionLink,
-  totalSupply,
+  newOptimal,
   setLoading,
-}: CreateRewardProps) {
+}: ChangeOptimalOpenRewardProps) {
   setLoading(true);
 
   try {
@@ -37,12 +35,9 @@ export async function createRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createNewReward(
+      const data = await brandService.changeOptimalValuationForOpenRewards(
         name,
-        symbol,
-        descriptionLink,
-        ethers.utils.parseEther(totalSupply),
-        loggedInUserInfo.publicAddress
+        newOptimal
       );
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -71,12 +66,9 @@ export async function createRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createNewReward(
+      const data = await brandService.changeOptimalValuationForOpenRewards(
         name,
-        symbol,
-        descriptionLink,
-        ethers.utils.parseEther(totalSupply),
-        loggedInUserInfo.publicAddress
+        newOptimal
       );
       const relayInput = {
         from: loggedInUserInfo.publicAddress,

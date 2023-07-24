@@ -1,3 +1,4 @@
+
 import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
@@ -20,6 +21,13 @@ export interface CreateRewardProps {
   totalSupply: string;
 }
 
+export interface ChangeOptimalOpenRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  name: string;
+  newOptimal: number;
+}
+
 export interface SetUpOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
@@ -27,6 +35,24 @@ export interface SetUpOpenRewardProps {
 }
 
 export interface ChangeMainAccountProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+}
+
+export interface ActivateOpenRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+}
+
+export interface ResumeOpenRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+}
+
+export interface PauseOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
   address: string;
@@ -52,6 +78,23 @@ export interface GetBrandDetailsProps {
 
 export interface AllFnsProps {
   loading: boolean;
+  changeOptimalOpenReward: ({
+    magicEmail,
+    name,
+    newOptimal
+  }: Omit<ChangeOptimalOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  pauseOpenReward: ({
+    magicEmail,
+    address,
+  }: Omit<PauseOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  resumeOpenReward: ({
+    magicEmail,
+    address,
+  }: Omit<ResumeOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  activateOpenReward: ({
+    magicEmail,
+    address,
+  }: Omit<ActivateOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   setUpOpenReward: ({
     magicEmail,
     address,
