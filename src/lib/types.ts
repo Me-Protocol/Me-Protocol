@@ -11,6 +11,15 @@ export interface MeRegisterProps {
   onlinePresence: string;
 }
 
+export interface CreateRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  name: string;
+  symbol: string;
+  descriptionLink: string;
+  totalSupply: string;
+}
+
 export interface BrandDetailsProps {
   brandId: string;
   [0]: string;

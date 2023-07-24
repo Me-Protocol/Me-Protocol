@@ -1,10 +1,22 @@
 import { useContext } from "react";
 import { MeProtocolContext } from "../MeProtocol/MeProtocolProvider";
-import { BrandDetailsProps, GetBrandDetailsProps, MeRegisterProps } from "../../lib/types";
+import {
+  BrandDetailsProps,
+  CreateRewardProps,
+  GetBrandDetailsProps,
+  MeRegisterProps,
+} from "../../lib/types";
 
 const useMeProtocol = () => {
   const context = useContext<{
     loading: boolean;
+    createReward: ({
+      magicEmail,
+      name,
+      symbol,
+      descriptionLink,
+      totalSupply,
+    }: Omit<CreateRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
     getBrandDetails: ({
       magicEmail,
       getOnlyId,

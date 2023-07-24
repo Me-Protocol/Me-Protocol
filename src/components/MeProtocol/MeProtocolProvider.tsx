@@ -5,11 +5,20 @@ import {
   MeProtocolProviderProps,
   BrandDetailsProps,
   GetBrandDetailsProps,
+  CreateRewardProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
+import { createRewardFN } from "../../module/createReward";
 
 export const MeProtocolContext = createContext<{
   loading: boolean;
+  createReward: ({
+    magicEmail,
+    name,
+    symbol,
+    descriptionLink,
+    totalSupply,
+  }: Omit<CreateRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   getBrandDetails: ({
     magicEmail,
     getOnlyId,
@@ -45,10 +54,27 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
   }): Promise<{ brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined> {
     return await getBrandDetailsFN({ magicEmail, setLoading, getOnlyId });
   }
-  // =============================================================== THIS IS THE FUNCTION TO GET BRAND BY ADDRESS ===============================================================
+  // =============================================================== THIS IS THE FUNCTION TO CREATE REWARD ===============================================================
+
+  async function createReward({
+    magicEmail,
+    name,
+    symbol,
+    descriptionLink,
+    totalSupply,
+  }: Omit<CreateRewardProps, "setLoading">) {
+    return await createRewardFN({
+      magicEmail,
+      name,
+      symbol,
+      descriptionLink,
+      totalSupply,
+      setLoading,
+    });
+  }
 
   return (
-    <MeProtocolContext.Provider value={{ meRegister, loading, getBrandDetails }}>
+    <MeProtocolContext.Provider value={{ meRegister, loading, getBrandDetails, createReward }}>
       {children}
     </MeProtocolContext.Provider>
   );
