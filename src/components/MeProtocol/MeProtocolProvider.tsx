@@ -16,16 +16,16 @@ import { changeMainAccountFN } from "../../module/changeMainAccount";
 
 export const MeProtocolContext = createContext<{
   loading: boolean;
+  setUpOpenReward: ({
+    magicEmail,
+    address,
+  }: Omit<SetUpOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   changeMainAccount: ({
     magicEmail,
     address,
   }: Omit<ChangeMainAccountProps, "setLoading">) => Promise<
     { transactionHash: string } | undefined
   >;
-  setUpOpenReward: ({
-    magicEmail,
-    address,
-  }: Omit<SetUpOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   createReward: ({
     magicEmail,
     name,
