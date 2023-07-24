@@ -20,6 +20,19 @@ export interface CreateRewardProps {
   totalSupply: string;
 }
 
+export interface SetUpOpenRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+}
+
+export interface ChangeMainAccountProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+}
+
+
 export interface BrandDetailsProps {
   brandId: string;
   [0]: string;

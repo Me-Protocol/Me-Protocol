@@ -6,12 +6,24 @@ import {
   BrandDetailsProps,
   GetBrandDetailsProps,
   CreateRewardProps,
+  SetUpOpenRewardProps,
+  ChangeMainAccountProps
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
+import { setUpOpenRewardFN } from "../../module/setUpReward";
+import { changeMainAccountFN } from "../../module/changeMainAccount";
 
 export const MeProtocolContext = createContext<{
   loading: boolean;
+  changeMainAccount: ({
+    magicEmail,
+    address,
+  }: Omit<ChangeMainAccountProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+   setUpOpenReward: ({
+    magicEmail,
+    address,
+  }: Omit<SetUpOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   createReward: ({
     magicEmail,
     name,
@@ -73,8 +85,32 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
+   // =============================================================== THIS IS THE FUNCTION TO SETUP OPENREWARDS ===============================================================
+   async function setUpOpenReward({
+    magicEmail,
+    address
+  }: Omit<SetUpOpenRewardProps, "setLoading">) {
+    return await setUpOpenRewardFN({
+      magicEmail,
+      address,
+      setLoading,
+    });
+  }
+
+  // =============================================================== THIS IS THE FUNCTION TO CHANGE MAIN ACCOUNT (BRAND ADDRESS) ===============================================================
+  async function changeMainAccount({
+    magicEmail,
+    address
+  }: Omit<ChangeMainAccountProps, "setLoading">) {
+    return await changeMainAccountFN({
+      magicEmail,
+      address,
+      setLoading,
+    });
+  }
+
   return (
-    <MeProtocolContext.Provider value={{ meRegister, loading, getBrandDetails, createReward }}>
+    <MeProtocolContext.Provider value={{ meRegister, loading, getBrandDetails, createReward, setUpOpenReward, changeMainAccount }}>
       {children}
     </MeProtocolContext.Provider>
   );
