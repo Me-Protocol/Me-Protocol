@@ -16,6 +16,7 @@ import {
   TopUpOpenRewardLiquidityProps,
   UpdateRewardConfigProps,
   SpendRewardOnIssuingBrandProps,
+  UpdateOpenRewardConfigProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -29,6 +30,7 @@ import { integrateRewardFN } from "../../module/integrateReward";
 import { topUpOpenRewardLiquidityFN } from "../../module/topUpOpenRewardLiquidity";
 import { updateRewardConfigFN } from "../../module/updateRewardConfig";
 import { spendRewardOnIssuingBrandFN } from "../../module/spendRewardOnIssuingBrand";
+import { updateOpenRewardConfigFN } from "../../module/updateOpenRewardConfig";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -231,6 +233,38 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
+  // ========================================= THIS IS THE FUNCTION SPEND REWARD ON ISSUING BRAND  ==========================================================
+  async function updateOpenRewardConfig({
+    magicEmail,
+    rewardAddress,
+    config: {
+      maximumRLimit,
+      minimumRewardAmountForConversation,
+      minimumMeAmountForConversation,
+      notifyRewardAmount,
+      notifyMeAmount,
+      defaultSlippageInPrecision,
+      allowSwaps,
+    },
+    ignoreDefault,
+  }: Omit<UpdateOpenRewardConfigProps, "setLoading">) {
+    return await updateOpenRewardConfigFN({
+      magicEmail,
+      rewardAddress,
+      config: {
+        maximumRLimit,
+        minimumRewardAmountForConversation,
+        minimumMeAmountForConversation,
+        notifyRewardAmount,
+        notifyMeAmount,
+        defaultSlippageInPrecision,
+        allowSwaps,
+      },
+      ignoreDefault,
+      setLoading,
+    });
+  }
+
   return (
     <MeProtocolContext.Provider
       value={{
@@ -248,6 +282,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
         topUpOpenRewardLiquidity,
         updateRewardConfig,
         spendRewardOnIssuingBrand,
+        updateOpenRewardConfig,
       }}
     >
       {children}

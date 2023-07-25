@@ -85,6 +85,37 @@ export interface UpdateRewardConfigProps {
   rewardConfig: EditableRewardConfig;
 }
 
+export interface EditableRewardDetails {
+  name: string;
+  symbol: string;
+  descriptionLink: string;
+}
+export interface UpdateRewardDetailsProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  rewardAddress: string;
+  brandId: string;
+  details: EditableRewardDetails;
+  ignoreDefault: boolean;
+}
+
+export interface EditableConfigForTypeAOpenRewards {
+  maximumRLimit: number;
+  minimumRewardAmountForConversation: string;
+  minimumMeAmountForConversation: string;
+  notifyRewardAmount: number;
+  notifyMeAmount: number;
+  defaultSlippageInPrecision: number;
+  allowSwaps: boolean;
+}
+export interface UpdateOpenRewardConfigProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  rewardAddress: string;
+  config: EditableConfigForTypeAOpenRewards;
+  ignoreDefault: boolean;
+}
+
 export interface ResumeOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
@@ -157,6 +188,22 @@ export interface AllFnsProps {
     ignoreDefault,
     brandId,
   }: Omit<UpdateRewardConfigProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
+  updateOpenRewardConfig: ({
+    magicEmail,
+    rewardAddress,
+    config: {
+      maximumRLimit,
+      minimumRewardAmountForConversation,
+      minimumMeAmountForConversation,
+      notifyRewardAmount,
+      notifyMeAmount,
+      defaultSlippageInPrecision,
+      allowSwaps,
+    },
+    ignoreDefault,
+  }: Omit<UpdateOpenRewardConfigProps, "setLoading">) => Promise<
     { transactionHash: string } | undefined
   >;
   pauseOpenReward: ({
