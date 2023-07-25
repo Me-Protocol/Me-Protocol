@@ -1,3 +1,4 @@
+
 import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
@@ -188,6 +189,19 @@ export interface AllFnsProps {
     ignoreDefault,
     brandId,
   }: Omit<UpdateRewardConfigProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
+  updateRewardDetails: ({
+    magicEmail,
+    rewardAddress,
+    details: {
+      name,
+      symbol,
+      descriptionLink
+    },
+    ignoreDefault,
+    brandId,
+  }: Omit<UpdateRewardDetailsProps, "setLoading">) => Promise<
     { transactionHash: string } | undefined
   >;
   updateOpenRewardConfig: ({

@@ -3,7 +3,7 @@ import { brandService, OPEN_REWARD_DIAMOND } from "../call";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
 import { UpdateRewardDetailsProps } from "../lib/types";
-import { relay, prepData } from "../call/services/relayer";
+import { relay } from "../call/services/gelatoRelayer";
 
 export async function updateRewardDetailsFN({
   magicEmail,
@@ -49,15 +49,17 @@ export async function updateRewardDetailsFN({
         details,
         ignoreDefault
       );
+   
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
+   
+      const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
-      // const { taskId }: { taskId: string } = await relay(relayInput, signer);
-
-      return { transactionHash: "" };
+      return { transactionHash: taskId };
+      
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -75,6 +77,7 @@ export async function updateRewardDetailsFN({
       const web3Provider = new ethers.providers.Web3Provider(provider);
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
+
       const details = {
         name,
         symbol,
@@ -87,25 +90,16 @@ export async function updateRewardDetailsFN({
         details,
         ignoreDefault
       );
+   
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
+   
+      const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
-      let { request, typedData } = await prepData(relayInput, signer);
-
-      let signature = await signer?._signTypedData(
-        typedData.domain,
-        typedData.types,
-        typedData.message
-      );
-
-      const result = await relay(typedData, request, signature);
-
-      // const { taskId }: { taskId: string } = await relay(relayInput, signer);
-
-      return { transactionHash: "" };
+      return { transactionHash: taskId };
     }
   } catch (error) {
     throw error;
