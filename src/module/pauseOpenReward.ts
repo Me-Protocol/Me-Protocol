@@ -5,11 +5,7 @@ import { createWeb3 } from "../lib/web3";
 import { relay } from "../call/services/gelatoRelayer";
 import { PauseOpenRewardProps } from "../lib/types";
 
-export async function pauseOpenRewardFN({
-  magicEmail,
-  address,
-  setLoading,
-}: PauseOpenRewardProps) {
+export async function pauseOpenRewardFN({ magicEmail, address, setLoading }: PauseOpenRewardProps) {
   setLoading(true);
 
   try {
@@ -56,7 +52,7 @@ export async function pauseOpenRewardFN({
         return { transactionHash: "no accounts found" };
       }
       const userAccount = accounts[0];
-      console.log(userAccount, "user account is this");
+      // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
       const web3Provider = new ethers.providers.Web3Provider(provider);
       const signer = web3Provider.getSigner(userAccount);

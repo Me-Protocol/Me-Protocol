@@ -12,6 +12,7 @@ import {
   ResumeOpenRewardProps,
   PauseOpenRewardProps,
   ChangeOptimalOpenRewardProps,
+  IntegrateRewardProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -21,6 +22,7 @@ import { activateOpenRewardFN } from "../../module/activateOpenReward";
 import { resumeOpenRewardFN } from "../../module/resumeOpenReward";
 import { pauseOpenRewardFN } from "../../module/pauseOpenReward";
 import { changeOptimalOpenRewardFN } from "../../module/changeOptimalOpenReward";
+import { integrateRewardFN } from "../../module/integrateReward";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -89,8 +91,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
-   // ========================================= THIS IS THE FUNCTION TO ACTIVATE OPEN REWRAD ==========================================================
-   async function activateOpenReward({
+  // ========================================= THIS IS THE FUNCTION TO ACTIVATE OPEN REWRAD ==========================================================
+  async function activateOpenReward({
     magicEmail,
     address,
   }: Omit<ActivateOpenRewardProps, "setLoading">) {
@@ -101,43 +103,58 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
-     // ========================================= THIS IS THE FUNCTION TO RESUME OPEN REWRAD ==========================================================
-     async function resumeOpenReward({
+  // ========================================= THIS IS THE FUNCTION TO RESUME OPEN REWRAD ==========================================================
+  async function resumeOpenReward({
+    magicEmail,
+    address,
+  }: Omit<ResumeOpenRewardProps, "setLoading">) {
+    return await resumeOpenRewardFN({
       magicEmail,
       address,
-    }: Omit<ResumeOpenRewardProps, "setLoading">) {
-      return await resumeOpenRewardFN({
-        magicEmail,
-        address,
-        setLoading,
-      });
-    }
+      setLoading,
+    });
+  }
 
-    // ========================================= THIS IS THE FUNCTION TO PAUSE OPEN REWRAD ==========================================================
-    async function pauseOpenReward({
-          magicEmail,
-          address,
-        }: Omit<PauseOpenRewardProps, "setLoading">) {
-          return await pauseOpenRewardFN({
-            magicEmail,
-            address,
-            setLoading,
-          });
-        }
-    
-    // ========================================= THIS IS THE FUNCTION TO CHANGE OPTIMAL OPEN REWRAD ==========================================================
-    async function changeOptimalOpenReward({
+  // ========================================= THIS IS THE FUNCTION TO PAUSE OPEN REWRAD ==========================================================
+  async function pauseOpenReward({
+    magicEmail,
+    address,
+  }: Omit<PauseOpenRewardProps, "setLoading">) {
+    return await pauseOpenRewardFN({
+      magicEmail,
+      address,
+      setLoading,
+    });
+  }
+
+  // ========================================= THIS IS THE FUNCTION TO CHANGE OPTIMAL OPEN REWRAD ==========================================================
+  async function changeOptimalOpenReward({
+    magicEmail,
+    name,
+    newOptimal,
+  }: Omit<ChangeOptimalOpenRewardProps, "setLoading">) {
+    return await changeOptimalOpenRewardFN({
       magicEmail,
       name,
       newOptimal,
-    }: Omit<ChangeOptimalOpenRewardProps, "setLoading">) {
-      return await changeOptimalOpenRewardFN({
-        magicEmail,
-        name,
-        newOptimal,
-        setLoading,
-      });
-    }
+      setLoading,
+    });
+  }
+  // ========================================= THIS IS THE FUNCTION TO CHANGE OPTIMAL OPEN REWRAD ==========================================================
+  async function integrateReward({
+    magicEmail,
+    address,
+    descriptionLink,
+    isChecked,
+  }: Omit<IntegrateRewardProps, "setLoading">) {
+    return await integrateRewardFN({
+      magicEmail,
+      address,
+      descriptionLink,
+      isChecked,
+      setLoading,
+    });
+  }
 
   return (
     <MeProtocolContext.Provider
@@ -151,7 +168,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
         activateOpenReward,
         resumeOpenReward,
         pauseOpenReward,
-        changeOptimalOpenReward
+        changeOptimalOpenReward,
+        integrateReward,
       }}
     >
       {children}

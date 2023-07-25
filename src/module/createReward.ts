@@ -65,7 +65,7 @@ export async function createRewardFN({
         return { transactionHash: "no accounts found" };
       }
       const userAccount = accounts[0];
-      console.log(userAccount, "user account is this");
+      // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
       const web3Provider = new ethers.providers.Web3Provider(provider);
       const signer = web3Provider.getSigner(userAccount);

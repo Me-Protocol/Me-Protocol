@@ -1,4 +1,3 @@
-
 import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
@@ -45,6 +44,13 @@ export interface ActivateOpenRewardProps {
   magicEmail: string;
   address: string;
 }
+export interface IntegrateRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+  descriptionLink: string;
+  isChecked: boolean;
+}
 
 export interface ResumeOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -81,8 +87,15 @@ export interface AllFnsProps {
   changeOptimalOpenReward: ({
     magicEmail,
     name,
-    newOptimal
-  }: Omit<ChangeOptimalOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+    newOptimal,
+  }: Omit<ChangeOptimalOpenRewardProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
+  integrateReward: ({
+    magicEmail,
+    descriptionLink,
+    isChecked,
+  }: Omit<IntegrateRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   pauseOpenReward: ({
     magicEmail,
     address,
@@ -94,7 +107,9 @@ export interface AllFnsProps {
   activateOpenReward: ({
     magicEmail,
     address,
-  }: Omit<ActivateOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  }: Omit<ActivateOpenRewardProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
   setUpOpenReward: ({
     magicEmail,
     address,

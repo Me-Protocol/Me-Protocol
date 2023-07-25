@@ -3,14 +3,15 @@ import { brandService, OPEN_REWARD_DIAMOND } from "../call";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
 import { relay } from "../call/services/gelatoRelayer";
-import { MeRegisterProps } from "../lib/types";
+import { IntegrateRewardProps } from "../lib/types";
 
-export async function meRegisterFN({
+export async function integrateRewardFN({
   magicEmail,
-  brandName,
-  onlinePresence,
+  address,
+  descriptionLink,
+  isChecked,
   setLoading,
-}: MeRegisterProps) {
+}: IntegrateRewardProps) {
   setLoading(true);
 
   try {
@@ -33,19 +34,23 @@ export async function meRegisterFN({
       const provider = await magic.wallet.getProvider();
       const web3Provider = new ethers.providers.Web3Provider(provider);
       const signer = web3Provider.getSigner(userAccount);
-      const data = await brandService.register(brandName, onlinePresence);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
+
+      const data = await brandService.integrateExistingFungibleRewards(
+        address,
+        descriptionLink,
+        isChecked
+      );
+
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      // console.log(relayInput);
-      const result: any = await relay(relayInput, signer);
-      // console.log(result);
 
-      return { transactionHash: result.taskId };
-      // return { transactionHash: "end of line" };
+      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+
+      return { transactionHash: taskId };
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -62,19 +67,21 @@ export async function meRegisterFN({
       const provider = await magic.wallet.getProvider();
       const web3Provider = new ethers.providers.Web3Provider(provider);
       const signer = web3Provider.getSigner(userAccount);
-      const data = await brandService.register(brandName, onlinePresence);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
+
+      const data = await brandService.integrateExistingFungibleRewards(
+        address,
+        descriptionLink,
+        isChecked
+      );
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      // console.log(relayInput);
-      const result: any = await relay(relayInput, signer);
-      // console.log(result);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
-      return { transactionHash: result.taskId };
-      // return { transactionHash: "end of line" };
+      return { transactionHash: taskId };
     }
   } catch (error) {
     throw error;

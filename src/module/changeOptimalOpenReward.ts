@@ -35,10 +35,7 @@ export async function changeOptimalOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.changeOptimalValuationForOpenRewards(
-        name,
-        newOptimal
-      );
+      const data = await brandService.changeOptimalValuationForOpenRewards(name, newOptimal);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -60,16 +57,13 @@ export async function changeOptimalOpenRewardFN({
         return { transactionHash: "no accounts found" };
       }
       const userAccount = accounts[0];
-      console.log(userAccount, "user account is this");
+      // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
       const web3Provider = new ethers.providers.Web3Provider(provider);
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.changeOptimalValuationForOpenRewards(
-        name,
-        newOptimal
-      );
+      const data = await brandService.changeOptimalValuationForOpenRewards(name, newOptimal);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
