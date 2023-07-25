@@ -15,6 +15,7 @@ import {
   IntegrateRewardProps,
   TopUpOpenRewardLiquidityProps,
   UpdateRewardConfigProps,
+  SpendRewardOnIssuingBrandProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -27,11 +28,14 @@ import { changeOptimalOpenRewardFN } from "../../module/changeOptimalOpenReward"
 import { integrateRewardFN } from "../../module/integrateReward";
 import { topUpOpenRewardLiquidityFN } from "../../module/topUpOpenRewardLiquidity";
 import { updateRewardConfigFN } from "../../module/updateRewardConfig";
+import { spendRewardOnIssuingBrandFN } from "../../module/spendRewardOnIssuingBrand";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
 const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(false);
+
+  //------------------------------------------ Brands function ------------------------------------------------------------
 
   // ================================================================= THIS IS THE REGISTER FUNCTION  =================================================================
   async function meRegister({
@@ -144,6 +148,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
       setLoading,
     });
   }
+
   // ========================================= THIS IS THE FUNCTION TO CHANGE OPTIMAL OPEN REWRAD ==========================================================
   async function integrateReward({
     magicEmail,
@@ -159,6 +164,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
       setLoading,
     });
   }
+
   // ========================================= THIS IS THE FUNCTION TO CHANGE OPTIMAL OPEN REWRAD ==========================================================
   async function topUpOpenRewardLiquidity({
     magicEmail,
@@ -174,6 +180,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
       setLoading,
     });
   }
+
   // ========================================= THIS IS THE FUNCTION TO CHANGE OPTIMAL OPEN REWRAD ==========================================================
   async function updateRewardConfig({
     magicEmail,
@@ -208,6 +215,22 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
+  //------------------------------------------ Consumer function ------------------------------------------------------------
+
+  // ========================================= THIS IS THE FUNCTION SPEND REWARD ON ISSUING BRAND  ==========================================================
+  async function spendRewardOnIssuingBrand({
+    magicEmail,
+    spendAddress,
+    spendAmount,
+  }: Omit<SpendRewardOnIssuingBrandProps, "setLoading">) {
+    return await spendRewardOnIssuingBrandFN({
+      magicEmail,
+      spendAddress,
+      spendAmount,
+      setLoading,
+    });
+  }
+
   return (
     <MeProtocolContext.Provider
       value={{
@@ -224,6 +247,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
         integrateReward,
         topUpOpenRewardLiquidity,
         updateRewardConfig,
+        spendRewardOnIssuingBrand,
       }}
     >
       {children}

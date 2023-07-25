@@ -59,6 +59,13 @@ export interface TopUpOpenRewardLiquidityProps {
   rewardAmount: string;
 }
 
+export interface SpendRewardOnIssuingBrandProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  spendAddress: string;
+  spendAmount: string;
+}
+
 export interface EditableRewardConfig {
   specificException: boolean;
   bountyEnables: boolean;
@@ -110,6 +117,13 @@ export interface GetBrandDetailsProps {
 
 export interface AllFnsProps {
   loading: boolean;
+  spendRewardOnIssuingBrand: ({
+    magicEmail,
+    spendAddress,
+    spendAmount,
+  }: Omit<SpendRewardOnIssuingBrandProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
   changeOptimalOpenReward: ({
     magicEmail,
     rewardName,
