@@ -155,6 +155,19 @@ export interface GetExpectedAmountOfTargetedRewardProps {
   returnAsFormatted?: boolean;
 }
 
+export interface SpendingInfo {
+  rewardAtHand: string;
+  targettedReward: string;
+  amountOfRewardAtHand: number | BigNumber;
+  expectedAmountOfTargetedReward: number | BigNumber;
+}
+
+export interface SwapWithDiffBrandProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  spendInfo: SpendingInfo;
+  magicEmail: string;
+}
+
 export interface AllFnsProps {
   loading: boolean;
   spendRewardOnIssuingBrand: ({
@@ -171,6 +184,17 @@ export interface AllFnsProps {
     returnAsFormatted,
   }: Omit<GetExpectedAmountOfTargetedRewardProps, "setLoading">) => Promise<
     BigNumberish | string | undefined
+  >;
+  swapWithDiffBrand: ({
+    magicEmail,
+    spendInfo: {
+      rewardAtHand,
+      targettedReward,
+      amountOfRewardAtHand,
+      expectedAmountOfTargetedReward,
+    },
+  }: Omit<SwapWithDiffBrandProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
   >;
   changeOptimalOpenReward: ({
     magicEmail,

@@ -19,6 +19,7 @@ import {
   UpdateOpenRewardConfigProps,
   UpdateRewardDetailsProps,
   GetExpectedAmountOfTargetedRewardProps,
+  SwapWithDiffBrandProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -35,6 +36,7 @@ import { spendRewardOnIssuingBrandFN } from "../../module/spendRewardOnIssuingBr
 import { updateOpenRewardConfigFN } from "../../module/updateOpenRewardConfig";
 import { updateRewardDetailsFN } from "../../module/updateRewardDetails";
 import { getExpectedAmountOfTargetedRewardFN } from "../../module/getExpectedAmountOfTargetedReward";
+import { swapWithDiffBrandFN } from "../../module/swapWithDiffBrand";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -306,6 +308,28 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
+  // ========================================= THIS IS THE FUNCTION TO UPDATE REWARD DETAILS ==========================================================
+  async function swapWithDiffBrand({
+    magicEmail,
+    spendInfo: {
+      rewardAtHand,
+      targettedReward,
+      amountOfRewardAtHand,
+      expectedAmountOfTargetedReward,
+    },
+  }: Omit<SwapWithDiffBrandProps, "setLoading">) {
+    return await swapWithDiffBrandFN({
+      magicEmail,
+      setLoading,
+      spendInfo: {
+        rewardAtHand,
+        targettedReward,
+        amountOfRewardAtHand,
+        expectedAmountOfTargetedReward,
+      },
+    });
+  }
+
   return (
     <MeProtocolContext.Provider
       value={{
@@ -326,6 +350,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
         updateOpenRewardConfig,
         updateRewardDetails,
         getExpectedAmountOfTargetedReward,
+        swapWithDiffBrand,
       }}
     >
       {children}
