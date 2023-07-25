@@ -18,6 +18,7 @@ import {
   SpendRewardOnIssuingBrandProps,
   UpdateOpenRewardConfigProps,
   UpdateRewardDetailsProps,
+  GetExpectedAmountOfTargetedRewardProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -33,6 +34,7 @@ import { updateRewardConfigFN } from "../../module/updateRewardConfig";
 import { spendRewardOnIssuingBrandFN } from "../../module/spendRewardOnIssuingBrand";
 import { updateOpenRewardConfigFN } from "../../module/updateOpenRewardConfig";
 import { updateRewardDetailsFN } from "../../module/updateRewardDetails";
+import { getExpectedAmountOfTargetedRewardFN } from "../../module/getExpectedAmountOfTargetedReward";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -219,7 +221,6 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
-
   //------------------------------------------ Consumer function ------------------------------------------------------------
 
   // ========================================= THIS IS THE FUNCTION TO SPEND REWARD ON ISSUING BRAND  ==========================================================
@@ -268,15 +269,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
-   // ========================================= THIS IS THE FUNCTION TO UPDATE REWARD DETAILS ==========================================================
-   async function updateRewardDetails({
+  // ========================================= THIS IS THE FUNCTION TO UPDATE REWARD DETAILS ==========================================================
+  async function updateRewardDetails({
     magicEmail,
     rewardAddress,
-    details: {
-      name,
-      symbol,
-      descriptionLink
-    },
+    details: { name, symbol, descriptionLink },
     brandId,
     ignoreDefault,
   }: Omit<UpdateRewardDetailsProps, "setLoading">) {
@@ -286,11 +283,26 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
       details: {
         name,
         symbol,
-        descriptionLink
+        descriptionLink,
       },
       brandId,
       ignoreDefault,
       setLoading,
+    });
+  }
+  // ========================================= THIS IS THE FUNCTION TO UPDATE REWARD DETAILS ==========================================================
+  async function getExpectedAmountOfTargetedReward({
+    inputRewardAddress,
+    outPutRewardAddress,
+    amount,
+    returnAsFormatted,
+  }: Omit<GetExpectedAmountOfTargetedRewardProps, "setLoading">) {
+    return await getExpectedAmountOfTargetedRewardFN({
+      inputRewardAddress,
+      outPutRewardAddress,
+      amount,
+      setLoading,
+      returnAsFormatted,
     });
   }
 
@@ -313,6 +325,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
         spendRewardOnIssuingBrand,
         updateOpenRewardConfig,
         updateRewardDetails,
+        getExpectedAmountOfTargetedReward,
       }}
     >
       {children}

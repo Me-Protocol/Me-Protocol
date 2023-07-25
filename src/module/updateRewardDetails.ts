@@ -49,17 +49,16 @@ export async function updateRewardDetailsFN({
         details,
         ignoreDefault
       );
-   
+
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-   
+
       const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
       return { transactionHash: taskId };
-      
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -90,13 +89,13 @@ export async function updateRewardDetailsFN({
         details,
         ignoreDefault
       );
-   
+
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-   
+
       const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
       return { transactionHash: taskId };

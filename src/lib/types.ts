@@ -1,4 +1,4 @@
-
+import { BigNumber, BigNumberish } from "ethers";
 import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
@@ -147,6 +147,14 @@ export interface GetBrandDetailsProps {
   getOnlyId?: boolean;
 }
 
+export interface GetExpectedAmountOfTargetedRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  inputRewardAddress: string;
+  outPutRewardAddress: string;
+  amount: string;
+  returnAsFormatted?: boolean;
+}
+
 export interface AllFnsProps {
   loading: boolean;
   spendRewardOnIssuingBrand: ({
@@ -155,6 +163,14 @@ export interface AllFnsProps {
     spendAmount,
   }: Omit<SpendRewardOnIssuingBrandProps, "setLoading">) => Promise<
     { transactionHash: string } | undefined
+  >;
+  getExpectedAmountOfTargetedReward: ({
+    inputRewardAddress,
+    outPutRewardAddress,
+    amount,
+    returnAsFormatted,
+  }: Omit<GetExpectedAmountOfTargetedRewardProps, "setLoading">) => Promise<
+    BigNumberish | string | undefined
   >;
   changeOptimalOpenReward: ({
     magicEmail,
@@ -194,11 +210,7 @@ export interface AllFnsProps {
   updateRewardDetails: ({
     magicEmail,
     rewardAddress,
-    details: {
-      name,
-      symbol,
-      descriptionLink
-    },
+    details: { name, symbol, descriptionLink },
     ignoreDefault,
     brandId,
   }: Omit<UpdateRewardDetailsProps, "setLoading">) => Promise<
