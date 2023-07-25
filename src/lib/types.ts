@@ -1,4 +1,3 @@
-
 import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
@@ -118,7 +117,7 @@ export interface GetBrandDetailsProps {
 
 export interface AllFnsProps {
   loading: boolean;
-  spendRewardonIssuingBrand: ({
+  spendRewardOnIssuingBrand: ({
     magicEmail,
     spendAddress,
     spendAmount,

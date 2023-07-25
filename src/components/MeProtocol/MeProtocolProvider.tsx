@@ -15,7 +15,7 @@ import {
   IntegrateRewardProps,
   TopUpOpenRewardLiquidityProps,
   UpdateRewardConfigProps,
-  SpendRewardOnIssuingBrandProps
+  SpendRewardOnIssuingBrandProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -35,7 +35,7 @@ export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
-    //------------------------------------------ Brands function ------------------------------------------------------------
+  //------------------------------------------ Brands function ------------------------------------------------------------
 
   // ================================================================= THIS IS THE REGISTER FUNCTION  =================================================================
   async function meRegister({
@@ -215,20 +215,20 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
     });
   }
 
-    //------------------------------------------ Consumer function ------------------------------------------------------------
-  
-   // ========================================= THIS IS THE FUNCTION SPEND REWARD ON ISSUING BRAND  ==========================================================
-  async function spendRewardonIssuingBrand({
+  //------------------------------------------ Consumer function ------------------------------------------------------------
+
+  // ========================================= THIS IS THE FUNCTION SPEND REWARD ON ISSUING BRAND  ==========================================================
+  async function spendRewardOnIssuingBrand({
     magicEmail,
-    address,
-    spendAmount
+    spendAddress,
+    spendAmount,
   }: Omit<SpendRewardOnIssuingBrandProps, "setLoading">) {
     return await spendRewardOnIssuingBrandFN({
       magicEmail,
-      address,
+      spendAddress,
       spendAmount,
       setLoading,
-    })
+    });
   }
 
   return (
@@ -247,7 +247,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children }) => {
         integrateReward,
         topUpOpenRewardLiquidity,
         updateRewardConfig,
-        spendRewardonIssuingBrand
+        spendRewardOnIssuingBrand,
       }}
     >
       {children}
