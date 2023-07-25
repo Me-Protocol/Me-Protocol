@@ -7,7 +7,7 @@ import { ChangeMainAccountProps } from "../lib/types";
 
 export async function changeMainAccountFN({
   magicEmail,
-  address,
+  newMainAcctAddress,
   setLoading,
 }: ChangeMainAccountProps) {
   setLoading(true);
@@ -34,7 +34,7 @@ export async function changeMainAccountFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.changeMainAccount(address);
+      const data = await brandService.changeMainAccount(newMainAcctAddress);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -62,7 +62,7 @@ export async function changeMainAccountFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.changeMainAccount(address);
+      const data = await brandService.changeMainAccount(newMainAcctAddress);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,

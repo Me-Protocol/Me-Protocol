@@ -3,13 +3,24 @@ import { brandService, OPEN_REWARD_DIAMOND } from "../call";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
 import { relay } from "../call/services/gelatoRelayer";
-import { PauseOpenRewardProps } from "../lib/types";
+import { UpdateRewardConfigProps } from "../lib/types";
 
-export async function pauseOpenRewardFN({
+export async function updateRewardConfigFN({
   magicEmail,
-  rewardAddress,
+  address,
+  rewardConfig: {
+    specificException,
+    bountyEnables,
+    caiEnabled,
+    bountyTriggerLimit,
+    bountyContributionInPrecision,
+    payIncomingGasFee,
+    payOutgoingGasFee,
+  },
+  ignoreDefault,
+  brandId,
   setLoading,
-}: PauseOpenRewardProps) {
+}: UpdateRewardConfigProps) {
   setLoading(true);
 
   try {
@@ -28,13 +39,28 @@ export async function pauseOpenRewardFN({
         return { transactionHash: "no accounts found" };
       }
       const userAccount = accounts[0];
-      // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
       const web3Provider = new ethers.providers.Web3Provider(provider);
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.pauseOpenRewards(rewardAddress);
+      const rewardConfig = {
+        specificException,
+        bountyEnables,
+        caiEnabled,
+        bountyTriggerLimit,
+        bountyContributionInPrecision,
+        payIncomingGasFee,
+        payOutgoingGasFee,
+      };
+
+      const data = await brandService.updateRewardConfigurations(
+        brandId,
+        address,
+        rewardConfig,
+        ignoreDefault
+      );
+
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -61,8 +87,22 @@ export async function pauseOpenRewardFN({
       const web3Provider = new ethers.providers.Web3Provider(provider);
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
+      const rewardConfig = {
+        specificException,
+        bountyEnables,
+        caiEnabled,
+        bountyTriggerLimit,
+        bountyContributionInPrecision,
+        payIncomingGasFee,
+        payOutgoingGasFee,
+      };
 
-      const data = await brandService.pauseOpenRewards(rewardAddress);
+      const data = await brandService.updateRewardConfigurations(
+        brandId,
+        address,
+        rewardConfig,
+        ignoreDefault
+      );
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,

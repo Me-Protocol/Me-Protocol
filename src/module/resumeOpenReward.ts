@@ -7,7 +7,7 @@ import { ResumeOpenRewardProps } from "../lib/types";
 
 export async function resumeOpenRewardFN({
   magicEmail,
-  address,
+  rewardAddress,
   setLoading,
 }: ResumeOpenRewardProps) {
   setLoading(true);
@@ -34,9 +34,9 @@ export async function resumeOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.resumeOpenRewards(address);
+      const data = await brandService.resumeOpenRewards(rewardAddress);
       const relayInput = {
-        from: loggedInUserInfo.publicAddress,
+        from: loggedInUserInfo.publicrewardAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
@@ -62,9 +62,9 @@ export async function resumeOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.resumeOpenRewards(address);
+      const data = await brandService.resumeOpenRewards(rewardAddress);
       const relayInput = {
-        from: loggedInUserInfo.publicAddress,
+        from: loggedInUserInfo.publicrewardAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };

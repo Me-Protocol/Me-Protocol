@@ -23,45 +23,71 @@ export interface CreateRewardProps {
 export interface ChangeOptimalOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
-  name: string;
-  newOptimal: number;
+  rewardName: string;
+  newOptimalValue: number;
 }
 
 export interface SetUpOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
-  address: string;
+  rewardAddress: string;
 }
 
 export interface ChangeMainAccountProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
-  address: string;
+  newMainAcctAddress: string;
 }
 
 export interface ActivateOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
-  address: string;
+  rewardAddress: string;
 }
 export interface IntegrateRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
-  address: string;
+  rewardAddress: string;
   descriptionLink: string;
-  isChecked: boolean;
+  readTandC: boolean;
+}
+export interface TopUpOpenRewardLiquidityProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+  meAmount: string;
+  rewardAmount: string;
+}
+
+export interface EditableRewardConfig {
+  specificException: boolean;
+  bountyEnables: boolean;
+  caiEnabled: boolean;
+  bountyTriggerLimit: number;
+  bountyContributionInPrecision: number;
+  payIncomingGasFee: boolean;
+  payOutgoingGasFee: boolean;
+}
+
+export interface UpdateRewardConfigProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  magicEmail: string;
+  address: string;
+  brandId: string;
+  ignoreDefault: boolean;
+  rewardConfig: EditableRewardConfig;
 }
 
 export interface ResumeOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
-  address: string;
+  rewardAddress: string;
 }
 
 export interface PauseOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   magicEmail: string;
-  address: string;
+  rewardAddress: string;
 }
 
 export interface BrandDetailsProps {
@@ -86,37 +112,60 @@ export interface AllFnsProps {
   loading: boolean;
   changeOptimalOpenReward: ({
     magicEmail,
-    name,
-    newOptimal,
+    rewardName,
+    newOptimalValue,
   }: Omit<ChangeOptimalOpenRewardProps, "setLoading">) => Promise<
     { transactionHash: string } | undefined
   >;
   integrateReward: ({
     magicEmail,
     descriptionLink,
-    isChecked,
+    readTandC,
   }: Omit<IntegrateRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  topUpOpenRewardLiquidity: ({
+    magicEmail,
+    rewardAmount,
+    meAmount,
+  }: Omit<TopUpOpenRewardLiquidityProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
+  updateRewardConfig: ({
+    magicEmail,
+    rewardConfig: {
+      specificException,
+      bountyEnables,
+      caiEnabled,
+      bountyTriggerLimit,
+      bountyContributionInPrecision,
+      payIncomingGasFee,
+      payOutgoingGasFee,
+    },
+    ignoreDefault,
+    brandId,
+  }: Omit<UpdateRewardConfigProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
   pauseOpenReward: ({
     magicEmail,
-    address,
+    rewardAddress,
   }: Omit<PauseOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   resumeOpenReward: ({
     magicEmail,
-    address,
+    rewardAddress,
   }: Omit<ResumeOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   activateOpenReward: ({
     magicEmail,
-    address,
+    rewardAddress,
   }: Omit<ActivateOpenRewardProps, "setLoading">) => Promise<
     { transactionHash: string } | undefined
   >;
   setUpOpenReward: ({
     magicEmail,
-    address,
+    rewardAddress,
   }: Omit<SetUpOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
   changeMainAccount: ({
     magicEmail,
-    address,
+    newMainAcctAddress,
   }: Omit<ChangeMainAccountProps, "setLoading">) => Promise<
     { transactionHash: string } | undefined
   >;

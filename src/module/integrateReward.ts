@@ -7,9 +7,9 @@ import { IntegrateRewardProps } from "../lib/types";
 
 export async function integrateRewardFN({
   magicEmail,
-  address,
+  rewardAddress,
   descriptionLink,
-  isChecked,
+  readTandC,
   setLoading,
 }: IntegrateRewardProps) {
   setLoading(true);
@@ -37,13 +37,13 @@ export async function integrateRewardFN({
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       const data = await brandService.integrateExistingFungibleRewards(
-        address,
+        rewardAddress,
         descriptionLink,
-        isChecked
+        readTandC
       );
 
       const relayInput = {
-        from: loggedInUserInfo.publicAddress,
+        from: loggedInUserInfo.publicrewardAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
@@ -70,12 +70,12 @@ export async function integrateRewardFN({
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       const data = await brandService.integrateExistingFungibleRewards(
-        address,
+        rewardAddress,
         descriptionLink,
-        isChecked
+        readTandC
       );
       const relayInput = {
-        from: loggedInUserInfo.publicAddress,
+        from: loggedInUserInfo.publicrewardAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };

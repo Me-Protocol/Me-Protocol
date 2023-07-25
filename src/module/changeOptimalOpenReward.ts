@@ -7,8 +7,8 @@ import { ChangeOptimalOpenRewardProps } from "../lib/types";
 
 export async function changeOptimalOpenRewardFN({
   magicEmail,
-  name,
-  newOptimal,
+  rewardName,
+  newOptimalValue,
   setLoading,
 }: ChangeOptimalOpenRewardProps) {
   setLoading(true);
@@ -35,7 +35,10 @@ export async function changeOptimalOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.changeOptimalValuationForOpenRewards(name, newOptimal);
+      const data = await brandService.changeOptimalValuationForOpenRewards(
+        rewardName,
+        newOptimalValue
+      );
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -63,7 +66,10 @@ export async function changeOptimalOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.changeOptimalValuationForOpenRewards(name, newOptimal);
+      const data = await brandService.changeOptimalValuationForOpenRewards(
+        rewardName,
+        newOptimalValue
+      );
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,

@@ -7,7 +7,7 @@ import { ActivateOpenRewardProps } from "../lib/types";
 
 export async function activateOpenRewardFN({
   magicEmail,
-  address,
+  rewardAddress,
   setLoading,
 }: ActivateOpenRewardProps) {
   setLoading(true);
@@ -34,7 +34,7 @@ export async function activateOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.activateOpenRewards(address);
+      const data = await brandService.activateOpenRewards(rewardAddress);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -62,7 +62,7 @@ export async function activateOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.activateOpenRewards(address);
+      const data = await brandService.activateOpenRewards(rewardAddress);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
