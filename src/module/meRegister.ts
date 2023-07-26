@@ -26,7 +26,7 @@ export async function meRegisterFN({
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { transactionHash: "no accounts found" };
+        return { taskId: "no accounts found" };
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
@@ -40,12 +40,8 @@ export async function meRegisterFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      // console.log(relayInput);
-      const result: any = await relay(relayInput, signer);
-      // console.log(result);
-
-      return { transactionHash: result.taskId };
-      // return { transactionHash: "end of line" };
+      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      return { taskId };
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -55,7 +51,7 @@ export async function meRegisterFN({
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { transactionHash: "no accounts found" };
+        return { taskId: "no accounts found" };
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
@@ -69,12 +65,8 @@ export async function meRegisterFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      // console.log(relayInput);
-      const result: any = await relay(relayInput, signer);
-      // console.log(result);
-
-      return { transactionHash: result.taskId };
-      // return { transactionHash: "end of line" };
+      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      return { taskId };
     }
   } catch (error) {
     throw error;

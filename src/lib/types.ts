@@ -175,7 +175,7 @@ export interface AllFnsProps {
     spendAddress,
     spendAmount,
   }: Omit<SpendRewardOnIssuingBrandProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   getExpectedAmountOfTargetedReward: ({
     inputRewardAddress,
@@ -193,25 +193,25 @@ export interface AllFnsProps {
       expectedAmountOfTargetedReward,
     },
   }: Omit<SwapWithDiffBrandProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   changeOptimalOpenReward: ({
     rewardName,
     newOptimalValue,
   }: Omit<ChangeOptimalOpenRewardProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   integrateReward: ({
     descriptionLink,
     readTandC,
   }: Omit<IntegrateRewardProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   topUpOpenRewardLiquidity: ({
     rewardAmount,
     meAmount,
   }: Omit<TopUpOpenRewardLiquidityProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   updateRewardConfig: ({
     rewardConfig: {
@@ -226,7 +226,7 @@ export interface AllFnsProps {
     ignoreDefault,
     brandId,
   }: Omit<UpdateRewardConfigProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   updateRewardDetails: ({
     rewardAddress,
@@ -234,7 +234,7 @@ export interface AllFnsProps {
     ignoreDefault,
     brandId,
   }: Omit<UpdateRewardDetailsProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   updateOpenRewardConfig: ({
     rewardAddress,
@@ -249,32 +249,32 @@ export interface AllFnsProps {
     },
     ignoreDefault,
   }: Omit<UpdateOpenRewardConfigProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   pauseOpenReward: ({
     rewardAddress,
   }: Omit<PauseOpenRewardProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   resumeOpenReward: ({
     rewardAddress,
   }: Omit<ResumeOpenRewardProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   activateOpenReward: ({
     rewardAddress,
   }: Omit<ActivateOpenRewardProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   setUpOpenReward: ({
     rewardAddress,
   }: Omit<SetUpOpenRewardProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   changeMainAccount: ({
     newMainAcctAddress,
   }: Omit<ChangeMainAccountProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   createReward: ({
     name,
@@ -282,7 +282,7 @@ export interface AllFnsProps {
     descriptionLink,
     totalSupply,
   }: Omit<CreateRewardProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
+    { taskId: string } | undefined
   >;
   getBrandDetails: ({
     getOnlyId,
@@ -292,7 +292,5 @@ export interface AllFnsProps {
   meRegister: ({
     brandName,
     onlinePresence,
-  }: Omit<MeRegisterProps, "setLoading" | "brandEmail">) => Promise<
-    { transactionHash: string } | undefined
-  >;
+  }: Omit<MeRegisterProps, "setLoading" | "brandEmail">) => Promise<{ taskId: string } | undefined>;
 }

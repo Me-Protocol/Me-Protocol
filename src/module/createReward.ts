@@ -28,7 +28,7 @@ export async function createRewardFN({
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { transactionHash: "no accounts found" };
+        return { taskId: "no accounts found" };
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
@@ -52,7 +52,7 @@ export async function createRewardFN({
 
       const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
-      return { transactionHash: taskId };
+      return { taskId };
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -62,7 +62,7 @@ export async function createRewardFN({
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { transactionHash: "no accounts found" };
+        return { taskId: "no accounts found" };
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
@@ -85,7 +85,7 @@ export async function createRewardFN({
       };
       const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
-      return { transactionHash: taskId };
+      return { taskId };
     }
   } catch (error) {
     throw error;
