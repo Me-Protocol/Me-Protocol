@@ -10,6 +10,7 @@ export async function meRegisterFN({
   brandName,
   onlinePresence,
   setLoading,
+  setError,
 }: MeRegisterProps) {
   setLoading(true);
 
@@ -17,7 +18,7 @@ export async function meRegisterFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithbrandEmailOTP({ email: brandEmail });
+      await magic.auth.loginWithEmailOTP({ email: brandEmail });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
@@ -69,6 +70,7 @@ export async function meRegisterFN({
       return { taskId };
     }
   } catch (error) {
+    setError(error);
     throw error;
   } finally {
     setLoading(false);

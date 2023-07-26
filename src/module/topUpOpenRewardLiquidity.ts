@@ -11,6 +11,7 @@ export async function topUpOpenRewardLiquidityFN({
   rewardAmount,
   meAmount,
   setLoading,
+  setError,
 }: TopUpOpenRewardLiquidityProps) {
   setLoading(true);
 
@@ -18,7 +19,7 @@ export async function topUpOpenRewardLiquidityFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithbrandEmailOTP({ email: brandEmail });
+      await magic.auth.loginWithEmailOTP({ email: brandEmail });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
@@ -85,6 +86,7 @@ export async function topUpOpenRewardLiquidityFN({
       return { taskId };
     }
   } catch (error) {
+    setError(error);
     throw error;
   } finally {
     setLoading(false);

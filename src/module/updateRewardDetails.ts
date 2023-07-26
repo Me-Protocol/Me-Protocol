@@ -12,6 +12,7 @@ export async function updateRewardDetailsFN({
   details: { name, symbol, descriptionLink },
   ignoreDefault,
   setLoading,
+  setError,
 }: UpdateRewardDetailsProps) {
   setLoading(true);
 
@@ -19,7 +20,7 @@ export async function updateRewardDetailsFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithbrandEmailOTP({ email: brandEmail });
+      await magic.auth.loginWithEmailOTP({ email: brandEmail });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
@@ -101,6 +102,7 @@ export async function updateRewardDetailsFN({
       return { taskId };
     }
   } catch (error) {
+    setError(error);
     throw error;
   } finally {
     setLoading(false);

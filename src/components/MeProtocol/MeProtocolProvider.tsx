@@ -42,17 +42,14 @@ export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
 const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail }) => {
   const [loading, setLoading] = useState<boolean>(false);
-
-  console.log(brandEmail, "THE BRAND EMAIL");
-
-  //------------------------------------------ Brands function ------------------------------------------------------------
+  const [error, setError] = useState<unknown>([]);
 
   // ================================================================= THIS IS THE REGISTER FUNCTION  =================================================================
   async function meRegister({
     brandName,
     onlinePresence,
-  }: Omit<MeRegisterProps, "setLoading" | "brandEmail">) {
-    return await meRegisterFN({ brandEmail, brandName, onlinePresence, setLoading });
+  }: Omit<MeRegisterProps, "setLoading" | "brandEmail" | "setError">) {
+    return await meRegisterFN({ brandEmail, brandName, onlinePresence, setLoading, setError });
   }
 
   // ================================================================= THIS IS THE FUNCTION TO QUERY BRAND ID ===============================================================
@@ -61,7 +58,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
   }: {
     getOnlyId?: boolean;
   }): Promise<{ brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined> {
-    return await getBrandDetailsFN({ brandEmail, setLoading, getOnlyId });
+    return await getBrandDetailsFN({ brandEmail, setLoading, setError, getOnlyId });
   }
   // =============================================================== THIS IS THE FUNCTION TO CREATE REWARD ===============================================================
 
@@ -70,7 +67,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
     symbol,
     descriptionLink,
     totalSupply,
-  }: Omit<CreateRewardProps, "setLoading" | "brandEmail">) {
+  }: Omit<CreateRewardProps, "setLoading" | "brandEmail" | "setError">) {
     return await createRewardFN({
       brandEmail,
       name,
@@ -78,61 +75,67 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
       descriptionLink,
       totalSupply,
       setLoading,
+      setError,
     });
   }
 
   // =============================================================== THIS IS THE FUNCTION TO SETUP OPENREWARDS ===============================================================
   async function setUpOpenReward({
     rewardAddress,
-  }: Omit<SetUpOpenRewardProps, "setLoading" | "brandEmail">) {
+  }: Omit<SetUpOpenRewardProps, "setLoading" | "brandEmail" | "setError">) {
     return await setUpOpenRewardFN({
       brandEmail,
       rewardAddress,
       setLoading,
+      setError,
     });
   }
 
   // ========================================= THIS IS THE FUNCTION TO CHANGE MAIN ACCOUNT (BRAND ADDRESS) ==========================================================
   async function changeMainAccount({
     newMainAcctAddress,
-  }: Omit<ChangeMainAccountProps, "setLoading" | "brandEmail">) {
+  }: Omit<ChangeMainAccountProps, "setLoading" | "brandEmail" | "setError">) {
     return await changeMainAccountFN({
       brandEmail,
       newMainAcctAddress,
       setLoading,
+      setError,
     });
   }
 
   // ========================================= THIS IS THE FUNCTION TO ACTIVATE OPEN REWRAD ==========================================================
   async function activateOpenReward({
     rewardAddress,
-  }: Omit<ActivateOpenRewardProps, "setLoading" | "brandEmail">) {
+  }: Omit<ActivateOpenRewardProps, "setLoading" | "brandEmail" | "setError">) {
     return await activateOpenRewardFN({
       brandEmail,
       rewardAddress,
       setLoading,
+      setError,
     });
   }
 
   // ========================================= THIS IS THE FUNCTION TO RESUME OPEN REWRAD ==========================================================
   async function resumeOpenReward({
     rewardAddress,
-  }: Omit<ResumeOpenRewardProps, "setLoading" | "brandEmail">) {
+  }: Omit<ResumeOpenRewardProps, "setLoading" | "brandEmail" | "setError">) {
     return await resumeOpenRewardFN({
       brandEmail,
       rewardAddress,
       setLoading,
+      setError,
     });
   }
 
   // ========================================= THIS IS THE FUNCTION TO PAUSE OPEN REWRAD ==========================================================
   async function pauseOpenReward({
     rewardAddress,
-  }: Omit<PauseOpenRewardProps, "setLoading" | "brandEmail">) {
+  }: Omit<PauseOpenRewardProps, "setLoading" | "brandEmail" | "setError">) {
     return await pauseOpenRewardFN({
       brandEmail,
       rewardAddress,
       setLoading,
+      setError,
     });
   }
 
@@ -140,12 +143,13 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
   async function changeOptimalOpenReward({
     rewardName,
     newOptimalValue,
-  }: Omit<ChangeOptimalOpenRewardProps, "setLoading" | "brandEmail">) {
+  }: Omit<ChangeOptimalOpenRewardProps, "setLoading" | "brandEmail" | "setError">) {
     return await changeOptimalOpenRewardFN({
       brandEmail,
       rewardName,
       newOptimalValue,
       setLoading,
+      setError,
     });
   }
 
@@ -154,13 +158,14 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
     rewardAddress,
     descriptionLink,
     readTandC,
-  }: Omit<IntegrateRewardProps, "setLoading" | "brandEmail">) {
+  }: Omit<IntegrateRewardProps, "setLoading" | "brandEmail" | "setError">) {
     return await integrateRewardFN({
       brandEmail,
       rewardAddress,
       descriptionLink,
       readTandC,
       setLoading,
+      setError,
     });
   }
 
@@ -169,13 +174,14 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
     address,
     rewardAmount,
     meAmount,
-  }: Omit<TopUpOpenRewardLiquidityProps, "setLoading" | "brandEmail">) {
+  }: Omit<TopUpOpenRewardLiquidityProps, "setLoading" | "brandEmail" | "setError">) {
     return await topUpOpenRewardLiquidityFN({
       brandEmail,
       address,
       rewardAmount,
       meAmount,
       setLoading,
+      setError,
     });
   }
 
@@ -193,7 +199,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
     },
     ignoreDefault,
     brandId,
-  }: Omit<UpdateRewardConfigProps, "setLoading" | "brandEmail">) {
+  }: Omit<UpdateRewardConfigProps, "setLoading" | "brandEmail" | "setError">) {
     return await updateRewardConfigFN({
       brandEmail,
       address,
@@ -209,6 +215,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
       ignoreDefault,
       brandId,
       setLoading,
+      setError,
     });
   }
 
@@ -218,12 +225,13 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
   async function spendRewardOnIssuingBrand({
     spendAddress,
     spendAmount,
-  }: Omit<SpendRewardOnIssuingBrandProps, "setLoading" | "brandEmail">) {
+  }: Omit<SpendRewardOnIssuingBrandProps, "setLoading" | "brandEmail" | "setError">) {
     return await spendRewardOnIssuingBrandFN({
       brandEmail,
       spendAddress,
       spendAmount,
       setLoading,
+      setError,
     });
   }
 
@@ -240,7 +248,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
       allowSwaps,
     },
     ignoreDefault,
-  }: Omit<UpdateOpenRewardConfigProps, "setLoading" | "brandEmail">) {
+  }: Omit<UpdateOpenRewardConfigProps, "setLoading" | "brandEmail" | "setError">) {
     return await updateOpenRewardConfigFN({
       brandEmail,
       rewardAddress,
@@ -255,6 +263,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
       },
       ignoreDefault,
       setLoading,
+      setError,
     });
   }
 
@@ -264,7 +273,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
     details: { name, symbol, descriptionLink },
     brandId,
     ignoreDefault,
-  }: Omit<UpdateRewardDetailsProps, "setLoading" | "brandEmail">) {
+  }: Omit<UpdateRewardDetailsProps, "setLoading" | "brandEmail" | "setError">) {
     return await updateRewardDetailsFN({
       brandEmail,
       rewardAddress,
@@ -276,6 +285,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
       brandId,
       ignoreDefault,
       setLoading,
+      setError,
     });
   }
   // ========================================= THIS IS THE FUNCTION TO getExpectedAmountOfTargetedReward ==========================================================
@@ -284,12 +294,13 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
     outPutRewardAddress,
     amount,
     returnAsFormatted,
-  }: Omit<GetExpectedAmountOfTargetedRewardProps, "setLoading" | "brandEmail">) {
+  }: Omit<GetExpectedAmountOfTargetedRewardProps, "setLoading" | "brandEmail" | "setError">) {
     return await getExpectedAmountOfTargetedRewardFN({
       inputRewardAddress,
       outPutRewardAddress,
       amount,
       setLoading,
+      setError,
       returnAsFormatted,
     });
   }
@@ -302,10 +313,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
       amountOfRewardAtHand,
       expectedAmountOfTargetedReward,
     },
-  }: Omit<SwapWithDiffBrandProps, "setLoading" | "brandEmail">) {
+  }: Omit<SwapWithDiffBrandProps, "setLoading" | "brandEmail" | "setError">) {
     return await swapWithDiffBrandFN({
       brandEmail,
       setLoading,
+      setError,
       spendInfo: {
         rewardAtHand,
         targettedReward,
@@ -318,6 +330,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
   return (
     <MeProtocolContext.Provider
       value={{
+        error,
         meRegister,
         loading,
         getBrandDetails,

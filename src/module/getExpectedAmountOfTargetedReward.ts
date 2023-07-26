@@ -8,6 +8,7 @@ export async function getExpectedAmountOfTargetedRewardFN({
   amount,
   setLoading,
   returnAsFormatted,
+  setError,
 }: GetExpectedAmountOfTargetedRewardProps) {
   setLoading(true);
 
@@ -24,6 +25,7 @@ export async function getExpectedAmountOfTargetedRewardFN({
       return neededAmount;
     }
   } catch (error) {
+    setError(error);
     throw error;
   } finally {
     setLoading(false);
