@@ -12,7 +12,7 @@ export async function getBrandDetailsFN({
   setLoading(true);
   try {
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithbrandEmailOTP({ brandEmail: brandEmail });
+      await magic.auth.loginWithbrandEmailOTP({ email: brandEmail });
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
       const brandDetails: BrandDetailsProps = await brandService.getBrandConfigByAddress(
         loggedInUserInfo.publicAddress

@@ -43,6 +43,8 @@ export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
+  console.log(brandEmail, "THE BRAND EMAIL");
+
   //------------------------------------------ Brands function ------------------------------------------------------------
 
   // ================================================================= THIS IS THE REGISTER FUNCTION  =================================================================
