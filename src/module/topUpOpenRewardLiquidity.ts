@@ -6,7 +6,7 @@ import { relay } from "../call/services/gelatoRelayer";
 import { TopUpOpenRewardLiquidityProps } from "../lib/types";
 
 export async function topUpOpenRewardLiquidityFN({
-  magicEmail,
+  brandEmail,
   address,
   rewardAmount,
   meAmount,
@@ -18,7 +18,7 @@ export async function topUpOpenRewardLiquidityFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: magicEmail });
+      await magic.auth.loginWithbrandEmailOTP({ brandEmail: brandEmail });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second

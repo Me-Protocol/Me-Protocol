@@ -6,7 +6,7 @@ import { relay } from "../call/services/gelatoRelayer";
 import { ChangeOptimalOpenRewardProps } from "../lib/types";
 
 export async function changeOptimalOpenRewardFN({
-  magicEmail,
+  brandEmail,
   rewardName,
   newOptimalValue,
   setLoading,
@@ -17,7 +17,7 @@ export async function changeOptimalOpenRewardFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: magicEmail });
+      await magic.auth.loginWithbrandEmailOTP({ brandEmail: brandEmail });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second

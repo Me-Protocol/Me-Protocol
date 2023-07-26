@@ -6,7 +6,7 @@ import { UpdateRewardDetailsProps } from "../lib/types";
 import { relay } from "../call/services/gelatoRelayer";
 
 export async function updateRewardDetailsFN({
-  magicEmail,
+  brandEmail,
   rewardAddress,
   brandId,
   details: { name, symbol, descriptionLink },
@@ -19,7 +19,7 @@ export async function updateRewardDetailsFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: magicEmail });
+      await magic.auth.loginWithbrandEmailOTP({ brandEmail: brandEmail });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second

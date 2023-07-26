@@ -6,7 +6,7 @@ import { relay } from "../call/services/gelatoRelayer";
 import { SpendRewardOnIssuingBrandProps } from "../lib/types";
 
 export async function spendRewardOnIssuingBrandFN({
-  magicEmail,
+  brandEmail,
   spendAddress,
   spendAmount,
   setLoading,
@@ -17,7 +17,7 @@ export async function spendRewardOnIssuingBrandFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: magicEmail });
+      await magic.auth.loginWithbrandEmailOTP({ brandEmail: brandEmail });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
@@ -35,10 +35,9 @@ export async function spendRewardOnIssuingBrandFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-    
       const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(
-        signer, 
-        spendAddress, 
+        signer,
+        spendAddress,
         ethers.utils.parseEther(spendAmount)
       );
 
@@ -70,8 +69,8 @@ export async function spendRewardOnIssuingBrandFN({
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(
-        signer, 
-        spendAddress, 
+        signer,
+        spendAddress,
         ethers.utils.parseEther(spendAmount)
       );
 
