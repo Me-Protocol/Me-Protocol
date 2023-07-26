@@ -3,16 +3,17 @@ import { magic } from "../lib/magic";
 import { BrandDetailsProps, GetBrandDetailsProps } from "../lib/types";
 
 export async function getBrandDetailsFN({
-  magicEmail,
+  brandEmail,
   getOnlyId = false,
   setLoading,
+  setError,
 }: GetBrandDetailsProps): Promise<
   { brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined
 > {
   setLoading(true);
   try {
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: magicEmail });
+      await magic.auth.loginWithEmailOTP({ email: brandEmail });
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
       const brandDetails: BrandDetailsProps = await brandService.getBrandConfigByAddress(
         loggedInUserInfo.publicAddress
@@ -34,6 +35,7 @@ export async function getBrandDetailsFN({
       }
     }
   } catch (error) {
+    setError(error);
     throw error;
   } finally {
     setLoading(false);

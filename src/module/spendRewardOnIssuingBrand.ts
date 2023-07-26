@@ -6,10 +6,11 @@ import { relay } from "../call/services/gelatoRelayer";
 import { SpendRewardOnIssuingBrandProps } from "../lib/types";
 
 export async function spendRewardOnIssuingBrandFN({
-  magicEmail,
+  brandEmail,
   spendAddress,
   spendAmount,
   setLoading,
+  setError,
 }: SpendRewardOnIssuingBrandProps) {
   setLoading(true);
 
@@ -17,7 +18,7 @@ export async function spendRewardOnIssuingBrandFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: magicEmail });
+      await magic.auth.loginWithEmailOTP({ email: brandEmail });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
@@ -26,7 +27,7 @@ export async function spendRewardOnIssuingBrandFN({
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { transactionHash: "no accounts found" };
+        return { taskId: "no accounts found" };
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
@@ -35,10 +36,9 @@ export async function spendRewardOnIssuingBrandFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-    
       const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(
-        signer, 
-        spendAddress, 
+        signer,
+        spendAddress,
         ethers.utils.parseEther(spendAmount)
       );
 
@@ -50,7 +50,7 @@ export async function spendRewardOnIssuingBrandFN({
 
       const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
-      return { transactionHash: taskId };
+      return { taskId };
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -60,7 +60,7 @@ export async function spendRewardOnIssuingBrandFN({
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { transactionHash: "no accounts found" };
+        return { taskId: "no accounts found" };
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
@@ -70,8 +70,8 @@ export async function spendRewardOnIssuingBrandFN({
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(
-        signer, 
-        spendAddress, 
+        signer,
+        spendAddress,
         ethers.utils.parseEther(spendAmount)
       );
 
@@ -83,9 +83,10 @@ export async function spendRewardOnIssuingBrandFN({
 
       const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
-      return { transactionHash: taskId };
+      return { taskId };
     }
   } catch (error) {
+    setError(error);
     throw error;
   } finally {
     setLoading(false);

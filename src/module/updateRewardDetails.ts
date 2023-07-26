@@ -6,12 +6,13 @@ import { UpdateRewardDetailsProps } from "../lib/types";
 import { relay } from "../call/services/gelatoRelayer";
 
 export async function updateRewardDetailsFN({
-  magicEmail,
+  brandEmail,
   rewardAddress,
   brandId,
   details: { name, symbol, descriptionLink },
   ignoreDefault,
   setLoading,
+  setError,
 }: UpdateRewardDetailsProps) {
   setLoading(true);
 
@@ -19,7 +20,7 @@ export async function updateRewardDetailsFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: magicEmail });
+      await magic.auth.loginWithEmailOTP({ email: brandEmail });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
@@ -28,7 +29,7 @@ export async function updateRewardDetailsFN({
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { transactionHash: "no accounts found" };
+        return { taskId: "no accounts found" };
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
@@ -58,7 +59,7 @@ export async function updateRewardDetailsFN({
 
       const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
-      return { transactionHash: taskId };
+      return { taskId };
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -68,7 +69,7 @@ export async function updateRewardDetailsFN({
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { transactionHash: "no accounts found" };
+        return { taskId: "no accounts found" };
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
@@ -98,9 +99,10 @@ export async function updateRewardDetailsFN({
 
       const { taskId }: { taskId: string } = await relay(relayInput, signer);
 
-      return { transactionHash: taskId };
+      return { taskId };
     }
   } catch (error) {
+    setError(error);
     throw error;
   } finally {
     setLoading(false);
