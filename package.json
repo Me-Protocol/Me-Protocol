@@ -1,12 +1,16 @@
 {
-  "name": "@teepheh-git/me-protocol",
-  "version": "1.4.7",
+  "name": "me-protocol",
+  "version": "1.4.9",
   "description": "A simple template for a custom React component library",
   "scripts": {
     "prebuild": "rimraf dist",
     "rollup": "npm run prebuild && rollup -c"
   },
-  "author": "",
+  "author": "@teepheh-git @dicethedev",
+  "keywords": [
+    "Me Protocol",
+    "My AI"
+  ],
   "license": "ISC",
   "devDependencies": {
     "@developeruche/core": "^1.0.4",
@@ -32,8 +36,5 @@
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/teepheh-git"
-  }
+  "types": "dist/index.d.ts"
 }
