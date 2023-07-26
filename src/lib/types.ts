@@ -1,3 +1,4 @@
+import { BigNumber, BigNumberish } from "ethers";
 import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
@@ -146,6 +147,27 @@ export interface GetBrandDetailsProps {
   getOnlyId?: boolean;
 }
 
+export interface GetExpectedAmountOfTargetedRewardProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  inputRewardAddress: string;
+  outPutRewardAddress: string;
+  amount: string;
+  returnAsFormatted?: boolean;
+}
+
+export interface SpendingInfo {
+  rewardAtHand: string;
+  targettedReward: string;
+  amountOfRewardAtHand: number | BigNumber;
+  expectedAmountOfTargetedReward: number | BigNumber;
+}
+
+export interface SwapWithDiffBrandProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  spendInfo: SpendingInfo;
+  magicEmail: string;
+}
+
 export interface AllFnsProps {
   loading: boolean;
   spendRewardOnIssuingBrand: ({
@@ -153,6 +175,25 @@ export interface AllFnsProps {
     spendAddress,
     spendAmount,
   }: Omit<SpendRewardOnIssuingBrandProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
+  getExpectedAmountOfTargetedReward: ({
+    inputRewardAddress,
+    outPutRewardAddress,
+    amount,
+    returnAsFormatted,
+  }: Omit<GetExpectedAmountOfTargetedRewardProps, "setLoading">) => Promise<
+    BigNumberish | string | undefined
+  >;
+  swapWithDiffBrand: ({
+    magicEmail,
+    spendInfo: {
+      rewardAtHand,
+      targettedReward,
+      amountOfRewardAtHand,
+      expectedAmountOfTargetedReward,
+    },
+  }: Omit<SwapWithDiffBrandProps, "setLoading">) => Promise<
     { transactionHash: string } | undefined
   >;
   changeOptimalOpenReward: ({
@@ -188,6 +229,15 @@ export interface AllFnsProps {
     ignoreDefault,
     brandId,
   }: Omit<UpdateRewardConfigProps, "setLoading">) => Promise<
+    { transactionHash: string } | undefined
+  >;
+  updateRewardDetails: ({
+    magicEmail,
+    rewardAddress,
+    details: { name, symbol, descriptionLink },
+    ignoreDefault,
+    brandId,
+  }: Omit<UpdateRewardDetailsProps, "setLoading">) => Promise<
     { transactionHash: string } | undefined
   >;
   updateOpenRewardConfig: ({

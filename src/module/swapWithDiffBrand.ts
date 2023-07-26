@@ -1,20 +1,21 @@
 import { ethers } from "ethers";
-import { brandService, OPEN_REWARD_DIAMOND } from "../call";
+import { OPEN_REWARD_DIAMOND, usersServiceWithPermit } from "../call";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { UpdateRewardDetailsProps } from "../lib/types";
 import { relay } from "../call/services/gelatoRelayer";
+import { SwapWithDiffBrandProps } from "../lib/types";
 
-export async function updateRewardDetailsFN({
+export async function swapWithDiffBrandFN({
   magicEmail,
-  rewardAddress,
-  brandId,
-  details: { name, symbol, descriptionLink },
-  ignoreDefault,
   setLoading,
-}: UpdateRewardDetailsProps) {
+  spendInfo: {
+    rewardAtHand,
+    targettedReward,
+    amountOfRewardAtHand,
+    expectedAmountOfTargetedReward,
+  },
+}: SwapWithDiffBrandProps) {
   setLoading(true);
-
   try {
     const magicWeb3 = await createWeb3(magic);
 
@@ -37,19 +38,17 @@ export async function updateRewardDetailsFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const details = {
-        name,
-        symbol,
-        descriptionLink,
+      const spendInfo = {
+        rewardAtHand,
+        targettedReward,
+        amountOfRewardAtHand,
+        expectedAmountOfTargetedReward,
       };
 
-      const data = await brandService.updateRewardDetails(
-        brandId,
-        rewardAddress,
-        details,
-        ignoreDefault
+      const data = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithPermit(
+        spendInfo,
+        signer
       );
-
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -77,19 +76,17 @@ export async function updateRewardDetailsFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const details = {
-        name,
-        symbol,
-        descriptionLink,
+      const spendInfo = {
+        rewardAtHand,
+        targettedReward,
+        amountOfRewardAtHand,
+        expectedAmountOfTargetedReward,
       };
 
-      const data = await brandService.updateRewardDetails(
-        brandId,
-        rewardAddress,
-        details,
-        ignoreDefault
+      const data = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithPermit(
+        spendInfo,
+        signer
       );
-
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -103,6 +100,6 @@ export async function updateRewardDetailsFN({
   } catch (error) {
     throw error;
   } finally {
-    setLoading(false);
+    setLoading(true);
   }
 }
