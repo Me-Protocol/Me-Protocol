@@ -172,10 +172,9 @@ export interface SwapWithDiffBrandProps {
 export interface AllFnsProps {
   loading: boolean;
   spendRewardOnIssuingBrand: ({
-    brandEmail,
     spendAddress,
     spendAmount,
-  }: Omit<SpendRewardOnIssuingBrandProps, "setLoading">) => Promise<
+  }: Omit<SpendRewardOnIssuingBrandProps, "setLoading" | "brandEmail">) => Promise<
     { transactionHash: string } | undefined
   >;
   getExpectedAmountOfTargetedReward: ({
@@ -183,41 +182,38 @@ export interface AllFnsProps {
     outPutRewardAddress,
     amount,
     returnAsFormatted,
-  }: Omit<GetExpectedAmountOfTargetedRewardProps, "setLoading">) => Promise<
+  }: Omit<GetExpectedAmountOfTargetedRewardProps, "setLoading" | "brandEmail">) => Promise<
     BigNumberish | string | undefined
   >;
   swapWithDiffBrand: ({
-    brandEmail,
     spendInfo: {
       rewardAtHand,
       targettedReward,
       amountOfRewardAtHand,
       expectedAmountOfTargetedReward,
     },
-  }: Omit<SwapWithDiffBrandProps, "setLoading">) => Promise<
+  }: Omit<SwapWithDiffBrandProps, "setLoading" | "brandEmail">) => Promise<
     { transactionHash: string } | undefined
   >;
   changeOptimalOpenReward: ({
-    brandEmail,
     rewardName,
     newOptimalValue,
-  }: Omit<ChangeOptimalOpenRewardProps, "setLoading">) => Promise<
+  }: Omit<ChangeOptimalOpenRewardProps, "setLoading" | "brandEmail">) => Promise<
     { transactionHash: string } | undefined
   >;
   integrateReward: ({
-    brandEmail,
     descriptionLink,
     readTandC,
-  }: Omit<IntegrateRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  }: Omit<IntegrateRewardProps, "setLoading" | "brandEmail">) => Promise<
+    { transactionHash: string } | undefined
+  >;
   topUpOpenRewardLiquidity: ({
-    brandEmail,
     rewardAmount,
     meAmount,
-  }: Omit<TopUpOpenRewardLiquidityProps, "setLoading">) => Promise<
+  }: Omit<TopUpOpenRewardLiquidityProps, "setLoading" | "brandEmail">) => Promise<
     { transactionHash: string } | undefined
   >;
   updateRewardConfig: ({
-    brandEmail,
     rewardConfig: {
       specificException,
       bountyEnables,
@@ -229,20 +225,18 @@ export interface AllFnsProps {
     },
     ignoreDefault,
     brandId,
-  }: Omit<UpdateRewardConfigProps, "setLoading">) => Promise<
+  }: Omit<UpdateRewardConfigProps, "setLoading" | "brandEmail">) => Promise<
     { transactionHash: string } | undefined
   >;
   updateRewardDetails: ({
-    brandEmail,
     rewardAddress,
     details: { name, symbol, descriptionLink },
     ignoreDefault,
     brandId,
-  }: Omit<UpdateRewardDetailsProps, "setLoading">) => Promise<
+  }: Omit<UpdateRewardDetailsProps, "setLoading" | "brandEmail">) => Promise<
     { transactionHash: string } | undefined
   >;
   updateOpenRewardConfig: ({
-    brandEmail,
     rewardAddress,
     config: {
       maximumRLimit,
@@ -254,49 +248,51 @@ export interface AllFnsProps {
       allowSwaps,
     },
     ignoreDefault,
-  }: Omit<UpdateOpenRewardConfigProps, "setLoading">) => Promise<
+  }: Omit<UpdateOpenRewardConfigProps, "setLoading" | "brandEmail">) => Promise<
     { transactionHash: string } | undefined
   >;
   pauseOpenReward: ({
-    brandEmail,
     rewardAddress,
-  }: Omit<PauseOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  }: Omit<PauseOpenRewardProps, "setLoading" | "brandEmail">) => Promise<
+    { transactionHash: string } | undefined
+  >;
   resumeOpenReward: ({
-    brandEmail,
     rewardAddress,
-  }: Omit<ResumeOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  }: Omit<ResumeOpenRewardProps, "setLoading" | "brandEmail">) => Promise<
+    { transactionHash: string } | undefined
+  >;
   activateOpenReward: ({
-    brandEmail,
     rewardAddress,
-  }: Omit<ActivateOpenRewardProps, "setLoading">) => Promise<
+  }: Omit<ActivateOpenRewardProps, "setLoading" | "brandEmail">) => Promise<
     { transactionHash: string } | undefined
   >;
   setUpOpenReward: ({
-    brandEmail,
     rewardAddress,
-  }: Omit<SetUpOpenRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  }: Omit<SetUpOpenRewardProps, "setLoading" | "brandEmail">) => Promise<
+    { transactionHash: string } | undefined
+  >;
   changeMainAccount: ({
-    brandEmail,
     newMainAcctAddress,
-  }: Omit<ChangeMainAccountProps, "setLoading">) => Promise<
+  }: Omit<ChangeMainAccountProps, "setLoading" | "brandEmail">) => Promise<
     { transactionHash: string } | undefined
   >;
   createReward: ({
-    brandEmail,
     name,
     symbol,
     descriptionLink,
     totalSupply,
-  }: Omit<CreateRewardProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  }: Omit<CreateRewardProps, "setLoading" | "brandEmail">) => Promise<
+    { transactionHash: string } | undefined
+  >;
   getBrandDetails: ({
-    brandEmail,
     getOnlyId,
-  }: Omit<GetBrandDetailsProps, "setLoading">) => Promise<
+  }: Omit<GetBrandDetailsProps, "setLoading" | "brandEmail">) => Promise<
     { brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined
   >;
   meRegister: ({
-    brandEmail,
     brandName,
     onlinePresence,
-  }: Omit<MeRegisterProps, "setLoading">) => Promise<{ transactionHash: string } | undefined>;
+  }: Omit<MeRegisterProps, "setLoading" | "brandEmail">) => Promise<
+    { transactionHash: string } | undefined
+  >;
 }
