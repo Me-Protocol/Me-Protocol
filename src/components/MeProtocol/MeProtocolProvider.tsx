@@ -20,6 +20,8 @@ import {
   UpdateRewardDetailsProps,
   GetExpectedAmountOfTargetedRewardProps,
   SwapWithDiffBrandProps,
+  UpdateBrandDetailsProps,
+  UpdateGeneralConfigProps
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -37,6 +39,8 @@ import { updateOpenRewardConfigFN } from "../../module/updateOpenRewardConfig";
 import { updateRewardDetailsFN } from "../../module/updateRewardDetails";
 import { getExpectedAmountOfTargetedRewardFN } from "../../module/getExpectedAmountOfTargetedReward";
 import { swapWithDiffBrandFN } from "../../module/swapWithDiffBrand";
+import { updateBrandDetailsFN } from "../../module/updateBrandDetails";
+import { updateGeneralConfigFN } from "../../module/updateGeneralConfig";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -288,6 +292,53 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
       setError,
     });
   }
+
+   // ========================================= THIS IS THE FUNCTION TO UPDATE BRAND DETAILS ==========================================================
+
+   async function updateBrandDetails({
+    brandId,
+    brandDetails: { name, onlinePresence, },
+    ignoreDefault,
+  }: Omit<UpdateBrandDetailsProps, "setLoading" | "brandEmail" | "setError">) {
+    return await updateBrandDetailsFN({
+      brandEmail,
+      brandId,
+      brandDetails: {
+        name,
+        onlinePresence
+      },
+      ignoreDefault,
+      setLoading,
+      setError,
+    });
+  }
+
+  // ========================================= THIS IS THE FUNCTION TO UPDATE GENERAL CONFIG ==========================================================
+  async function updateGeneralConfig({
+      brandId,
+      generalConfig: {
+        enableBountyRewards,
+        enableCais,
+        payIncomingGasFees,
+        payOutgoingGasFees,
+      },
+      ignoreDefault,
+  }: Omit<UpdateGeneralConfigProps, "setLoading" | "brandEmail" | "setError">) {
+    return await updateGeneralConfigFN({
+      brandEmail,
+      brandId,
+      generalConfig: {
+        enableBountyRewards,
+        enableCais,
+        payIncomingGasFees,
+        payOutgoingGasFees,
+      },
+      ignoreDefault,
+      setLoading,
+      setError,
+    });
+  }
+
   // ========================================= THIS IS THE FUNCTION TO getExpectedAmountOfTargetedReward ==========================================================
   async function getExpectedAmountOfTargetedReward({
     inputRewardAddress,
@@ -349,6 +400,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail 
         updateRewardDetails,
         getExpectedAmountOfTargetedReward,
         swapWithDiffBrand,
+        updateBrandDetails,
+        updateGeneralConfig
       }}
     >
       {children}

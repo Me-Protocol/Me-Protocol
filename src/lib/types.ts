@@ -102,6 +102,7 @@ export interface EditableRewardDetails {
   symbol: string;
   descriptionLink: string;
 }
+
 export interface UpdateRewardDetailsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
@@ -109,6 +110,36 @@ export interface UpdateRewardDetailsProps {
   rewardAddress: string;
   brandId: string;
   details: EditableRewardDetails;
+  ignoreDefault: boolean;
+}
+
+export interface EditableBrandDetails {
+  name: string;
+  onlinePresence: string;
+}
+
+export interface UpdateBrandDetailsProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  brandEmail: string;
+  brandId: string;
+  brandDetails: EditableBrandDetails;
+  ignoreDefault: boolean;
+}
+
+export interface EditableBrandConfig {
+  enableBountyRewards: boolean;
+  enableCais: boolean;
+  payIncomingGasFees: boolean;
+  payOutgoingGasFees: boolean;
+}
+
+export interface UpdateGeneralConfigProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  brandEmail: string;
+  brandId: string;
+  generalConfig: EditableBrandConfig;
   ignoreDefault: boolean;
 }
 
@@ -189,6 +220,25 @@ export interface SwapWithDiffBrandProps {
 export interface AllFnsProps {
   error: unknown;
   loading: boolean;
+  updateGeneralConfig: ({
+    generalConfig: {
+      enableBountyRewards,
+      enableCais,
+      payIncomingGasFees,
+      payOutgoingGasFees,
+    },
+    ignoreDefault,
+    brandId,
+  }: Omit<UpdateGeneralConfigProps, "setLoading" | "brandEmail" | "setError">) => Promise<
+    { taskId: string } | undefined
+  >;
+  updateBrandDetails: ({
+    brandId,
+    brandDetails: { name, onlinePresence },
+    ignoreDefault,
+  }: Omit<UpdateBrandDetailsProps, "setLoading" | "brandEmail" | "setError">) => Promise<
+    { taskId: string } | undefined
+  >;
   spendRewardOnIssuingBrand: ({
     spendAddress,
     spendAmount,
