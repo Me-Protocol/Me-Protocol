@@ -16,7 +16,7 @@ export async function getExpectedAmountOfTargetedRewardFN({
     const neededAmount = await secretoryService.getAmountIn(
       inputRewardAddress.trim(),
       outPutRewardAddress.trim(),
-      ethers.utils.parseEther(parseFloat(amount).toString())
+      ethers.utils.parseEther(amount.toString())
     );
 
     if (returnAsFormatted) {
