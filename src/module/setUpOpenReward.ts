@@ -8,6 +8,14 @@ import { SetUpOpenRewardProps } from "../lib/types";
 export async function setUpOpenRewardFN({
   brandEmail,
   rewardAddress,
+  rOptimal, 
+  maximumRLimit, 
+  minimumRewardAmountForConversation,
+  minimumMeAmountForConversation,
+  notifyRewardAmount, 
+  notifyMeAmount, 
+  defaultSlippageInPrecision, 
+  allowSwaps,
   setLoading,
   setError,
 }: SetUpOpenRewardProps) {
@@ -35,7 +43,18 @@ export async function setUpOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createPool(rewardAddress);
+ 
+      const data = await brandService.createPool(rewardAddress, 
+        rOptimal, 
+        maximumRLimit, 
+        minimumRewardAmountForConversation,
+        minimumMeAmountForConversation,
+        notifyRewardAmount, 
+        notifyMeAmount, 
+        defaultSlippageInPrecision, 
+        allowSwaps
+        );
+
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -63,7 +82,17 @@ export async function setUpOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createPool(rewardAddress);
+       const data = await brandService.createPool(rewardAddress, 
+        rOptimal, 
+        maximumRLimit, 
+        minimumRewardAmountForConversation,
+        minimumMeAmountForConversation,
+        notifyRewardAmount, 
+        notifyMeAmount, 
+        defaultSlippageInPrecision, 
+        allowSwaps
+      );
+
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,

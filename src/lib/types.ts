@@ -37,6 +37,14 @@ export interface SetUpOpenRewardProps {
   setError: Dispatch<SetStateAction<unknown>>;
   brandEmail: string;
   rewardAddress: string;
+  rOptimal: number;
+  maximumRLimit: number;
+  minimumRewardAmountForConversation: number;
+  minimumMeAmountForConversation: number;
+  notifyRewardAmount: number;
+  notifyMeAmount: number;
+  defaultSlippageInPrecision: number;
+  allowSwaps: boolean;
 }
 
 export interface ChangeMainAccountProps {
@@ -337,6 +345,14 @@ export interface AllFnsProps {
   >;
   setUpOpenReward: ({
     rewardAddress,
+    rOptimal, 
+    maximumRLimit, 
+    minimumRewardAmountForConversation,
+    minimumMeAmountForConversation,
+    notifyRewardAmount, 
+    notifyMeAmount, 
+    defaultSlippageInPrecision, 
+    allowSwaps,
   }: Omit<SetUpOpenRewardProps, "setLoading" | "brandEmail" | "setError">) => Promise<
     { taskId: string } | undefined
   >;

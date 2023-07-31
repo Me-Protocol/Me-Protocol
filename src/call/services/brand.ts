@@ -363,11 +363,30 @@ export class brandService {
 
     static async createPool(
         rewardAddress: string, 
+        rOptimal: number | BigNumber,
+        maximumRLimit: number | BigNumber,
+        minimumRewardAmountForConversation: number | BigNumber,
+        minimumMeAmountForConversation: number | BigNumber,
+        notifyRewardAmount: number | BigNumber,
+        notifyMeAmount: number | BigNumber,
+        defaultSlippageInPrecision: number | BigNumber,
+        allowSwaps: boolean,
     ) : Promise<any> {
+        const PoolConfig: ConfigForTypeAOpenRewards = {
+            rOptimal,
+            maximumRLimit,
+            minimumRewardAmountForConversation,
+            minimumMeAmountForConversation,
+            notifyRewardAmount,
+            notifyMeAmount,
+            defaultSlippageInPrecision,
+            allowSwaps
+        }
+
         return poolFactory.populateTransaction["setUpOpenRewards(address,address,(uint256,uint256,uint256,uint256,uint256,uint256,uint256,bool),address)"](
             rewardAddress,
             ME_TOKEN,
-            genPoolConfig(),
+            PoolConfig,
             OPEN_REWARD_IMPLEMENTATION
         );
     }
