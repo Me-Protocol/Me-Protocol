@@ -8,13 +8,13 @@ import { SetUpOpenRewardProps } from "../lib/types";
 export async function setUpOpenRewardFN({
   brandEmail,
   rewardAddress,
-  rOptimal, 
-  maximumRLimit, 
+  rOptimal,
+  maximumRLimit,
   minimumRewardAmountForConversation,
   minimumMeAmountForConversation,
-  notifyRewardAmount, 
-  notifyMeAmount, 
-  defaultSlippageInPrecision, 
+  notifyRewardAmount,
+  notifyMeAmount,
+  defaultSlippageInPrecision,
   allowSwaps,
   setLoading,
   setError,
@@ -43,17 +43,17 @@ export async function setUpOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
- 
-      const data = await brandService.createPool(rewardAddress, 
-        rOptimal, 
-        maximumRLimit, 
+      const data = await brandService.createPool(
+        rewardAddress,
+        rOptimal,
+        maximumRLimit,
         minimumRewardAmountForConversation,
         minimumMeAmountForConversation,
-        notifyRewardAmount, 
-        notifyMeAmount, 
-        defaultSlippageInPrecision, 
+        notifyRewardAmount,
+        notifyMeAmount,
+        defaultSlippageInPrecision,
         allowSwaps
-        );
+      );
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -82,14 +82,15 @@ export async function setUpOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-       const data = await brandService.createPool(rewardAddress, 
-        rOptimal, 
-        maximumRLimit, 
+      const data = await brandService.createPool(
+        rewardAddress,
+        rOptimal,
+        maximumRLimit,
         minimumRewardAmountForConversation,
         minimumMeAmountForConversation,
-        notifyRewardAmount, 
-        notifyMeAmount, 
-        defaultSlippageInPrecision, 
+        notifyRewardAmount,
+        notifyMeAmount,
+        defaultSlippageInPrecision,
         allowSwaps
       );
 
