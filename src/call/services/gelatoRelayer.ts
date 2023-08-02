@@ -1,5 +1,6 @@
 import { CallWithERC2771Request, GelatoRelay, ERC2771Type, SignatureData } from "@gelatonetwork/relay-sdk";
 import { GELATO_API_KEY, OPEN_REWARD_DIAMOND } from "../constants";
+import axios from "axios";
 
 
 export interface inputType {
@@ -16,13 +17,33 @@ export async function relay(input: inputType, wallet: any) {
         target: OPEN_REWARD_DIAMOND,
         data: input.data,
         user: input.from,
-    };
-
-    const {struct, signature} = await relay.getSignatureDataERC2771(request, wallet, ERC2771Type.SponsoredCall);
+      };
     
-    const relayResponse = await relay.sponsoredCallERC2771WithSignature(struct, signature, GELATO_API_KEY);
+      const {struct, signature} = await relay.getSignatureDataERC2771(request, wallet, ERC2771Type.SponsoredCall);
 
-    // this is the data to be pushed:=> {data: struct, signature}
+      console.log("struct", JSON.stringify(struct));
+        console.log("signature", signature);
 
-    return relayResponse;
+
+    
+    //   const relayResponse = await relay.sponsoredCallERC2771WithSignature(struct, signature, GELATO_API_KEY);
+      let relayResponse = await axios.post("https://0b04-102-89-34-216.ngrok-free.app/cost/request", {
+        data: struct,
+        tnxType: "relayer",
+        narration: "1",
+        network: "MUMBAI",
+        signature
+    }, {
+        headers: {
+            Authorization: `Bearer b5hnok5zcoongvz406l8`
+        }
+    });
+
+    console.log("relayResponse", relayResponse);
+
+    const relayResponse_ = {
+        taskId: relayResponse.data.data.taskId,
+    }
+
+    return relayResponse_;
 }
