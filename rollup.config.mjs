@@ -22,7 +22,7 @@ export default [
       },
     ],
     plugins: [resolve(), commonjs(), typescript({ tsconfig: "./tsconfig.json" }), json()],
-    external: ["react", "web3", "magic-sdk", "ethers", "@gelatonetwork/relay-sdk"],
+    external: ["react", "web3", "magic-sdk", "ethers", "@gelatonetwork/relay-sdk", "axios"],
   },
   {
     input: "dist/esm/types/index.d.ts",

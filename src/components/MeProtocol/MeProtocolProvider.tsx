@@ -44,7 +44,7 @@ import { updateGeneralConfigFN } from "../../module/updateGeneralConfig";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
-const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail }) => {
+const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail, meApiKey }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<unknown>([]);
 

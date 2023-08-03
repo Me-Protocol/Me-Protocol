@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 export interface MeProtocolProviderProps {
   children: React.ReactNode;
   brandEmail: string;
+  meApiKey: string;
 }
 
 export interface MeRegisterProps {
@@ -229,12 +230,7 @@ export interface AllFnsProps {
   error: unknown;
   loading: boolean;
   updateGeneralConfig: ({
-    generalConfig: {
-      enableBountyRewards,
-      enableCais,
-      payIncomingGasFees,
-      payOutgoingGasFees,
-    },
+    generalConfig: { enableBountyRewards, enableCais, payIncomingGasFees, payOutgoingGasFees },
     ignoreDefault,
     brandId,
   }: Omit<UpdateGeneralConfigProps, "setLoading" | "brandEmail" | "setError">) => Promise<
@@ -345,13 +341,13 @@ export interface AllFnsProps {
   >;
   setUpOpenReward: ({
     rewardAddress,
-    rOptimal, 
-    maximumRLimit, 
+    rOptimal,
+    maximumRLimit,
     minimumRewardAmountForConversation,
     minimumMeAmountForConversation,
-    notifyRewardAmount, 
-    notifyMeAmount, 
-    defaultSlippageInPrecision, 
+    notifyRewardAmount,
+    notifyMeAmount,
+    defaultSlippageInPrecision,
     allowSwaps,
   }: Omit<SetUpOpenRewardProps, "setLoading" | "brandEmail" | "setError">) => Promise<
     { taskId: string } | undefined
