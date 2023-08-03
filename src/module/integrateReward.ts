@@ -6,7 +6,7 @@ import { relay } from "../call/services/gelatoRelayer";
 import { IntegrateRewardProps } from "../lib/types";
 
 export async function integrateRewardFN({
-  brandEmail,
+  email,
   rewardAddress,
   descriptionLink,
   readTandC,
@@ -19,7 +19,7 @@ export async function integrateRewardFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: brandEmail });
+      await magic.auth.loginWithEmailOTP({ email });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second

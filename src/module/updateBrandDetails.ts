@@ -6,7 +6,7 @@ import { UpdateBrandDetailsProps } from "../lib/types";
 import { relay } from "../call/services/gelatoRelayer";
 
 export async function updateBrandDetailsFN({
-  brandEmail,
+  email,
   brandId,
   brandDetails: { name, onlinePresence },
   ignoreDefault,
@@ -19,7 +19,7 @@ export async function updateBrandDetailsFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: brandEmail });
+      await magic.auth.loginWithEmailOTP({ email });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
@@ -39,14 +39,10 @@ export async function updateBrandDetailsFN({
 
       const details = {
         name,
-        onlinePresence
+        onlinePresence,
       };
 
-      const data = await brandService.updateDetails(
-        brandId,
-        details,
-        ignoreDefault
-      );
+      const data = await brandService.updateDetails(brandId, details, ignoreDefault);
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -77,14 +73,10 @@ export async function updateBrandDetailsFN({
 
       const details = {
         name,
-        onlinePresence
+        onlinePresence,
       };
 
-      const data = await brandService.updateDetails(
-        brandId,
-        details,
-        ignoreDefault
-      );
+      const data = await brandService.updateDetails(brandId, details, ignoreDefault);
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
