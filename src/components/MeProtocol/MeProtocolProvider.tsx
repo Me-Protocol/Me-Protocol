@@ -22,6 +22,7 @@ import {
   SwapWithDiffBrandProps,
   UpdateBrandDetailsProps,
   UpdateGeneralConfigProps,
+  SetUpWalletProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -41,6 +42,7 @@ import { getExpectedAmountOfTargetedRewardFN } from "../../module/getExpectedAmo
 import { swapWithDiffBrandFN } from "../../module/swapWithDiffBrand";
 import { updateBrandDetailsFN } from "../../module/updateBrandDetails";
 import { updateGeneralConfigFN } from "../../module/updateGeneralConfig";
+import { setUpWalletFN } from "../../module/setUpWallet";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -48,6 +50,12 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail,
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<unknown>([]);
 
+  // ================================================================= THIS IS THE REGISTER FUNCTION  =================================================================
+  async function setUpWallet({
+    persistLogin,
+  }: Omit<SetUpWalletProps, "setLoading" | "brandEmail" | "setError">) {
+    return await setUpWalletFN({ brandEmail, setLoading, setError, persistLogin });
+  }
   // ================================================================= THIS IS THE REGISTER FUNCTION  =================================================================
   async function meRegister({
     brandName,
@@ -413,6 +421,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, brandEmail,
         swapWithDiffBrand,
         updateBrandDetails,
         updateGeneralConfig,
+        setUpWallet,
       }}
     >
       {children}

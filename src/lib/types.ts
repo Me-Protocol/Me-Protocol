@@ -47,6 +47,12 @@ export interface SetUpOpenRewardProps {
   defaultSlippageInPrecision: number;
   allowSwaps: boolean;
 }
+export interface SetUpWalletProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  brandEmail: string;
+  persistLogin: boolean;
+}
 
 export interface ChangeMainAccountProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -351,6 +357,12 @@ export interface AllFnsProps {
     allowSwaps,
   }: Omit<SetUpOpenRewardProps, "setLoading" | "brandEmail" | "setError">) => Promise<
     { taskId: string } | undefined
+  >;
+
+  setUpWallet: ({
+    persistLogin,
+  }: Omit<SetUpWalletProps, "setLoading" | "brandEmail" | "setError">) => Promise<
+    { publicAddress: string } | undefined
   >;
   changeMainAccount: ({
     newMainAcctAddress,
