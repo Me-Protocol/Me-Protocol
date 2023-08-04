@@ -27,7 +27,7 @@ export async function relay(input: inputType, wallet: any) {
 
     
     //   const relayResponse = await relay.sponsoredCallERC2771WithSignature(struct, signature, GELATO_API_KEY);
-      let relayResponse = await axios.post("https://0b04-102-89-34-216.ngrok-free.app/cost/request", {
+      let relayResponse = await axios.post("https://8b55-102-89-22-124.ngrok-free.app/cost/request", {
         data: struct,
         tnxType: "relayer",
         narration: "1",
