@@ -3,14 +3,14 @@ import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
   children: React.ReactNode;
-  brandEmail: string;
+  email: string;
   meApiKey: string;
 }
 
 export interface MeRegisterProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   brandName: string;
   onlinePresence: string;
 }
@@ -18,7 +18,7 @@ export interface MeRegisterProps {
 export interface CreateRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   name: string;
   symbol: string;
   descriptionLink: string;
@@ -28,7 +28,7 @@ export interface CreateRewardProps {
 export interface ChangeOptimalOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   rewardName: string;
   newOptimalValue: number;
 }
@@ -36,7 +36,7 @@ export interface ChangeOptimalOpenRewardProps {
 export interface SetUpOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   rewardAddress: string;
   rOptimal: number;
   maximumRLimit: number;
@@ -47,24 +47,30 @@ export interface SetUpOpenRewardProps {
   defaultSlippageInPrecision: number;
   allowSwaps: boolean;
 }
+export interface SetUpWalletProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  email: string;
+  persistLogin?: boolean;
+}
 
 export interface ChangeMainAccountProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   newMainAcctAddress: string;
 }
 
 export interface ActivateOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   rewardAddress: string;
 }
 export interface IntegrateRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   rewardAddress: string;
   descriptionLink: string;
   readTandC: boolean;
@@ -72,7 +78,7 @@ export interface IntegrateRewardProps {
 export interface TopUpOpenRewardLiquidityProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   address: string;
   meAmount: string;
   rewardAmount: string;
@@ -81,7 +87,7 @@ export interface TopUpOpenRewardLiquidityProps {
 export interface SpendRewardOnIssuingBrandProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   spendAddress: string;
   spendAmount: string;
 }
@@ -99,7 +105,7 @@ export interface EditableRewardConfig {
 export interface UpdateRewardConfigProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   address: string;
   brandId: string;
   ignoreDefault: boolean;
@@ -115,7 +121,7 @@ export interface EditableRewardDetails {
 export interface UpdateRewardDetailsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   rewardAddress: string;
   brandId: string;
   details: EditableRewardDetails;
@@ -130,7 +136,7 @@ export interface EditableBrandDetails {
 export interface UpdateBrandDetailsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   brandId: string;
   brandDetails: EditableBrandDetails;
   ignoreDefault: boolean;
@@ -146,7 +152,7 @@ export interface EditableBrandConfig {
 export interface UpdateGeneralConfigProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   brandId: string;
   generalConfig: EditableBrandConfig;
   ignoreDefault: boolean;
@@ -164,7 +170,7 @@ export interface EditableConfigForTypeAOpenRewards {
 export interface UpdateOpenRewardConfigProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   rewardAddress: string;
   config: EditableConfigForTypeAOpenRewards;
   ignoreDefault: boolean;
@@ -173,14 +179,14 @@ export interface UpdateOpenRewardConfigProps {
 export interface ResumeOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   rewardAddress: string;
 }
 
 export interface PauseOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   rewardAddress: string;
 }
 
@@ -199,7 +205,7 @@ export interface BrandDetailsProps {
 export interface GetBrandDetailsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  brandEmail: string;
+  email: string;
   getOnlyId?: boolean;
 }
 
@@ -223,8 +229,10 @@ export interface SwapWithDiffBrandProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
   spendInfo: SpendingInfo;
-  brandEmail: string;
+  email: string;
 }
+export type OmittedProps = "setLoading" | "email" | "setError";
+export type TaskIdPromise = Promise<{ taskId: string } | undefined>;
 
 export interface AllFnsProps {
   error: unknown;
@@ -233,31 +241,24 @@ export interface AllFnsProps {
     generalConfig: { enableBountyRewards, enableCais, payIncomingGasFees, payOutgoingGasFees },
     ignoreDefault,
     brandId,
-  }: Omit<UpdateGeneralConfigProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<UpdateGeneralConfigProps, OmittedProps>) => TaskIdPromise;
   updateBrandDetails: ({
     brandId,
     brandDetails: { name, onlinePresence },
     ignoreDefault,
-  }: Omit<UpdateBrandDetailsProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<UpdateBrandDetailsProps, OmittedProps>) => TaskIdPromise;
   spendRewardOnIssuingBrand: ({
     spendAddress,
     spendAmount,
-  }: Omit<SpendRewardOnIssuingBrandProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<SpendRewardOnIssuingBrandProps, OmittedProps>) => TaskIdPromise;
   getExpectedAmountOfTargetedReward: ({
     inputRewardAddress,
     outPutRewardAddress,
     amount,
     returnAsFormatted,
-  }: Omit<
-    GetExpectedAmountOfTargetedRewardProps,
-    "setLoading" | "brandEmail" | "setError"
-  >) => Promise<BigNumberish | string | undefined>;
+  }: Omit<GetExpectedAmountOfTargetedRewardProps, OmittedProps>) => Promise<
+    BigNumberish | string | undefined
+  >;
   swapWithDiffBrand: ({
     spendInfo: {
       rewardAtHand,
@@ -265,27 +266,19 @@ export interface AllFnsProps {
       amountOfRewardAtHand,
       expectedAmountOfTargetedReward,
     },
-  }: Omit<SwapWithDiffBrandProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<SwapWithDiffBrandProps, OmittedProps>) => TaskIdPromise;
   changeOptimalOpenReward: ({
     rewardName,
     newOptimalValue,
-  }: Omit<ChangeOptimalOpenRewardProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<ChangeOptimalOpenRewardProps, OmittedProps>) => TaskIdPromise;
   integrateReward: ({
     descriptionLink,
     readTandC,
-  }: Omit<IntegrateRewardProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<IntegrateRewardProps, OmittedProps>) => TaskIdPromise;
   topUpOpenRewardLiquidity: ({
     rewardAmount,
     meAmount,
-  }: Omit<TopUpOpenRewardLiquidityProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<TopUpOpenRewardLiquidityProps, OmittedProps>) => TaskIdPromise;
   updateRewardConfig: ({
     rewardConfig: {
       specificException,
@@ -298,17 +291,13 @@ export interface AllFnsProps {
     },
     ignoreDefault,
     brandId,
-  }: Omit<UpdateRewardConfigProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<UpdateRewardConfigProps, OmittedProps>) => TaskIdPromise;
   updateRewardDetails: ({
     rewardAddress,
     details: { name, symbol, descriptionLink },
     ignoreDefault,
     brandId,
-  }: Omit<UpdateRewardDetailsProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<UpdateRewardDetailsProps, OmittedProps>) => TaskIdPromise;
   updateOpenRewardConfig: ({
     rewardAddress,
     config: {
@@ -321,24 +310,12 @@ export interface AllFnsProps {
       allowSwaps,
     },
     ignoreDefault,
-  }: Omit<UpdateOpenRewardConfigProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
-  pauseOpenReward: ({
-    rewardAddress,
-  }: Omit<PauseOpenRewardProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
-  resumeOpenReward: ({
-    rewardAddress,
-  }: Omit<ResumeOpenRewardProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<UpdateOpenRewardConfigProps, OmittedProps>) => TaskIdPromise;
+  pauseOpenReward: ({ rewardAddress }: Omit<PauseOpenRewardProps, OmittedProps>) => TaskIdPromise;
+  resumeOpenReward: ({ rewardAddress }: Omit<ResumeOpenRewardProps, OmittedProps>) => TaskIdPromise;
   activateOpenReward: ({
     rewardAddress,
-  }: Omit<ActivateOpenRewardProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<ActivateOpenRewardProps, OmittedProps>) => TaskIdPromise;
   setUpOpenReward: ({
     rewardAddress,
     rOptimal,
@@ -349,31 +326,24 @@ export interface AllFnsProps {
     notifyMeAmount,
     defaultSlippageInPrecision,
     allowSwaps,
-  }: Omit<SetUpOpenRewardProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<SetUpOpenRewardProps, OmittedProps>) => TaskIdPromise;
+
+  setUpWallet: ({
+    persistLogin,
+  }: Omit<SetUpWalletProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
   changeMainAccount: ({
     newMainAcctAddress,
-  }: Omit<ChangeMainAccountProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<ChangeMainAccountProps, OmittedProps>) => TaskIdPromise;
   createReward: ({
     name,
     symbol,
     descriptionLink,
     totalSupply,
-  }: Omit<CreateRewardProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  }: Omit<CreateRewardProps, OmittedProps>) => TaskIdPromise;
   getBrandDetails: ({
     getOnlyId,
-  }: Omit<GetBrandDetailsProps, "setLoading" | "brandEmail" | "setError">) => Promise<
+  }: Omit<GetBrandDetailsProps, OmittedProps>) => Promise<
     { brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined
   >;
-  meRegister: ({
-    brandName,
-    onlinePresence,
-  }: Omit<MeRegisterProps, "setLoading" | "brandEmail" | "setError">) => Promise<
-    { taskId: string } | undefined
-  >;
+  meRegister: ({ brandName, onlinePresence }: Omit<MeRegisterProps, OmittedProps>) => TaskIdPromise;
 }

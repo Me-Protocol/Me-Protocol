@@ -6,7 +6,7 @@ import { UpdateGeneralConfigProps } from "../lib/types";
 import { relay } from "../call/services/gelatoRelayer";
 
 export async function updateGeneralConfigFN({
-  brandEmail,
+  email,
   brandId,
   generalConfig: { enableBountyRewards, enableCais, payIncomingGasFees, payOutgoingGasFees },
   ignoreDefault,
@@ -19,7 +19,7 @@ export async function updateGeneralConfigFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: brandEmail });
+      await magic.auth.loginWithEmailOTP({ email });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
@@ -44,11 +44,7 @@ export async function updateGeneralConfigFN({
         payOutgoingGasFees,
       };
 
-      const data = await brandService.updateGeneralConfigurations(
-        brandId,
-        config,
-        ignoreDefault
-      );
+      const data = await brandService.updateGeneralConfigurations(brandId, config, ignoreDefault);
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -84,11 +80,7 @@ export async function updateGeneralConfigFN({
         payOutgoingGasFees,
       };
 
-      const data = await brandService.updateGeneralConfigurations(
-        brandId,
-        config,
-        ignoreDefault
-      );
+      const data = await brandService.updateGeneralConfigurations(brandId, config, ignoreDefault);
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,

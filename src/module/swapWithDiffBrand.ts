@@ -6,7 +6,7 @@ import { relay } from "../call/services/gelatoRelayer";
 import { SwapWithDiffBrandProps } from "../lib/types";
 
 export async function swapWithDiffBrandFN({
-  brandEmail,
+  email,
   setLoading,
   spendInfo: {
     rewardAtHand,
@@ -21,7 +21,7 @@ export async function swapWithDiffBrandFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: brandEmail });
+      await magic.auth.loginWithEmailOTP({ email });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second

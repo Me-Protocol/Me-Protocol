@@ -6,7 +6,7 @@ import { relay } from "../call/services/gelatoRelayer";
 import { ResumeOpenRewardProps } from "../lib/types";
 
 export async function resumeOpenRewardFN({
-  brandEmail,
+  email,
   rewardAddress,
   setLoading,
   setError,
@@ -17,7 +17,7 @@ export async function resumeOpenRewardFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email: brandEmail });
+      await magic.auth.loginWithEmailOTP({ email });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
