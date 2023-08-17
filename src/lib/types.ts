@@ -1,3 +1,4 @@
+import { sendTransactionData } from "@developeruche/runtime-sdk/dist/utils/interfaces";
 import { BigNumber, BigNumberish } from "ethers";
 import { Dispatch, SetStateAction } from "react";
 
@@ -31,6 +32,15 @@ export interface CreateRewardProps {
   symbol: string;
   descriptionLink: string;
   totalSupply: string;
+}
+
+export interface DistributeRewardsProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  email: string;
+  reward_address: string;
+  reward_recipient: Array<string>;
+  reward_amounts: Array<BigNumber>;
 }
 
 export interface ChangeOptimalOpenRewardProps {
@@ -414,4 +424,9 @@ export interface AllFnsProps {
     { brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined
   >;
   meRegister: ({ brandName, onlinePresence }: Omit<MeRegisterProps, OmittedProps>) => TaskIdPromise;
+  distributeRewards: ({
+    reward_address,
+    reward_recipient,
+    reward_amounts,
+  }: Omit<DistributeRewardsProps, OmittedProps>) => Promise<sendTransactionData | undefined>;
 }

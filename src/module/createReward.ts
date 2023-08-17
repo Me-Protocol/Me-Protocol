@@ -15,6 +15,7 @@ export async function createRewardFN({
   meApiKey,
   reqURL,
   costPayerId,
+  setError,
 }: CreateRewardProps) {
   setLoading(true);
 
@@ -103,6 +104,7 @@ export async function createRewardFN({
       return { taskId };
     }
   } catch (error) {
+    setError(error);
     throw error;
   } finally {
     setLoading(false);

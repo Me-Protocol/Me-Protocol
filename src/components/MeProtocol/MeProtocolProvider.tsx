@@ -24,6 +24,7 @@ import {
   UpdateGeneralConfigProps,
   SetUpWalletProps,
   OmittedProps,
+  DistributeRewardsProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -44,6 +45,7 @@ import { swapWithDiffBrandFN } from "../../module/swapWithDiffBrand";
 import { updateBrandDetailsFN } from "../../module/updateBrandDetails";
 import { updateGeneralConfigFN } from "../../module/updateGeneralConfig";
 import { setUpWalletFN } from "../../module/setUpWallet";
+import { distributeRewardsFN } from "../../module/distributeRewards";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -471,6 +473,21 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     });
   }
 
+  async function distributeRewards({
+    reward_address,
+    reward_amounts,
+    reward_recipient,
+  }: Omit<DistributeRewardsProps, OmittedProps>) {
+    return await distributeRewardsFN({
+      email,
+      reward_address,
+      reward_amounts,
+      reward_recipient,
+      setError,
+      setLoading,
+    });
+  }
+
   return (
     <MeProtocolContext.Provider
       value={{
@@ -496,6 +513,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
         updateBrandDetails,
         updateGeneralConfig,
         setUpWallet,
+        distributeRewards,
       }}
     >
       {children}
