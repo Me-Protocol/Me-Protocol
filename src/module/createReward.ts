@@ -12,6 +12,9 @@ export async function createRewardFN({
   descriptionLink,
   totalSupply,
   setLoading,
+  meApiKey,
+  reqURL,
+  costPayerId,
 }: CreateRewardProps) {
   setLoading(true);
 
@@ -50,7 +53,13 @@ export async function createRewardFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     } else {
@@ -83,7 +92,13 @@ export async function createRewardFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     }

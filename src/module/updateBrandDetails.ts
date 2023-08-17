@@ -12,6 +12,9 @@ export async function updateBrandDetailsFN({
   ignoreDefault,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  costPayerId,
 }: UpdateBrandDetailsProps) {
   setLoading(true);
 
@@ -50,7 +53,13 @@ export async function updateBrandDetailsFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     } else {
@@ -84,7 +93,13 @@ export async function updateBrandDetailsFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     }

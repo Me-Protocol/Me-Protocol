@@ -12,6 +12,9 @@ export async function integrateRewardFN({
   readTandC,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  costPayerId,
 }: IntegrateRewardProps) {
   setLoading(true);
 
@@ -49,7 +52,13 @@ export async function integrateRewardFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     } else {
@@ -80,7 +89,13 @@ export async function integrateRewardFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     }

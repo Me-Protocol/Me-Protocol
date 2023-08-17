@@ -47,17 +47,40 @@ import { setUpWalletFN } from "../../module/setUpWallet";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
-const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meApiKey }) => {
+const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
+  children,
+  email,
+  meApiKey,
+  reqURL,
+  costPayerId,
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<unknown>([]);
 
   // ============================================= THIS IS THE REGISTER FUNCTION  ============================================================
   async function setUpWallet({ persistLogin }: Omit<SetUpWalletProps, OmittedProps>) {
-    return await setUpWalletFN({ email, setLoading, setError, persistLogin });
+    return await setUpWalletFN({
+      email,
+      setLoading,
+      setError,
+      persistLogin,
+      meApiKey,
+      reqURL,
+      costPayerId,
+    });
   }
   // ================================================================= THIS IS THE REGISTER FUNCTION  =================================================================
   async function meRegister({ brandName, onlinePresence }: Omit<MeRegisterProps, OmittedProps>) {
-    return await meRegisterFN({ email, brandName, onlinePresence, setLoading, setError });
+    return await meRegisterFN({
+      email,
+      brandName,
+      onlinePresence,
+      setLoading,
+      setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
+    });
   }
 
   // ================================================================= THIS IS THE FUNCTION TO QUERY BRAND ID ===============================================================
@@ -66,10 +89,18 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
   }: {
     getOnlyId?: boolean;
   }): Promise<{ brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined> {
-    return await getBrandDetailsFN({ email, setLoading, setError, getOnlyId });
+    return await getBrandDetailsFN({
+      email,
+      setLoading,
+      setError,
+      getOnlyId,
+      meApiKey,
+      reqURL,
+      costPayerId,
+    });
   }
-  // =============================================================== THIS IS THE FUNCTION TO CREATE REWARD ===============================================================
 
+  // =============================================================== THIS IS THE FUNCTION TO CREATE REWARD ===============================================================
   async function createReward({
     name,
     symbol,
@@ -84,6 +115,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       totalSupply,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -112,6 +146,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       notifyMeAmount,
       notifyRewardAmount,
       rOptimal,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -124,6 +161,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       newMainAcctAddress,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -136,6 +176,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       rewardAddress,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -146,6 +189,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       rewardAddress,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -156,6 +202,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       rewardAddress,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -170,6 +219,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       newOptimalValue,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -186,6 +238,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       readTandC,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -202,6 +257,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meAmount,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -236,6 +294,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       brandId,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -252,6 +313,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       spendAmount,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -284,6 +348,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       ignoreDefault,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -306,6 +373,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       ignoreDefault,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -326,6 +396,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       ignoreDefault,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -347,6 +420,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       ignoreDefault,
       setLoading,
       setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -364,6 +440,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       setLoading,
       setError,
       returnAsFormatted,
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 
@@ -386,6 +465,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
         amountOfRewardAtHand,
         expectedAmountOfTargetedReward,
       },
+      meApiKey,
+      reqURL,
+      costPayerId,
     });
   }
 

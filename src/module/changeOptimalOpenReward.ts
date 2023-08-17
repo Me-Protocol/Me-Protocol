@@ -11,6 +11,9 @@ export async function changeOptimalOpenRewardFN({
   newOptimalValue,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  costPayerId,
 }: ChangeOptimalOpenRewardProps) {
   setLoading(true);
 
@@ -46,7 +49,13 @@ export async function changeOptimalOpenRewardFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     } else {
@@ -76,7 +85,13 @@ export async function changeOptimalOpenRewardFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     }

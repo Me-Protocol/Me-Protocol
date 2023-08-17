@@ -11,6 +11,9 @@ export async function meRegisterFN({
   onlinePresence,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  costPayerId,
 }: MeRegisterProps) {
   setLoading(true);
 
@@ -41,7 +44,14 @@ export async function meRegisterFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
+
       return { taskId };
     } else {
       let isConnected = magicWeb3;
@@ -66,7 +76,14 @@ export async function meRegisterFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
+
       return { taskId };
     }
   } catch (error) {

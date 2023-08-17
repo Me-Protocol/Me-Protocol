@@ -18,6 +18,9 @@ export async function setUpOpenRewardFN({
   allowSwaps,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  costPayerId,
 }: SetUpOpenRewardProps) {
   setLoading(true);
 
@@ -61,7 +64,13 @@ export async function setUpOpenRewardFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     } else {
@@ -99,7 +108,13 @@ export async function setUpOpenRewardFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     }

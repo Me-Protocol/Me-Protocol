@@ -11,6 +11,9 @@ export async function spendRewardOnIssuingBrandFN({
   spendAmount,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  costPayerId,
 }: SpendRewardOnIssuingBrandProps) {
   setLoading(true);
 
@@ -48,7 +51,13 @@ export async function spendRewardOnIssuingBrandFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     } else {
@@ -81,7 +90,13 @@ export async function spendRewardOnIssuingBrandFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     }

@@ -15,6 +15,9 @@ export async function swapWithDiffBrandFN({
     expectedAmountOfTargetedReward,
   },
   setError,
+  meApiKey,
+  reqURL,
+  costPayerId,
 }: SwapWithDiffBrandProps) {
   setLoading(true);
   try {
@@ -56,7 +59,13 @@ export async function swapWithDiffBrandFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     } else {
@@ -94,7 +103,13 @@ export async function swapWithDiffBrandFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     }

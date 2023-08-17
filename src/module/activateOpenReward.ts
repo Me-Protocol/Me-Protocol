@@ -10,6 +10,9 @@ export async function activateOpenRewardFN({
   rewardAddress,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  costPayerId,
 }: ActivateOpenRewardProps) {
   setLoading(true);
 
@@ -42,7 +45,13 @@ export async function activateOpenRewardFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     } else {
@@ -69,7 +78,13 @@ export async function activateOpenRewardFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     }

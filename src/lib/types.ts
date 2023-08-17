@@ -5,11 +5,16 @@ export interface MeProtocolProviderProps {
   children: React.ReactNode;
   email: string;
   meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
 }
 
 export interface MeRegisterProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   brandName: string;
   onlinePresence: string;
@@ -18,6 +23,9 @@ export interface MeRegisterProps {
 export interface CreateRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   name: string;
   symbol: string;
@@ -28,6 +36,9 @@ export interface CreateRewardProps {
 export interface ChangeOptimalOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   rewardName: string;
   newOptimalValue: number;
@@ -36,6 +47,9 @@ export interface ChangeOptimalOpenRewardProps {
 export interface SetUpOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   rewardAddress: string;
   rOptimal: number;
@@ -50,6 +64,9 @@ export interface SetUpOpenRewardProps {
 export interface SetUpWalletProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   persistLogin?: boolean;
 }
@@ -57,6 +74,9 @@ export interface SetUpWalletProps {
 export interface ChangeMainAccountProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   newMainAcctAddress: string;
 }
@@ -64,12 +84,18 @@ export interface ChangeMainAccountProps {
 export interface ActivateOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   rewardAddress: string;
 }
 export interface IntegrateRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   rewardAddress: string;
   descriptionLink: string;
@@ -78,6 +104,9 @@ export interface IntegrateRewardProps {
 export interface TopUpOpenRewardLiquidityProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   address: string;
   meAmount: string;
@@ -87,6 +116,9 @@ export interface TopUpOpenRewardLiquidityProps {
 export interface SpendRewardOnIssuingBrandProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   spendAddress: string;
   spendAmount: string;
@@ -105,6 +137,9 @@ export interface EditableRewardConfig {
 export interface UpdateRewardConfigProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   address: string;
   brandId: string;
@@ -121,6 +156,9 @@ export interface EditableRewardDetails {
 export interface UpdateRewardDetailsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   rewardAddress: string;
   brandId: string;
@@ -136,6 +174,9 @@ export interface EditableBrandDetails {
 export interface UpdateBrandDetailsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   brandId: string;
   brandDetails: EditableBrandDetails;
@@ -152,6 +193,9 @@ export interface EditableBrandConfig {
 export interface UpdateGeneralConfigProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   brandId: string;
   generalConfig: EditableBrandConfig;
@@ -170,6 +214,9 @@ export interface EditableConfigForTypeAOpenRewards {
 export interface UpdateOpenRewardConfigProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   rewardAddress: string;
   config: EditableConfigForTypeAOpenRewards;
@@ -179,6 +226,9 @@ export interface UpdateOpenRewardConfigProps {
 export interface ResumeOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   rewardAddress: string;
 }
@@ -186,6 +236,9 @@ export interface ResumeOpenRewardProps {
 export interface PauseOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   rewardAddress: string;
 }
@@ -205,6 +258,9 @@ export interface BrandDetailsProps {
 export interface GetBrandDetailsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   email: string;
   getOnlyId?: boolean;
 }
@@ -212,6 +268,9 @@ export interface GetBrandDetailsProps {
 export interface GetExpectedAmountOfTargetedRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   inputRewardAddress: string;
   outPutRewardAddress: string;
   amount: string;
@@ -228,10 +287,19 @@ export interface SpendingInfo {
 export interface SwapWithDiffBrandProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
   spendInfo: SpendingInfo;
   email: string;
 }
-export type OmittedProps = "setLoading" | "email" | "setError";
+export type OmittedProps =
+  | "setLoading"
+  | "email"
+  | "setError"
+  | "meApiKey"
+  | "reqURL"
+  | "costPayerId";
 export type TaskIdPromise = Promise<{ taskId: string } | undefined>;
 
 export interface AllFnsProps {

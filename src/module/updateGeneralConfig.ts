@@ -12,6 +12,9 @@ export async function updateGeneralConfigFN({
   ignoreDefault,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  costPayerId,
 }: UpdateGeneralConfigProps) {
   setLoading(true);
 
@@ -52,7 +55,13 @@ export async function updateGeneralConfigFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     } else {
@@ -88,7 +97,13 @@ export async function updateGeneralConfigFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(
+        relayInput,
+        signer,
+        meApiKey,
+        reqURL,
+        costPayerId
+      );
 
       return { taskId };
     }
