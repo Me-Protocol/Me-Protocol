@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
-import { brandService, OPEN_REWARD_DIAMOND } from "../call";
+import { brandService, OPEN_REWARD_DIAMOND } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
 import { UpdateBrandDetailsProps } from "../lib/types";
-import { relay } from "../call/services/gelatoRelayer";
+import { relay } from "@developeruche/protocol-core";
 
 export async function updateBrandDetailsFN({
   email,

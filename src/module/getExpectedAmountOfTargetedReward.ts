@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { secretoryService } from "../call/services/secretory";
+import { secretoryService } from "@developeruche/protocol-core";
 import { GetExpectedAmountOfTargetedRewardProps } from "../lib/types";
 
 export async function getExpectedAmountOfTargetedRewardFN({

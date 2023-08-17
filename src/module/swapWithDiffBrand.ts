@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
-import { OPEN_REWARD_DIAMOND, usersServiceWithPermit } from "../call";
+import { OPEN_REWARD_DIAMOND, usersServiceWithPermit } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { relay } from "../call/services/gelatoRelayer";
+import { relay } from "@developeruche/protocol-core";
 import { SwapWithDiffBrandProps } from "../lib/types";
 
 export async function swapWithDiffBrandFN({
