@@ -25,6 +25,8 @@ import {
   SetUpWalletProps,
   OmittedProps,
   DistributeRewardsProps,
+  spendRewardsOnIssuingBrandWithVaultPermitProps,
+  SpendRewardsOnAnotherBrandWithVaultPermitProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -46,6 +48,8 @@ import { updateBrandDetailsFN } from "../../module/updateBrandDetails";
 import { updateGeneralConfigFN } from "../../module/updateGeneralConfig";
 import { setUpWalletFN } from "../../module/setUpWallet";
 import { distributeRewardsFN } from "../../module/distributeRewards";
+import { spendRewardsOnIssuingBrandWithVaultPermitFN } from "../../module/spendRewardsOnIssuingBrandWithVaultPermit";
+import { spendRewardsOnAnotherBrandWithVaultPermitFN } from "../../module/spendRewardsOnAnotherBrandWithVaultPermit";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -487,6 +491,49 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       setLoading,
     });
   }
+  async function spendRewardsOnIssuingBrandWithVaultPermit({
+    reward_address,
+    rewardId,
+    reward_amount,
+  }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) {
+    return await spendRewardsOnIssuingBrandWithVaultPermitFN({
+      email,
+      reward_address,
+      rewardId,
+      reward_amount,
+      setError,
+      setLoading,
+      meApiKey,
+      reqURL,
+      costPayerId,
+    });
+  }
+
+  async function spendRewardsOnAnotherBrandWithVaultPermit({
+    rewardId,
+    spendInfo: {
+      rewardAtHand,
+      targettedReward,
+      amountOfRewardAtHand,
+      expectedAmountOfTargetedReward,
+    },
+  }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) {
+    return await spendRewardsOnAnotherBrandWithVaultPermitFN({
+      email,
+      spendInfo: {
+        rewardAtHand,
+        targettedReward,
+        amountOfRewardAtHand,
+        expectedAmountOfTargetedReward,
+      },
+      rewardId,
+      setError,
+      setLoading,
+      meApiKey,
+      reqURL,
+      costPayerId,
+    });
+  }
 
   return (
     <MeProtocolContext.Provider
@@ -514,6 +561,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
         updateGeneralConfig,
         setUpWallet,
         distributeRewards,
+        spendRewardsOnIssuingBrandWithVaultPermit,
+        spendRewardsOnAnotherBrandWithVaultPermit,
       }}
     >
       {children}

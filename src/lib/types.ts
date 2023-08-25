@@ -43,6 +43,18 @@ export interface DistributeRewardsProps {
   reward_amounts: Array<BigNumber>;
 }
 
+export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  email: string;
+  reward_amount: BigNumber;
+  reward_address: string;
+  rewardId: string;
+  costPayerId?: string;
+}
+
 export interface ChangeOptimalOpenRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
@@ -303,6 +315,17 @@ export interface SwapWithDiffBrandProps {
   spendInfo: SpendingInfo;
   email: string;
 }
+
+export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
+  spendInfo: SpendingInfo;
+  email: string;
+  rewardId: string;
+}
 export type OmittedProps =
   | "setLoading"
   | "email"
@@ -345,6 +368,15 @@ export interface AllFnsProps {
       expectedAmountOfTargetedReward,
     },
   }: Omit<SwapWithDiffBrandProps, OmittedProps>) => TaskIdPromise;
+  spendRewardsOnAnotherBrandWithVaultPermit: ({
+    spendInfo: {
+      rewardAtHand,
+      targettedReward,
+      amountOfRewardAtHand,
+      expectedAmountOfTargetedReward,
+    },
+    rewardId,
+  }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
   changeOptimalOpenReward: ({
     rewardName,
     newOptimalValue,
@@ -429,4 +461,10 @@ export interface AllFnsProps {
     reward_recipient,
     reward_amounts,
   }: Omit<DistributeRewardsProps, OmittedProps>) => Promise<sendTransactionData | undefined>;
+
+  spendRewardsOnIssuingBrandWithVaultPermit: ({
+    reward_address,
+    reward_amount,
+    rewardId,
+  }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
 }
