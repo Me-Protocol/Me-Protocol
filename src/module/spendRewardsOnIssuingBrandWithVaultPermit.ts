@@ -21,6 +21,8 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
   meApiKey,
   costPayerId,
   setLoading,
+  setSpendLoading,
+  setSpendingSteps,
 }: spendRewardsOnIssuingBrandWithVaultPermitProps) {
   setLoading(true);
   try {
@@ -46,12 +48,16 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
       //=============================================== DO THE REST HERE==========================================================
 
+      setSpendLoading(true);
+
       const { data, from, hash, nonce, r, s, v }: sendTransactionData = await spend_reward_magic(
         reward_address,
         reward_amount,
         OPEN_REWARD_DIAMOND,
         signer
       );
+
+      setSpendingSteps(1);
 
       const { data: spendData }: any = await axios.post(
         `${reqURL.replace("/cost/request", "")}/reward/spend`,
@@ -86,6 +92,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
         spender: spendData?.data?.spender,
         value: spendData?.data?.value,
       };
+      setSpendingSteps(2);
 
       //   console.log(vaultParams, "VAULT DATA RESPONSE");
 
@@ -98,6 +105,8 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
         data: datum.data,
         to: OPEN_REWARD_DIAMOND,
       };
+      setSpendingSteps(3);
+
       const { taskId }: { taskId: string } = await relay(
         relayInput,
         signer,
@@ -124,13 +133,18 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       const web3Provider = new ethers.providers.Web3Provider(provider);
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
+
       //=================================================== DO THE REST HERE=====================================================
+      setSpendLoading(true);
+
       const { data, from, hash, nonce, r, s, v }: sendTransactionData = await spend_reward_magic(
         reward_address,
         reward_amount,
         OPEN_REWARD_DIAMOND,
         signer
       );
+
+      setSpendingSteps(1);
 
       const { data: spendData }: any = await axios.post(
         `${reqURL.replace("/cost/request", "")}/reward/spend`,
@@ -165,8 +179,9 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
         spender: spendData?.data?.spender,
         value: spendData?.data?.value,
       };
+      setSpendingSteps(2);
 
-      // console.log(vaultParams, "VAULT DATA RESPONSE");
+      //   console.log(vaultParams, "VAULT DATA RESPONSE");
 
       const datum: any = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithVaultPermit(
         vaultParams
@@ -177,6 +192,8 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
         data: datum.data,
         to: OPEN_REWARD_DIAMOND,
       };
+      setSpendingSteps(3);
+
       const { taskId }: { taskId: string } = await relay(
         relayInput,
         signer,
@@ -192,5 +209,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
     throw error;
   } finally {
     setLoading(false);
+    setSpendLoading(false);
+    setSpendingSteps(0);
   }
 }

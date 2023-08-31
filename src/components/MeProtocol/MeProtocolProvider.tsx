@@ -50,6 +50,7 @@ import { setUpWalletFN } from "../../module/setUpWallet";
 import { distributeRewardsFN } from "../../module/distributeRewards";
 import { spendRewardsOnIssuingBrandWithVaultPermitFN } from "../../module/spendRewardsOnIssuingBrandWithVaultPermit";
 import { spendRewardsOnAnotherBrandWithVaultPermitFN } from "../../module/spendRewardsOnAnotherBrandWithVaultPermit";
+import { logOutFn } from "../../module/logOut";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -61,6 +62,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
   costPayerId,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [spendLoading, setSpendLoading] = useState<boolean>(false);
+  const [spendingSteps, setSpendingSteps] = useState<number>(0);
   const [error, setError] = useState<unknown>([]);
 
   // ============================================= THIS IS THE REGISTER FUNCTION  ============================================================
@@ -503,6 +506,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       reward_amount,
       setError,
       setLoading,
+      setSpendLoading,
+      setSpendingSteps,
       meApiKey,
       reqURL,
       costPayerId,
@@ -528,11 +533,16 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       },
       rewardId,
       setError,
+      setSpendLoading,
+      setSpendingSteps,
       setLoading,
       meApiKey,
       reqURL,
       costPayerId,
     });
+  }
+  async function logOut(clearCache = true) {
+    return await logOutFn(clearCache);
   }
 
   return (
@@ -541,6 +551,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
         error,
         meRegister,
         loading,
+        spendLoading,
+        spendingSteps,
         getBrandDetails,
         createReward,
         setUpOpenReward,
@@ -563,6 +575,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
         distributeRewards,
         spendRewardsOnIssuingBrandWithVaultPermit,
         spendRewardsOnAnotherBrandWithVaultPermit,
+        logOut,
       }}
     >
       {children}

@@ -14,6 +14,8 @@ import { SpendRewardsOnAnotherBrandWithVaultPermitProps } from "../lib/types";
 export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
   email,
   setLoading,
+  setSpendLoading,
+  setSpendingSteps,
   spendInfo: {
     rewardAtHand,
     targettedReward,
@@ -50,7 +52,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       //=============================================== DO THE REST HERE==========================================================
-
+      setSpendLoading(true);
       const spendInfo = {
         rewardAtHand,
         targettedReward,
@@ -71,6 +73,8 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         OPEN_REWARD_DIAMOND,
         signer
       );
+
+      setSpendingSteps(1);
       const { data: spendData }: any = await axios.post(
         `${reqURL.replace("/cost/request", "")}/reward/spend`,
         {
@@ -105,18 +109,22 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         value: spendData?.data?.value,
       };
 
+      setSpendingSteps(2);
+
       const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(
         spendInfo,
         vaultParams
       );
 
-      console.log(datum, "DATUUM");
+      // console.log(datum, "DATUUM");
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: datum.data,
         to: OPEN_REWARD_DIAMOND,
       };
+
+      setSpendingSteps(3);
 
       const { taskId }: { taskId: string } = await relay(
         relayInput,
@@ -126,7 +134,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         costPayerId
       );
 
-      console.log(taskId, "TASK HIGH DEE");
+      // console.log(taskId, "TASK HIGH DEE");
 
       return { taskId };
     } else {
@@ -147,6 +155,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
+      setSpendLoading(true);
       const spendInfo = {
         rewardAtHand,
         targettedReward,
@@ -167,6 +176,8 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         OPEN_REWARD_DIAMOND,
         signer
       );
+
+      setSpendingSteps(1);
       const { data: spendData }: any = await axios.post(
         `${reqURL.replace("/cost/request", "")}/reward/spend`,
         {
@@ -201,12 +212,14 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         value: spendData?.data?.value,
       };
 
+      setSpendingSteps(2);
+
       const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(
         spendInfo,
         vaultParams
       );
 
-      console.log(datum, "DATUUM");
+      // console.log(datum, "DATUUM");
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -214,7 +227,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      console.log(JSON.stringify(relayInput), "LOGGING ALL RELAY INP");
+      setSpendingSteps(3);
 
       const { taskId }: { taskId: string } = await relay(
         relayInput,
@@ -224,7 +237,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         costPayerId
       );
 
-      console.log(taskId, "TASK HIGH DEE");
+      // console.log(taskId, "TASK HIGH DEE");
 
       return { taskId };
     }
@@ -232,6 +245,8 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
     setError(error);
     throw error;
   } finally {
-    setLoading(true);
+    setLoading(false);
+    setSpendLoading(false);
+    setSpendingSteps(0);
   }
 }

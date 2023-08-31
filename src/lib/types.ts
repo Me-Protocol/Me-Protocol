@@ -46,6 +46,8 @@ export interface DistributeRewardsProps {
 export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  setSpendLoading: Dispatch<SetStateAction<boolean>>;
+  setSpendingSteps: Dispatch<SetStateAction<number>>;
   meApiKey: string;
   reqURL: string;
   email: string;
@@ -318,7 +320,9 @@ export interface SwapWithDiffBrandProps {
 
 export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
+  setSpendLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
+  setSpendingSteps: Dispatch<SetStateAction<number>>;
   meApiKey: string;
   reqURL: string;
   costPayerId?: string;
@@ -328,6 +332,8 @@ export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
 }
 export type OmittedProps =
   | "setLoading"
+  | "setSpendLoading"
+  | "setSpendingSteps"
   | "email"
   | "setError"
   | "meApiKey"
@@ -338,6 +344,8 @@ export type TaskIdPromise = Promise<{ taskId: string } | undefined>;
 export interface AllFnsProps {
   error: unknown;
   loading: boolean;
+  spendLoading: boolean;
+  spendingSteps: number;
   updateGeneralConfig: ({
     generalConfig: { enableBountyRewards, enableCais, payIncomingGasFees, payOutgoingGasFees },
     ignoreDefault,
@@ -467,4 +475,5 @@ export interface AllFnsProps {
     reward_amount,
     rewardId,
   }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
+  logOut: (clearCache?: boolean) => Promise<any>;
 }
