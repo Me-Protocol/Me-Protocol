@@ -48,5 +48,6 @@ export async function setUpWalletFN({
     throw error;
   } finally {
     setLoading(false);
+    magic.user.logout();
   }
 }

@@ -60,7 +60,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       setSpendingSteps(1);
 
       const { data: spendData }: any = await axios.post(
-        `${reqURL.replace("/cost/request", "")}/reward/spend`,
+        `${reqURL.replace("/cost/request/in-app", "")}/reward/spend`,
         {
           params: {
             from,
@@ -147,7 +147,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       setSpendingSteps(1);
 
       const { data: spendData }: any = await axios.post(
-        `${reqURL.replace("/cost/request", "")}/reward/spend`,
+        `${reqURL.replace("/cost/request/in-app", "")}/reward/spend`,
         {
           params: {
             from,
@@ -211,5 +211,6 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
     setLoading(false);
     setSpendLoading(false);
     setSpendingSteps(0);
+    magic.user.logout();
   }
 }
