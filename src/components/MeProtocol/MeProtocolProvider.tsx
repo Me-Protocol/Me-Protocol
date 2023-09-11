@@ -27,6 +27,7 @@ import {
   DistributeRewardsProps,
   spendRewardsOnIssuingBrandWithVaultPermitProps,
   SpendRewardsOnAnotherBrandWithVaultPermitProps,
+  AddRewardMagicProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -51,6 +52,8 @@ import { distributeRewardsFN } from "../../module/distributeRewards";
 import { spendRewardsOnIssuingBrandWithVaultPermitFN } from "../../module/spendRewardsOnIssuingBrandWithVaultPermit";
 import { spendRewardsOnAnotherBrandWithVaultPermitFN } from "../../module/spendRewardsOnAnotherBrandWithVaultPermit";
 import { logOutFn } from "../../module/logOut";
+import { addRewardManagerFN } from "../../module/addRewardManager";
+import { removeRewardManagerFN } from "../../module/removeRewardManager";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -541,6 +544,49 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       costPayerId,
     });
   }
+
+  async function addRewardManager({
+    brand_id,
+    // reward_address,
+    reward_manager,
+    role_id,
+  }: Omit<AddRewardMagicProps, OmittedProps>) {
+    return await addRewardManagerFN({
+      email,
+      setError,
+      setSpendLoading,
+      setSpendingSteps,
+      setLoading,
+      meApiKey,
+      reqURL,
+      brand_id,
+      // reward_address,
+      reward_manager,
+      role_id,
+      costPayerId,
+    });
+  }
+  async function removeRewardManager({
+    brand_id,
+    // reward_address,
+    reward_manager,
+    role_id,
+  }: Omit<AddRewardMagicProps, OmittedProps>) {
+    return await removeRewardManagerFN({
+      email,
+      setError,
+      setSpendLoading,
+      setSpendingSteps,
+      setLoading,
+      meApiKey,
+      reqURL,
+      brand_id,
+      // reward_address,
+      reward_manager,
+      role_id,
+      costPayerId,
+    });
+  }
   async function logOut(clearCache = true) {
     return await logOutFn(clearCache);
   }
@@ -575,6 +621,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
         distributeRewards,
         spendRewardsOnIssuingBrandWithVaultPermit,
         spendRewardsOnAnotherBrandWithVaultPermit,
+        addRewardManager,
+        removeRewardManager,
         logOut,
       }}
     >

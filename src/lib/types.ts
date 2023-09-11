@@ -330,6 +330,37 @@ export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
   email: string;
   rewardId: string;
 }
+
+export interface AddRewardMagicProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setSpendLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  setSpendingSteps: Dispatch<SetStateAction<number>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
+  email: string;
+  brand_id: BigNumber;
+  // reward_address: string;
+  reward_manager: string;
+  role_id: BigNumber;
+}
+
+export interface RemoveRewardMagicProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setSpendLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  setSpendingSteps: Dispatch<SetStateAction<number>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
+  email: string;
+  brand_id: BigNumber;
+  // reward_address: string;
+  reward_manager: string;
+  role_id: BigNumber;
+}
+
 export type OmittedProps =
   | "setLoading"
   | "setSpendLoading"
@@ -385,6 +416,18 @@ export interface AllFnsProps {
     },
     rewardId,
   }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
+  addRewardManager: ({
+    brand_id,
+    // reward_address,
+    reward_manager,
+    role_id,
+  }: Omit<AddRewardMagicProps, OmittedProps>) => Promise<any>;
+  removeRewardManager: ({
+    brand_id,
+    // reward_address,
+    reward_manager,
+    role_id,
+  }: Omit<RemoveRewardMagicProps, OmittedProps>) => Promise<any>;
   changeOptimalOpenReward: ({
     rewardName,
     newOptimalValue,
