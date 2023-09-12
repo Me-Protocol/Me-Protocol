@@ -60,7 +60,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       setSpendingSteps(1);
 
       const { data: spendData }: any = await axios.post(
-        `${reqURL.replace("/cost/request/in-app", "")}/reward/spend`,
+        `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
         {
           params: {
             from,
@@ -147,7 +147,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       setSpendingSteps(1);
 
       const { data: spendData }: any = await axios.post(
-        `${reqURL.replace("/cost/request/in-app", "")}/reward/spend`,
+        `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
         {
           params: {
             from,
