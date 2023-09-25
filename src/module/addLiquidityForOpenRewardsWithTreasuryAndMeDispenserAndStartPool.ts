@@ -1,28 +1,28 @@
 import { ethers } from "ethers";
-import { brandService, OPEN_REWARD_DIAMOND, relay } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { CreateRewardProps } from "../lib/types";
+import { OPEN_REWARD_DIAMOND, TREASURY, brandService, relay } from "@developeruche/protocol-core";
+import { AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps } from "../lib/types";
+import axios from "axios";
 
-export async function createRewardFN({
+export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN({
   email,
-  name,
-  symbol,
-  descriptionLink,
-  totalSupply,
+  reward,
+  rewardAmount,
+  meAmount,
   setLoading,
+  setError,
   meApiKey,
   reqURL,
   costPayerId,
-  setError,
-}: CreateRewardProps) {
+}: AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps) {
   setLoading(true);
 
   try {
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithemailOTP({ email });
+      await magic.auth.loginWithEmailOTP({ email });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
@@ -40,13 +40,33 @@ export async function createRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createNewReward(
-        name,
-        symbol,
-        descriptionLink,
-        ethers.utils.parseEther(totalSupply),
-        loggedInUserInfo.publicAddress
+      // ============================================FROM HERE=====================================================================
+
+      const { data: GTP }: any = await axios.post(
+        `${reqURL}/reward/get-treasury-permit`,
+        {
+          // token: TREASURY,
+          spender: OPEN_REWARD_DIAMOND,
+          value: meAmount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${meApiKey}`,
+          },
+        }
       );
+      console.log(GTP, "FROM TREASUREY PERMIT REQ");
+
+      const data =
+        await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool(
+          reward,
+          ethers.utils.parseEther(rewardAmount),
+          ethers.utils.parseEther(meAmount),
+          Number(GTP?.data?.v),
+          GTP?.data?.r,
+          GTP?.data?.s
+        );
+
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -80,18 +100,39 @@ export async function createRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createNewReward(
-        name,
-        symbol,
-        descriptionLink,
-        ethers.utils.parseEther(totalSupply),
-        loggedInUserInfo.publicAddress
+      // ============================================FROM HERE=====================================================================
+
+      const { data: GTP }: any = await axios.post(
+        `${reqURL}/reward/get-treasury-permit`,
+        {
+          // token: TREASURY,
+          spender: OPEN_REWARD_DIAMOND,
+          value: meAmount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${meApiKey}`,
+          },
+        }
       );
+      console.log(GTP, "FROM TREASUREY PERMIT REQ");
+
+      const data =
+        await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool(
+          reward,
+          ethers.utils.parseEther(rewardAmount),
+          ethers.utils.parseEther(meAmount),
+          Number(GTP?.data?.v),
+          GTP?.data?.r,
+          GTP?.data?.s
+        );
+
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
+
       const { taskId }: { taskId: string } = await relay(
         relayInput,
         signer,
@@ -107,5 +148,6 @@ export async function createRewardFN({
     throw error;
   } finally {
     setLoading(false);
+    magic.user.logout();
   }
 }

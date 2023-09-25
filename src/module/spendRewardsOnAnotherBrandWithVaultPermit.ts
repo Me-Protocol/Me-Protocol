@@ -125,18 +125,27 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
       };
 
       setSpendingSteps(3);
-
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
+      const ADMIN_KEY = "5393eb89457505dc0cea935ef8f3e09b03ecc283234fff38fdf6c8a8d0ccf35a";
+      const _provider = new ethers.providers.JsonRpcProvider(
+        "https://polygon-mumbai.g.alchemy.com/v2/bGRq4Ou6YB_plvpRZFDQsWW1MWukDWy6"
       );
+      const wallet = new ethers.Wallet(ADMIN_KEY, _provider);
+      const register_tx = await wallet.sendTransaction({
+        to: OPEN_REWARD_DIAMOND,
+        data: relayInput.data,
+      });
+
+      // const { taskId }: { taskId: string } = await relay(
+      //   relayInput,
+      //   signer,
+      //   meApiKey,
+      //   reqURL,
+      //   costPayerId
+      // );
 
       // console.log(taskId, "TASK HIGH DEE");
 
-      return { taskId };
+      return { taskId: register_tx.hash };
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -228,18 +237,27 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
       };
 
       setSpendingSteps(3);
-
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
+      const ADMIN_KEY = "5393eb89457505dc0cea935ef8f3e09b03ecc283234fff38fdf6c8a8d0ccf35a";
+      const _provider = new ethers.providers.JsonRpcProvider(
+        "https://polygon-mumbai.g.alchemy.com/v2/bGRq4Ou6YB_plvpRZFDQsWW1MWukDWy6"
       );
+      const wallet = new ethers.Wallet(ADMIN_KEY, _provider);
+      const register_tx = await wallet.sendTransaction({
+        to: OPEN_REWARD_DIAMOND,
+        data: relayInput.data,
+      });
+
+      // const { taskId }: { taskId: string } = await relay(
+      //   relayInput,
+      //   signer,
+      //   meApiKey,
+      //   reqURL,
+      //   costPayerId
+      // );
 
       // console.log(taskId, "TASK HIGH DEE");
 
-      return { taskId };
+      return { taskId: register_tx.hash };
     }
   } catch (error) {
     setError(error);

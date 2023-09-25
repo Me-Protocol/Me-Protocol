@@ -1,5 +1,5 @@
 import { sendTransactionData } from "@developeruche/runtime-sdk/dist/utils/interfaces";
-import { BigNumber, BigNumberish } from "ethers";
+import { BigNumber, BigNumberish, Wallet } from "ethers";
 import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
@@ -10,16 +10,16 @@ export interface MeProtocolProviderProps {
   costPayerId?: string;
 }
 
-export interface MeRegisterProps {
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  setError: Dispatch<SetStateAction<unknown>>;
-  meApiKey: string;
-  reqURL: string;
-  costPayerId?: string;
-  email: string;
-  brandName: string;
-  onlinePresence: string;
-}
+// export interface MeRegisterProps {
+//   setLoading: Dispatch<SetStateAction<boolean>>;
+//   setError: Dispatch<SetStateAction<unknown>>;
+//   meApiKey: string;
+//   reqURL: string;
+//   costPayerId?: string;
+//   email: string;
+//   brandName: string;
+//   onlinePresence: string;
+// }
 
 export interface CreateRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -32,6 +32,43 @@ export interface CreateRewardProps {
   symbol: string;
   descriptionLink: string;
   totalSupply: string;
+}
+
+export interface OnBoardRewardsProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
+  email: string;
+  reward_address: string;
+  brand_id: BigNumber;
+}
+
+export interface DeployRewardAndPoolProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
+  email: string;
+  brandId: string;
+  name: string;
+  symbol: string;
+  descriptionLink: string;
+  totalSupply: number | BigNumber;
+}
+
+export interface AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  costPayerId?: string;
+  email: string;
+  reward: string;
+  rewardAmount: string;
+  meAmount: string;
 }
 
 export interface DistributeRewardsProps {
@@ -428,6 +465,10 @@ export interface AllFnsProps {
     reward_manager,
     role_id,
   }: Omit<RemoveRewardMagicProps, OmittedProps>) => Promise<any>;
+  onBoardRewards: ({
+    brand_id,
+    reward_address,
+  }: Omit<OnBoardRewardsProps, OmittedProps>) => Promise<any>;
   changeOptimalOpenReward: ({
     rewardName,
     newOptimalValue,
@@ -501,12 +542,27 @@ export interface AllFnsProps {
     descriptionLink,
     totalSupply,
   }: Omit<CreateRewardProps, OmittedProps>) => TaskIdPromise;
+  deployRewardAndPool: ({
+    name,
+    symbol,
+    descriptionLink,
+    totalSupply,
+    brandId,
+  }: Omit<DeployRewardAndPoolProps, OmittedProps>) => TaskIdPromise;
+  addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool: ({
+    meAmount,
+    reward,
+    rewardAmount,
+  }: Omit<
+    AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps,
+    OmittedProps
+  >) => TaskIdPromise;
   getBrandDetails: ({
     getOnlyId,
   }: Omit<GetBrandDetailsProps, OmittedProps>) => Promise<
     { brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined
   >;
-  meRegister: ({ brandName, onlinePresence }: Omit<MeRegisterProps, OmittedProps>) => TaskIdPromise;
+  // meRegister: ({ brandName, onlinePresence }: Omit<MeRegisterProps, OmittedProps>) => TaskIdPromise;
   distributeRewards: ({
     reward_address,
     reward_recipient,

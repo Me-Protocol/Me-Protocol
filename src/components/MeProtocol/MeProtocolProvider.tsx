@@ -1,7 +1,6 @@
 import React, { FC, createContext, useState } from "react";
-import { meRegisterFN } from "../../module/meRegister";
 import {
-  MeRegisterProps,
+  // MeRegisterProps,
   MeProtocolProviderProps,
   BrandDetailsProps,
   CreateRewardProps,
@@ -28,6 +27,9 @@ import {
   spendRewardsOnIssuingBrandWithVaultPermitProps,
   SpendRewardsOnAnotherBrandWithVaultPermitProps,
   AddRewardMagicProps,
+  DeployRewardAndPoolProps,
+  AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps,
+  OnBoardRewardsProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -54,6 +56,9 @@ import { spendRewardsOnAnotherBrandWithVaultPermitFN } from "../../module/spendR
 import { logOutFn } from "../../module/logOut";
 import { addRewardManagerFN } from "../../module/addRewardManager";
 import { removeRewardManagerFN } from "../../module/removeRewardManager";
+import { deployRewardAndPoolFN } from "../../module/deployRewardAndPool";
+import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool";
+import { onBoardRewardsFN } from "../../module/onboardReward";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -82,18 +87,18 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     });
   }
   // ================================================================= THIS IS THE REGISTER FUNCTION  =================================================================
-  async function meRegister({ brandName, onlinePresence }: Omit<MeRegisterProps, OmittedProps>) {
-    return await meRegisterFN({
-      email,
-      brandName,
-      onlinePresence,
-      setLoading,
-      setError,
-      meApiKey,
-      reqURL,
-      costPayerId,
-    });
-  }
+  // async function meRegister({ brandName, onlinePresence }: Omit<MeRegisterProps, OmittedProps>) {
+  //   return await meRegisterFN({
+  //     email,
+  //     brandName,
+  //     onlinePresence,
+  //     setLoading,
+  //     setError,
+  //     meApiKey,
+  //     reqURL,
+  //     costPayerId,
+  //   });
+  // }
 
   // ================================================================= THIS IS THE FUNCTION TO QUERY BRAND ID ===============================================================
   async function getBrandDetails({
@@ -587,6 +592,59 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       costPayerId,
     });
   }
+  async function onBoardRewards({
+    brand_id,
+    reward_address,
+  }: Omit<OnBoardRewardsProps, OmittedProps>) {
+    return await onBoardRewardsFN({
+      email,
+      setError,
+      setLoading,
+      meApiKey,
+      reqURL,
+      costPayerId,
+      brand_id,
+      reward_address,
+    });
+  }
+  async function deployRewardAndPool({
+    brandId,
+    descriptionLink,
+    name,
+    symbol,
+    totalSupply,
+  }: Omit<DeployRewardAndPoolProps, OmittedProps>) {
+    return await deployRewardAndPoolFN({
+      email,
+      setError,
+      setLoading,
+      meApiKey,
+      reqURL,
+      brandId,
+      descriptionLink,
+      name,
+      symbol,
+      totalSupply,
+      costPayerId,
+    });
+  }
+  async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool({
+    meAmount,
+    reward,
+    rewardAmount,
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) {
+    return await addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN({
+      email,
+      setError,
+      setLoading,
+      meApiKey,
+      reqURL,
+      costPayerId,
+      meAmount,
+      reward,
+      rewardAmount,
+    });
+  }
   async function logOut(clearCache = true) {
     return await logOutFn(clearCache);
   }
@@ -595,10 +653,10 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     <MeProtocolContext.Provider
       value={{
         error,
-        meRegister,
         loading,
         spendLoading,
         spendingSteps,
+        // meRegister,
         getBrandDetails,
         createReward,
         setUpOpenReward,
@@ -623,6 +681,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
         spendRewardsOnAnotherBrandWithVaultPermit,
         addRewardManager,
         removeRewardManager,
+        deployRewardAndPool,
+        addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool,
+        onBoardRewards,
         logOut,
       }}
     >
