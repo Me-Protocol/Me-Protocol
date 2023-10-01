@@ -147,6 +147,6 @@ export async function onBoardRewardsFN({
     throw error;
   } finally {
     setLoading(false);
-    magic.user.logout();
+    // magic.user.logout();
   }
 }
