@@ -17,6 +17,7 @@ export async function addRewardManagerFN({
   setError,
   meApiKey,
   reqURL,
+  persist,
 }: AddRewardMagicProps) {
   setLoading(true);
   try {
@@ -136,6 +137,8 @@ export async function addRewardManagerFN({
     setLoading(false);
     setSpendLoading(false);
     setSpendingSteps(0);
-    magic.user.logout();
+    if (!persist) {
+      magic.user.logout();
+    }
   }
 }

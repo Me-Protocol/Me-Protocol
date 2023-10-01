@@ -1,19 +1,10 @@
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { OPEN_REWARD_DIAMOND, TREASURY, brandService, relay } from "@developeruche/protocol-core";
-import {
-  AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps,
-  OnBoardRewardsProps,
-} from "../lib/types";
+import { OnBoardRewardsProps } from "../lib/types";
 import axios from "axios";
 
-import {
-  onboard_brand_magic,
-  onboard_reward_magic,
-  sendTransactionData,
-} from "@developeruche/runtime-sdk";
-import { Dispatch, SetStateAction } from "react";
+import { onboard_reward_magic, sendTransactionData } from "@developeruche/runtime-sdk";
 
 export async function onBoardRewardsFN({
   email,
@@ -23,7 +14,7 @@ export async function onBoardRewardsFN({
   setError,
   meApiKey,
   reqURL,
-  costPayerId,
+  persist,
 }: OnBoardRewardsProps) {
   setLoading(true);
 
@@ -147,6 +138,8 @@ export async function onBoardRewardsFN({
     throw error;
   } finally {
     setLoading(false);
-    // magic.user.logout();
+    if (!persist) {
+      magic.user.logout();
+    }
   }
 }

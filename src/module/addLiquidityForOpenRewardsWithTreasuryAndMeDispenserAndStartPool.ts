@@ -15,6 +15,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
   meApiKey,
   reqURL,
   costPayerId,
+  persist,
 }: AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps) {
   setLoading(true);
 
@@ -148,6 +149,8 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
     throw error;
   } finally {
     setLoading(false);
-    magic.user.logout();
+    if (!persist) {
+      magic.user.logout();
+    }
   }
 }

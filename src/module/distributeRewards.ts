@@ -12,6 +12,7 @@ export async function distributeRewardsFN({
   reward_amounts,
   setError,
   setLoading,
+  persist,
 }: DistributeRewardsProps) {
   setLoading(true);
   try {
@@ -67,5 +68,8 @@ export async function distributeRewardsFN({
     throw error;
   } finally {
     setLoading(false);
+    if (!persist) {
+      magic.user.logout();
+    }
   }
 }

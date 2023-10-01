@@ -75,15 +75,15 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
   const [error, setError] = useState<unknown>([]);
 
   // ============================================= THIS IS THE REGISTER FUNCTION  ============================================================
-  async function setUpWallet({ persistLogin }: Omit<SetUpWalletProps, OmittedProps>) {
+  async function setUpWallet({ persist }: Omit<SetUpWalletProps, OmittedProps>) {
     return await setUpWalletFN({
       email,
       setLoading,
       setError,
-      persistLogin,
       meApiKey,
       reqURL,
       costPayerId,
+      persist,
     });
   }
   // ================================================================= THIS IS THE REGISTER FUNCTION  =================================================================
@@ -492,6 +492,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     reward_address,
     reward_amounts,
     reward_recipient,
+    persist,
   }: Omit<DistributeRewardsProps, OmittedProps>) {
     return await distributeRewardsFN({
       email,
@@ -500,6 +501,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       reward_recipient,
       setError,
       setLoading,
+      persist,
     });
   }
   async function spendRewardsOnIssuingBrandWithVaultPermit({
@@ -555,6 +557,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     // reward_address,
     reward_manager,
     role_id,
+    persist,
   }: Omit<AddRewardMagicProps, OmittedProps>) {
     return await addRewardManagerFN({
       email,
@@ -569,6 +572,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       reward_manager,
       role_id,
       costPayerId,
+      persist,
     });
   }
   async function removeRewardManager({
@@ -576,6 +580,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     // reward_address,
     reward_manager,
     role_id,
+    persist,
   }: Omit<AddRewardMagicProps, OmittedProps>) {
     return await removeRewardManagerFN({
       email,
@@ -590,11 +595,13 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       reward_manager,
       role_id,
       costPayerId,
+      persist,
     });
   }
   async function onBoardRewards({
     brand_id,
     reward_address,
+    persist,
   }: Omit<OnBoardRewardsProps, OmittedProps>) {
     return await onBoardRewardsFN({
       email,
@@ -602,9 +609,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       setLoading,
       meApiKey,
       reqURL,
-      costPayerId,
       brand_id,
       reward_address,
+      persist,
     });
   }
   async function deployRewardAndPool({
@@ -613,6 +620,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     name,
     symbol,
     totalSupply,
+    persist,
   }: Omit<DeployRewardAndPoolProps, OmittedProps>) {
     return await deployRewardAndPoolFN({
       email,
@@ -626,12 +634,14 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       symbol,
       totalSupply,
       costPayerId,
+      persist,
     });
   }
   async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool({
     meAmount,
     reward,
     rewardAmount,
+    persist,
   }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) {
     return await addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN({
       email,
@@ -643,6 +653,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       meAmount,
       reward,
       rewardAmount,
+      persist,
     });
   }
   async function logOut(clearCache = true) {

@@ -2,12 +2,7 @@ import { magic } from "../lib/magic";
 import { SetUpWalletProps } from "../lib/types";
 import { createWeb3 } from "../lib/web3";
 
-export async function setUpWalletFN({
-  persistLogin,
-  email,
-  setLoading,
-  setError,
-}: SetUpWalletProps) {
+export async function setUpWalletFN({ email, setLoading, setError, persist }: SetUpWalletProps) {
   setLoading(true);
 
   try {
@@ -26,6 +21,7 @@ export async function setUpWalletFN({
         return { publicAddress: "no accounts found" };
       }
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
+
       return { publicAddress: loggedInUserInfo.publicAddress };
     } else {
       let isConnected = magicWeb3;
@@ -48,6 +44,8 @@ export async function setUpWalletFN({
     throw error;
   } finally {
     setLoading(false);
-    magic.user.logout();
+    if (!persist) {
+      magic.user.logout();
+    }
   }
 }

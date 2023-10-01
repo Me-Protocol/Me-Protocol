@@ -39,10 +39,11 @@ export interface OnBoardRewardsProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
-  costPayerId?: string;
+
   email: string;
   reward_address: string;
   brand_id: BigNumber;
+  persist: boolean;
 }
 
 export interface DeployRewardAndPoolProps {
@@ -57,6 +58,7 @@ export interface DeployRewardAndPoolProps {
   symbol: string;
   descriptionLink: string;
   totalSupply: number | BigNumber;
+  persist: boolean;
 }
 
 export interface AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps {
@@ -69,6 +71,7 @@ export interface AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoo
   reward: string;
   rewardAmount: string;
   meAmount: string;
+  persist: boolean;
 }
 
 export interface DistributeRewardsProps {
@@ -78,6 +81,7 @@ export interface DistributeRewardsProps {
   reward_address: string;
   reward_recipient: Array<string>;
   reward_amounts: Array<BigNumber>;
+  persist: boolean;
 }
 
 export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
@@ -129,7 +133,7 @@ export interface SetUpWalletProps {
   reqURL: string;
   costPayerId?: string;
   email: string;
-  persistLogin?: boolean;
+  persist: boolean;
 }
 
 export interface ChangeMainAccountProps {
@@ -381,6 +385,7 @@ export interface AddRewardMagicProps {
   // reward_address: string;
   reward_manager: string;
   role_id: BigNumber;
+  persist: boolean;
 }
 
 export interface RemoveRewardMagicProps {
@@ -396,6 +401,7 @@ export interface RemoveRewardMagicProps {
   // reward_address: string;
   reward_manager: string;
   role_id: BigNumber;
+  persist: boolean;
 }
 
 export type OmittedProps =
@@ -458,16 +464,19 @@ export interface AllFnsProps {
     // reward_address,
     reward_manager,
     role_id,
+    persist,
   }: Omit<AddRewardMagicProps, OmittedProps>) => Promise<any>;
   removeRewardManager: ({
     brand_id,
     // reward_address,
     reward_manager,
     role_id,
+    persist,
   }: Omit<RemoveRewardMagicProps, OmittedProps>) => Promise<any>;
   onBoardRewards: ({
     brand_id,
     reward_address,
+    persist,
   }: Omit<OnBoardRewardsProps, OmittedProps>) => Promise<any>;
   changeOptimalOpenReward: ({
     rewardName,
@@ -531,7 +540,7 @@ export interface AllFnsProps {
   }: Omit<SetUpOpenRewardProps, OmittedProps>) => TaskIdPromise;
 
   setUpWallet: ({
-    persistLogin,
+    persist,
   }: Omit<SetUpWalletProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
   changeMainAccount: ({
     newMainAcctAddress,
@@ -548,11 +557,13 @@ export interface AllFnsProps {
     descriptionLink,
     totalSupply,
     brandId,
+    persist,
   }: Omit<DeployRewardAndPoolProps, OmittedProps>) => TaskIdPromise;
   addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool: ({
     meAmount,
     reward,
     rewardAmount,
+    persist,
   }: Omit<
     AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps,
     OmittedProps
@@ -567,6 +578,7 @@ export interface AllFnsProps {
     reward_address,
     reward_recipient,
     reward_amounts,
+    persist,
   }: Omit<DistributeRewardsProps, OmittedProps>) => Promise<sendTransactionData | undefined>;
 
   spendRewardsOnIssuingBrandWithVaultPermit: ({

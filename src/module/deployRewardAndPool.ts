@@ -17,6 +17,7 @@ export async function deployRewardAndPoolFN({
   meApiKey,
   reqURL,
   costPayerId,
+  persist,
 }: DeployRewardAndPoolProps) {
   setLoading(true);
 
@@ -118,6 +119,8 @@ export async function deployRewardAndPoolFN({
     throw error;
   } finally {
     setLoading(false);
-    magic.user.logout();
+    if (!persist) {
+      magic.user.logout();
+    }
   }
 }
