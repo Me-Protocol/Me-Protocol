@@ -619,7 +619,14 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     descriptionLink,
     name,
     symbol,
-    totalSupply,
+    totalSupplyVault,
+    totalSupplyTreasury,
+    rOptimal,
+    maximumRLimit,
+    minimumRewardAmountForConversation,
+    minimumMeAmountForConversation,
+    notifyRewardAmount,
+    notifyMeAmount,
     persist,
   }: Omit<DeployRewardAndPoolProps, OmittedProps>) {
     return await deployRewardAndPoolFN({
@@ -632,8 +639,15 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       descriptionLink,
       name,
       symbol,
-      totalSupply,
+      totalSupplyVault,
+      totalSupplyTreasury,
       costPayerId,
+      rOptimal,
+      maximumRLimit,
+      minimumRewardAmountForConversation,
+      minimumMeAmountForConversation,
+      notifyRewardAmount,
+      notifyMeAmount,
       persist,
     });
   }

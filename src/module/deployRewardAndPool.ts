@@ -11,12 +11,19 @@ export async function deployRewardAndPoolFN({
   name,
   symbol,
   descriptionLink,
-  totalSupply,
+  totalSupplyVault,
+  totalSupplyTreasury,
   setLoading,
   setError,
   meApiKey,
   reqURL,
   costPayerId,
+  rOptimal,
+  maximumRLimit,
+  minimumRewardAmountForConversation,
+  minimumMeAmountForConversation,
+  notifyRewardAmount,
+  notifyMeAmount,
   persist,
 }: DeployRewardAndPoolProps) {
   setLoading(true);
@@ -44,14 +51,20 @@ export async function deployRewardAndPoolFN({
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       // ============================================FROM HERE=====================================================================
-
       const data = await brandService.createANewRewardWithPermitAndDeployPool(
         brandId,
         name,
         symbol,
         descriptionLink,
-        totalSupply,
-        OPEN_REWARD_DIAMOND
+        totalSupplyVault,
+        totalSupplyTreasury,
+        // OPEN_REWARD_DIAMOND,
+        rOptimal,
+        maximumRLimit,
+        minimumRewardAmountForConversation,
+        minimumMeAmountForConversation,
+        notifyRewardAmount,
+        notifyMeAmount
       );
 
       const relayInput = {
@@ -94,8 +107,15 @@ export async function deployRewardAndPoolFN({
         name,
         symbol,
         descriptionLink,
-        totalSupply,
-        OPEN_REWARD_DIAMOND
+        totalSupplyVault,
+        totalSupplyTreasury,
+        // OPEN_REWARD_DIAMOND,
+        rOptimal,
+        maximumRLimit,
+        minimumRewardAmountForConversation,
+        minimumMeAmountForConversation,
+        notifyRewardAmount,
+        notifyMeAmount
       );
 
       const relayInput = {

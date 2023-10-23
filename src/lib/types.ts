@@ -57,7 +57,14 @@ export interface DeployRewardAndPoolProps {
   name: string;
   symbol: string;
   descriptionLink: string;
-  totalSupply: number | BigNumber;
+  totalSupplyVault: number | BigNumber;
+  totalSupplyTreasury: number | BigNumber;
+  rOptimal: number | BigNumber;
+  maximumRLimit: number | BigNumber;
+  minimumRewardAmountForConversation: number | BigNumber;
+  minimumMeAmountForConversation: number | BigNumber;
+  notifyRewardAmount: number | BigNumber;
+  notifyMeAmount: number | BigNumber;
   persist: boolean;
 }
 
@@ -555,8 +562,15 @@ export interface AllFnsProps {
     name,
     symbol,
     descriptionLink,
-    totalSupply,
+    totalSupplyVault,
+    totalSupplyTreasury,
     brandId,
+    rOptimal,
+    maximumRLimit,
+    minimumRewardAmountForConversation,
+    minimumMeAmountForConversation,
+    notifyRewardAmount,
+    notifyMeAmount,
     persist,
   }: Omit<DeployRewardAndPoolProps, OmittedProps>) => TaskIdPromise;
   addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool: ({
