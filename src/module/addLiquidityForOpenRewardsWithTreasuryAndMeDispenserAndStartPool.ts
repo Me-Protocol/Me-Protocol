@@ -1,7 +1,13 @@
 import { ethers } from "ethers";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { OPEN_REWARD_DIAMOND, TREASURY, brandService, relay } from "@developeruche/protocol-core";
+import {
+  OPEN_REWARD_DIAMOND,
+  TREASURY,
+  brandService,
+  defaultProvider,
+  relay,
+} from "@developeruche/protocol-core";
 import { AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps } from "../lib/types";
 import axios from "axios";
 
@@ -73,6 +79,16 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
+      // const wallet = new ethers.Wallet(
+      //   "5393eb89457505dc0cea935ef8f3e09b03ecc283234fff38fdf6c8a8d0ccf35a",
+      //   defaultProvider
+      // );
+      // const hash = await wallet.sendTransaction({
+      //   to: OPEN_REWARD_DIAMOND,
+      //   data: relayInput.data + "b6933fa10F5179FA2de6C8B1D0C5B0A9A5B87327",
+      // });
+
+      // 0xb6933fa10F5179FA2de6C8B1D0C5B0A9A5B87327;
 
       const { taskId }: { taskId: string } = await relay(
         relayInput,
@@ -133,6 +149,19 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
+      // const wallet = new ethers.Wallet(
+      //   "5393eb89457505dc0cea935ef8f3e09b03ecc283234fff38fdf6c8a8d0ccf35a",
+      //   defaultProvider
+      // );
+      // const hash = await wallet.sendTransaction({
+      //   to: OPEN_REWARD_DIAMOND,
+      //   data: relayInput.data + "b6933fa10F5179FA2de6C8B1D0C5B0A9A5B87327",
+      // });
+
+      // 0xb6933fa10F5179FA2de6C8B1D0C5B0A9A5B87327
+      // 0xb6933fa10F5179FA2de6C8B1D0C5B0A9A5B87327;
+
+      // 0xb6933fa10F5179FA2de6C8B1D0C5B0A9A5B87327;
 
       const { taskId }: { taskId: string } = await relay(
         relayInput,

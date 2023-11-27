@@ -7,7 +7,11 @@ import {
   relay,
   usersServiceWithPermit,
 } from "@developeruche/protocol-core";
-import { sendTransactionData, spend_reward_magic } from "@developeruche/runtime-sdk";
+import {
+  same_brand_reward_redeption_magic,
+  sendTransactionData,
+  spend_reward_magic,
+} from "@developeruche/runtime-sdk";
 import axios from "axios";
 import { spendRewardsOnIssuingBrandWithVaultPermitProps } from "../lib/types";
 
@@ -50,12 +54,10 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
 
       setSpendLoading(true);
 
-      const { data, from, hash, nonce, r, s, v }: sendTransactionData = await spend_reward_magic(
-        reward_address,
-        reward_amount,
-        OPEN_REWARD_DIAMOND,
-        signer
-      );
+      const { data, from, hash, nonce, r, s, v }: sendTransactionData =
+        await same_brand_reward_redeption_magic(reward_address, reward_amount, signer);
+
+      // console.log(data, from, hash, nonce, r, s, v, "from rsv");
 
       setSpendingSteps(1);
 
@@ -80,42 +82,9 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
         }
       );
 
-      let vaultParams: VaultPermitParams = {
-        owner: spendData?.data?.owner,
-        count: spendData?.data?.count,
-        globalHash: spendData?.data?.globalHash,
-        prefixedHash: spendData?.data?.prefixedHash,
-        r: spendData?.data?.sig?.r,
-        s: spendData?.data?.sig?.s,
-        v: spendData?.data?.sig?.v,
-        reward: spendData?.data?.reward,
-        spender: spendData?.data?.spender,
-        value: spendData?.data?.value,
-      };
-      setSpendingSteps(2);
+      // console.log(spendData, "Spend data from the  SDK");
 
-      //   console.log(vaultParams, "VAULT DATA RESPONSE");
-
-      const datum: any = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithVaultPermit(
-        vaultParams
-      );
-
-      const relayInput = {
-        from: loggedInUserInfo.publicAddress,
-        data: datum.data,
-        to: OPEN_REWARD_DIAMOND,
-      };
-      setSpendingSteps(3);
-
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
-
-      return { taskId };
+      return { taskId: hash };
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -137,12 +106,10 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       //=================================================== DO THE REST HERE=====================================================
       setSpendLoading(true);
 
-      const { data, from, hash, nonce, r, s, v }: sendTransactionData = await spend_reward_magic(
-        reward_address,
-        reward_amount,
-        OPEN_REWARD_DIAMOND,
-        signer
-      );
+      const { data, from, hash, nonce, r, s, v }: sendTransactionData =
+        await same_brand_reward_redeption_magic(reward_address, reward_amount, signer);
+
+      // console.log(data, from, hash, nonce, r, s, v, "from rsv");
 
       setSpendingSteps(1);
 
@@ -167,42 +134,9 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
         }
       );
 
-      let vaultParams: VaultPermitParams = {
-        owner: spendData?.data?.owner,
-        count: spendData?.data?.count,
-        globalHash: spendData?.data?.globalHash,
-        prefixedHash: spendData?.data?.prefixedHash,
-        r: spendData?.data?.sig?.r,
-        s: spendData?.data?.sig?.s,
-        v: spendData?.data?.sig?.v,
-        reward: spendData?.data?.reward,
-        spender: spendData?.data?.spender,
-        value: spendData?.data?.value,
-      };
-      setSpendingSteps(2);
+      // console.log(spendData, "Spend data from the  SDK");
 
-      //   console.log(vaultParams, "VAULT DATA RESPONSE");
-
-      const datum: any = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithVaultPermit(
-        vaultParams
-      );
-
-      const relayInput = {
-        from: loggedInUserInfo.publicAddress,
-        data: datum.data,
-        to: OPEN_REWARD_DIAMOND,
-      };
-      setSpendingSteps(3);
-
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
-
-      return { taskId };
+      return { taskId: hash };
     }
   } catch (error) {
     setError(error);
