@@ -51,15 +51,14 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
       //=============================================== DO THE REST HERE==========================================================
-
       setSpendLoading(true);
+      setSpendingSteps(1);
 
       const { data, from, hash, nonce, r, s, v }: sendTransactionData =
         await same_brand_reward_redeption_magic(reward_address, reward_amount, signer);
 
       // console.log(data, from, hash, nonce, r, s, v, "from rsv");
-
-      setSpendingSteps(1);
+      setSpendingSteps(2);
 
       const { data: spendData }: any = await axios.post(
         `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
@@ -81,6 +80,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
           },
         }
       );
+      setSpendingSteps(3);
 
       // console.log(spendData, "Spend data from the  SDK");
 
@@ -105,13 +105,13 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
 
       //=================================================== DO THE REST HERE=====================================================
       setSpendLoading(true);
+      setSpendingSteps(1);
 
       const { data, from, hash, nonce, r, s, v }: sendTransactionData =
         await same_brand_reward_redeption_magic(reward_address, reward_amount, signer);
 
       // console.log(data, from, hash, nonce, r, s, v, "from rsv");
-
-      setSpendingSteps(1);
+      setSpendingSteps(2);
 
       const { data: spendData }: any = await axios.post(
         `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
@@ -133,6 +133,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
           },
         }
       );
+      setSpendingSteps(3);
 
       // console.log(spendData, "Spend data from the  SDK");
 
