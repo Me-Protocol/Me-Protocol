@@ -59,6 +59,9 @@ import { removeRewardManagerFN } from "../../module/removeRewardManager";
 import { deployRewardAndPoolFN } from "../../module/deployRewardAndPool";
 import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool";
 import { onBoardRewardsFN } from "../../module/onboardReward";
+import { createMoreRewardToTreasuryFN } from "../../module/createMoreRewardToTreasury";
+import { changeROptimalFN } from "../../module/changeROptimal";
+import { BigNumber } from "ethers";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -670,6 +673,38 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       persist,
     });
   }
+
+  // ========================================= THIS IS THE FUNCTION TO UpDaTE OPEN REWRAD ==========================================================
+  async function createMoreRewardToTreasury({
+    rewardAddress,
+    amount,
+  }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) {
+    return await createMoreRewardToTreasuryFN({
+      email,
+      rewardAddress,
+      setLoading,
+      setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
+      amount,
+    });
+  }
+  async function changeROptimal({
+    rewardAddress,
+    newROptimal,
+  }: Omit<PauseOpenRewardProps & { newROptimal: BigNumber }, OmittedProps>) {
+    return await changeROptimalFN({
+      email,
+      rewardAddress,
+      setLoading,
+      setError,
+      meApiKey,
+      reqURL,
+      costPayerId,
+      newROptimal,
+    });
+  }
   async function logOut(clearCache = true) {
     return await logOutFn(clearCache);
   }
@@ -709,6 +744,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
         deployRewardAndPool,
         addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool,
         onBoardRewards,
+        createMoreRewardToTreasury,
+        changeROptimal,
         logOut,
       }}
     >

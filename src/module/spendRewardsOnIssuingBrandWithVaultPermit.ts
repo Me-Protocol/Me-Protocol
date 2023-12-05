@@ -1,17 +1,7 @@
 import { ethers } from "ethers";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import {
-  OPEN_REWARD_DIAMOND,
-  VaultPermitParams,
-  relay,
-  usersServiceWithPermit,
-} from "@developeruche/protocol-core";
-import {
-  same_brand_reward_redeption_magic,
-  sendTransactionData,
-  spend_reward_magic,
-} from "@developeruche/runtime-sdk";
+import { same_brand_reward_redeption_magic, sendTransactionData } from "@developeruche/runtime-sdk";
 import axios from "axios";
 import { spendRewardsOnIssuingBrandWithVaultPermitProps } from "../lib/types";
 

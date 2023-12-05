@@ -146,7 +146,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
 
       // console.log(taskId, "TASK HIGH DEE");
 
-      return { taskId };
+      return { taskId, spendData };
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -258,7 +258,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
 
       // console.log(taskId, "TASK HIGH DEE");
 
-      return { taskId };
+      return { taskId, spendData };
     }
   } catch (error) {
     setError(error);
