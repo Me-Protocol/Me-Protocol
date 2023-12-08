@@ -18,6 +18,7 @@ export async function addRewardManagerFN({
   meApiKey,
   reqURL,
   persist,
+  RUNTIME_URL,
 }: AddRewardMagicProps) {
   setLoading(true);
   try {
@@ -56,7 +57,8 @@ export async function addRewardManagerFN({
         // reward_address,
         reward_manager,
         role_id,
-        signer
+        signer,
+        RUNTIME_URL
       );
 
       return await axios.post(
@@ -107,7 +109,8 @@ export async function addRewardManagerFN({
         // reward_address,
         reward_manager,
         role_id,
-        signer
+        signer,
+        RUNTIME_URL
       );
 
       return await axios.post(

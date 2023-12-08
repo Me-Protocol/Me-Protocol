@@ -496,6 +496,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     reward_amounts,
     reward_recipient,
     persist,
+    RUNTIME_URL,
   }: Omit<DistributeRewardsProps, OmittedProps>) {
     return await distributeRewardsFN({
       email,
@@ -505,12 +506,14 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       setError,
       setLoading,
       persist,
+      RUNTIME_URL,
     });
   }
   async function spendRewardsOnIssuingBrandWithVaultPermit({
     reward_address,
     rewardId,
     reward_amount,
+    RUNTIME_URL,
   }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) {
     return await spendRewardsOnIssuingBrandWithVaultPermitFN({
       email,
@@ -524,6 +527,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       meApiKey,
       reqURL,
       costPayerId,
+      RUNTIME_URL,
     });
   }
 
@@ -535,6 +539,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       amountOfRewardAtHand,
       expectedAmountOfTargetedReward,
     },
+    RUNTIME_URL,
   }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) {
     return await spendRewardsOnAnotherBrandWithVaultPermitFN({
       email,
@@ -552,6 +557,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       meApiKey,
       reqURL,
       costPayerId,
+      RUNTIME_URL,
     });
   }
 
@@ -561,6 +567,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     reward_manager,
     role_id,
     persist,
+    RUNTIME_URL,
   }: Omit<AddRewardMagicProps, OmittedProps>) {
     return await addRewardManagerFN({
       email,
@@ -576,6 +583,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       role_id,
       costPayerId,
       persist,
+      RUNTIME_URL,
     });
   }
   async function removeRewardManager({
@@ -584,6 +592,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
     reward_manager,
     role_id,
     persist,
+    RUNTIME_URL,
   }: Omit<AddRewardMagicProps, OmittedProps>) {
     return await removeRewardManagerFN({
       email,
@@ -599,12 +608,14 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       role_id,
       costPayerId,
       persist,
+      RUNTIME_URL,
     });
   }
   async function onBoardRewards({
     brand_id,
     reward_address,
     persist,
+    RUNTIME_URL,
   }: Omit<OnBoardRewardsProps, OmittedProps>) {
     return await onBoardRewardsFN({
       email,
@@ -615,6 +626,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       brand_id,
       reward_address,
       persist,
+      RUNTIME_URL,
     });
   }
   async function deployRewardAndPool({

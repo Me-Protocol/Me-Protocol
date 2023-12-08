@@ -13,6 +13,7 @@ export async function distributeRewardsFN({
   setError,
   setLoading,
   persist,
+  RUNTIME_URL,
 }: DistributeRewardsProps) {
   setLoading(true);
   try {
@@ -37,7 +38,8 @@ export async function distributeRewardsFN({
         reward_address,
         reward_recipient,
         reward_amounts,
-        signer
+        signer,
+        RUNTIME_URL
       );
 
       return res;
@@ -59,7 +61,8 @@ export async function distributeRewardsFN({
         reward_address,
         reward_recipient,
         reward_amounts,
-        signer
+        signer,
+        RUNTIME_URL
       );
       return res;
     }

@@ -15,6 +15,7 @@ export async function onBoardRewardsFN({
   meApiKey,
   reqURL,
   persist,
+  RUNTIME_URL,
 }: OnBoardRewardsProps) {
   setLoading(true);
 
@@ -55,7 +56,8 @@ export async function onBoardRewardsFN({
         reward_address,
         ethers.utils.parseEther("1000"),
         ethers.utils.parseEther("1"),
-        signer
+        signer,
+        RUNTIME_URL
       );
 
       return await axios.post(
@@ -110,7 +112,8 @@ export async function onBoardRewardsFN({
         reward_address,
         ethers.utils.parseEther("1000"),
         ethers.utils.parseEther("1"),
-        signer
+        signer,
+        RUNTIME_URL
       );
 
       return await axios.post(

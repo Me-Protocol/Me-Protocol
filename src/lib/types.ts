@@ -44,6 +44,7 @@ export interface OnBoardRewardsProps {
   reward_address: string;
   brand_id: BigNumber;
   persist: boolean;
+  RUNTIME_URL: string;
 }
 
 export interface DeployRewardAndPoolProps {
@@ -89,6 +90,7 @@ export interface DistributeRewardsProps {
   reward_recipient: Array<string>;
   reward_amounts: Array<BigNumber>;
   persist: boolean;
+  RUNTIME_URL: string;
 }
 
 export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
@@ -103,6 +105,7 @@ export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
   reward_address: string;
   rewardId: string;
   costPayerId?: string;
+  RUNTIME_URL: string;
 }
 
 export interface ChangeOptimalOpenRewardProps {
@@ -377,6 +380,7 @@ export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
   spendInfo: SpendingInfo;
   email: string;
   rewardId: string;
+  RUNTIME_URL: string;
 }
 
 export interface AddRewardMagicProps {
@@ -391,6 +395,7 @@ export interface AddRewardMagicProps {
   brand_id: BigNumber;
   // reward_address: string;
   reward_manager: string;
+  RUNTIME_URL: string;
   role_id: BigNumber;
   persist: boolean;
 }
@@ -409,6 +414,7 @@ export interface RemoveRewardMagicProps {
   reward_manager: string;
   role_id: BigNumber;
   persist: boolean;
+  RUNTIME_URL: string;
 }
 
 export type OmittedProps =
@@ -465,6 +471,7 @@ export interface AllFnsProps {
       expectedAmountOfTargetedReward,
     },
     rewardId,
+    RUNTIME_URL,
   }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
   addRewardManager: ({
     brand_id,
@@ -472,6 +479,7 @@ export interface AllFnsProps {
     reward_manager,
     role_id,
     persist,
+    RUNTIME_URL,
   }: Omit<AddRewardMagicProps, OmittedProps>) => Promise<any>;
   removeRewardManager: ({
     brand_id,
@@ -479,11 +487,13 @@ export interface AllFnsProps {
     reward_manager,
     role_id,
     persist,
+    RUNTIME_URL,
   }: Omit<RemoveRewardMagicProps, OmittedProps>) => Promise<any>;
   onBoardRewards: ({
     brand_id,
     reward_address,
     persist,
+    RUNTIME_URL,
   }: Omit<OnBoardRewardsProps, OmittedProps>) => Promise<any>;
   changeOptimalOpenReward: ({
     rewardName,
@@ -598,6 +608,7 @@ export interface AllFnsProps {
     reward_address,
     reward_recipient,
     reward_amounts,
+    RUNTIME_URL,
     persist,
   }: Omit<DistributeRewardsProps, OmittedProps>) => Promise<sendTransactionData | undefined>;
 
@@ -605,6 +616,7 @@ export interface AllFnsProps {
     reward_address,
     reward_amount,
     rewardId,
+    RUNTIME_URL,
   }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
   logOut: (clearCache?: boolean) => Promise<any>;
 }

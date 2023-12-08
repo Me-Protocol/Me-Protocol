@@ -17,6 +17,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
   setLoading,
   setSpendLoading,
   setSpendingSteps,
+  RUNTIME_URL,
 }: spendRewardsOnIssuingBrandWithVaultPermitProps) {
   setLoading(true);
   try {
@@ -45,7 +46,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       setSpendingSteps(1);
 
       const { data, from, hash, nonce, r, s, v }: sendTransactionData =
-        await same_brand_reward_redeption_magic(reward_address, reward_amount, signer);
+        await same_brand_reward_redeption_magic(reward_address, reward_amount, signer, RUNTIME_URL);
 
       // console.log(data, from, hash, nonce, r, s, v, "from rsv");
       setSpendingSteps(2);
@@ -98,7 +99,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       setSpendingSteps(1);
 
       const { data, from, hash, nonce, r, s, v }: sendTransactionData =
-        await same_brand_reward_redeption_magic(reward_address, reward_amount, signer);
+        await same_brand_reward_redeption_magic(reward_address, reward_amount, signer, RUNTIME_URL);
 
       // console.log(data, from, hash, nonce, r, s, v, "from rsv");
       setSpendingSteps(2);

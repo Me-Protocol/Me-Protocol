@@ -1,6 +1,6 @@
 {
   "name": "me-protocol",
-  "version": "3.5.5",
+  "version": "3.5.9",
   "description": "A library for interacting with the me-protocol ecosystem",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -13,7 +13,7 @@
   ],
   "license": "ISC",
   "devDependencies": {
-    "@developeruche/runtime-sdk": "0.3.4",
+    "@developeruche/runtime-sdk": "0.3.9",
     "@developeruche/protocol-core": "0.5.0",
     "@gelatonetwork/relay-sdk": "^4.0.0",
     "@rollup/plugin-commonjs": "^25.0.3",

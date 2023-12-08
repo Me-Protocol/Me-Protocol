@@ -27,6 +27,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
   meApiKey,
   reqURL,
   costPayerId,
+  RUNTIME_URL,
 }: SpendRewardsOnAnotherBrandWithVaultPermitProps) {
   setLoading(true);
   try {
@@ -72,7 +73,8 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         spendInfo.rewardAtHand,
         spendInfo.amountOfRewardAtHand as BigNumber,
         OPEN_REWARD_DIAMOND,
-        signer
+        signer,
+        RUNTIME_URL
       );
 
       setSpendingSteps(1);
@@ -184,7 +186,8 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         spendInfo.rewardAtHand,
         spendInfo.amountOfRewardAtHand as BigNumber,
         OPEN_REWARD_DIAMOND,
-        signer
+        signer,
+        RUNTIME_URL
       );
 
       setSpendingSteps(1);
