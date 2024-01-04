@@ -30,6 +30,7 @@ import {
   DeployRewardAndPoolProps,
   AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps,
   OnBoardRewardsProps,
+  GetWalletFromEmailProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -62,6 +63,7 @@ import { onBoardRewardsFN } from "../../module/onboardReward";
 import { createMoreRewardToTreasuryFN } from "../../module/createMoreRewardToTreasury";
 import { changeROptimalFN } from "../../module/changeROptimal";
 import { BigNumber } from "ethers";
+import { getWalletFromEmailFN } from "../../module/getWalletFromEmail";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -86,6 +88,17 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       meApiKey,
       reqURL,
       costPayerId,
+      persist,
+    });
+  }
+  async function getWalletFromEmail({
+    userEmail,
+    persist,
+  }: Omit<GetWalletFromEmailProps, OmittedProps>) {
+    return await getWalletFromEmailFN({
+      userEmail,
+      setLoading,
+      setError,
       persist,
     });
   }
@@ -730,6 +743,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
         spendingSteps,
         // meRegister,
         getBrandDetails,
+        getWalletFromEmail,
         createReward,
         setUpOpenReward,
         changeMainAccount,

@@ -145,6 +145,12 @@ export interface SetUpWalletProps {
   email: string;
   persist: boolean;
 }
+export interface GetWalletFromEmailProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  userEmail: string;
+  persist: boolean;
+}
 
 export interface ChangeMainAccountProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -565,6 +571,9 @@ export interface AllFnsProps {
   setUpWallet: ({
     persist,
   }: Omit<SetUpWalletProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
+  getWalletFromEmail: ({
+    persist,
+  }: Omit<GetWalletFromEmailProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
   changeMainAccount: ({
     newMainAcctAddress,
   }: Omit<ChangeMainAccountProps, OmittedProps>) => TaskIdPromise;
