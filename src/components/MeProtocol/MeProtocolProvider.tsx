@@ -67,13 +67,7 @@ import { getWalletFromEmailFN } from "../../module/getWalletFromEmail";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
-const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
-  children,
-  email,
-  meApiKey,
-  reqURL,
-  costPayerId,
-}) => {
+const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meApiKey, reqURL, costPayerId }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [spendLoading, setSpendLoading] = useState<boolean>(false);
   const [spendingSteps, setSpendingSteps] = useState<number>(0);
@@ -91,10 +85,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       persist,
     });
   }
-  async function getWalletFromEmail({
-    userEmail,
-    persist,
-  }: Omit<GetWalletFromEmailProps, OmittedProps>) {
+  async function getWalletFromEmail({ userEmail, persist }: Omit<GetWalletFromEmailProps, OmittedProps>) {
     return await getWalletFromEmailFN({
       userEmail,
       setLoading,
@@ -134,12 +125,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
   }
 
   // =============================================================== THIS IS THE FUNCTION TO CREATE REWARD ===============================================================
-  async function createReward({
-    name,
-    symbol,
-    descriptionLink,
-    totalSupply,
-  }: Omit<CreateRewardProps, OmittedProps>) {
+  async function createReward({ name, symbol, descriptionLink, totalSupply }: Omit<CreateRewardProps, OmittedProps>) {
     return await createRewardFN({
       email,
       name,
@@ -186,9 +172,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
   }
 
   // ========================================= THIS IS THE FUNCTION TO CHANGE MAIN ACCOUNT (BRAND ADDRESS) ==========================================================
-  async function changeMainAccount({
-    newMainAcctAddress,
-  }: Omit<ChangeMainAccountProps, OmittedProps>) {
+  async function changeMainAccount({ newMainAcctAddress }: Omit<ChangeMainAccountProps, OmittedProps>) {
     return await changeMainAccountFN({
       email,
       newMainAcctAddress,
@@ -201,9 +185,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
   }
 
   // ========================================= THIS IS THE FUNCTION TO ACTIVATE OPEN REWRAD ==========================================================
-  async function activateOpenReward({
-    rewardAddress,
-  }: Omit<ActivateOpenRewardProps, OmittedProps>) {
+  async function activateOpenReward({ rewardAddress }: Omit<ActivateOpenRewardProps, OmittedProps>) {
     return await activateOpenRewardFN({
       email,
       rewardAddress,
@@ -242,10 +224,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
   }
 
   // ========================================= THIS IS THE FUNCTION TO CHANGE OPTIMAL OPEN REWRAD ==========================================================
-  async function changeOptimalOpenReward({
-    rewardName,
-    newOptimalValue,
-  }: Omit<ChangeOptimalOpenRewardProps, OmittedProps>) {
+  async function changeOptimalOpenReward({ rewardName, newOptimalValue }: Omit<ChangeOptimalOpenRewardProps, OmittedProps>) {
     return await changeOptimalOpenRewardFN({
       email,
       rewardName,
@@ -259,11 +238,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
   }
 
   // ========================================= THIS IS THE FUNCTION TO INTEGRATE OPEN REWRAD ==========================================================
-  async function integrateReward({
-    rewardAddress,
-    descriptionLink,
-    readTandC,
-  }: Omit<IntegrateRewardProps, OmittedProps>) {
+  async function integrateReward({ rewardAddress, descriptionLink, readTandC }: Omit<IntegrateRewardProps, OmittedProps>) {
     return await integrateRewardFN({
       email,
       rewardAddress,
@@ -278,11 +253,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
   }
 
   // ========================================= THIS IS THE FUNCTION TO TOP UP OPEN REWRAD LIQUIDITY ==========================================================
-  async function topUpOpenRewardLiquidity({
-    address,
-    rewardAmount,
-    meAmount,
-  }: Omit<TopUpOpenRewardLiquidityProps, OmittedProps>) {
+  async function topUpOpenRewardLiquidity({ address, rewardAmount, meAmount }: Omit<TopUpOpenRewardLiquidityProps, OmittedProps>) {
     return await topUpOpenRewardLiquidityFN({
       email,
       address,
@@ -336,10 +307,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
   //------------------------------------------ Consumer function ------------------------------------------------------------
 
   // ========================================= THIS IS THE FUNCTION TO SPEND REWARD ON ISSUING BRAND  ==========================================================
-  async function spendRewardOnIssuingBrand({
-    spendAddress,
-    spendAmount,
-  }: Omit<SpendRewardOnIssuingBrandProps, OmittedProps>) {
+  async function spendRewardOnIssuingBrand({ spendAddress, spendAmount }: Omit<SpendRewardOnIssuingBrandProps, OmittedProps>) {
     return await spendRewardOnIssuingBrandFN({
       email,
       spendAddress,
@@ -414,11 +382,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
 
   // ========================================= THIS IS THE FUNCTION TO UPDATE BRAND DETAILS ==========================================================
 
-  async function updateBrandDetails({
-    brandId,
-    brandDetails: { name, onlinePresence },
-    ignoreDefault,
-  }: Omit<UpdateBrandDetailsProps, OmittedProps>) {
+  async function updateBrandDetails({ brandId, brandDetails: { name, onlinePresence }, ignoreDefault }: Omit<UpdateBrandDetailsProps, OmittedProps>) {
     return await updateBrandDetailsFN({
       email,
       brandId,
@@ -481,12 +445,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
 
   // ========================================= THIS IS THE FUNCTION TO swapWithDiffBrand ==========================================================
   async function swapWithDiffBrand({
-    spendInfo: {
-      rewardAtHand,
-      targettedReward,
-      amountOfRewardAtHand,
-      expectedAmountOfTargetedReward,
-    },
+    spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
   }: Omit<SwapWithDiffBrandProps, OmittedProps>) {
     return await swapWithDiffBrandFN({
       email,
@@ -546,12 +505,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
 
   async function spendRewardsOnAnotherBrandWithVaultPermit({
     rewardId,
-    spendInfo: {
-      rewardAtHand,
-      targettedReward,
-      amountOfRewardAtHand,
-      expectedAmountOfTargetedReward,
-    },
+    spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
     RUNTIME_URL,
   }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) {
     return await spendRewardsOnAnotherBrandWithVaultPermitFN({
@@ -624,18 +578,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       RUNTIME_URL,
     });
   }
-  async function onBoardRewards({
-    brand_id,
-    reward_address,
-    persist,
-    RUNTIME_URL,
-  }: Omit<OnBoardRewardsProps, OmittedProps>) {
+  async function onBoardRewards({ brand_id, reward_address, persist, RUNTIME_URL }: Omit<OnBoardRewardsProps, OmittedProps>) {
     return await onBoardRewardsFN({
       email,
       setError,
       setLoading,
-      meApiKey,
-      reqURL,
       brand_id,
       reward_address,
       persist,
@@ -700,10 +647,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
   }
 
   // ========================================= THIS IS THE FUNCTION TO UpDaTE OPEN REWRAD ==========================================================
-  async function createMoreRewardToTreasury({
-    rewardAddress,
-    amount,
-  }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) {
+  async function createMoreRewardToTreasury({ rewardAddress, amount }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) {
     return await createMoreRewardToTreasuryFN({
       email,
       rewardAddress,
@@ -715,10 +659,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({
       amount,
     });
   }
-  async function changeROptimal({
-    rewardAddress,
-    newROptimal,
-  }: Omit<PauseOpenRewardProps & { newROptimal: BigNumber }, OmittedProps>) {
+  async function changeROptimal({ rewardAddress, newROptimal }: Omit<PauseOpenRewardProps & { newROptimal: BigNumber }, OmittedProps>) {
     return await changeROptimalFN({
       email,
       rewardAddress,
