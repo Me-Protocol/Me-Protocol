@@ -37,9 +37,6 @@ export interface CreateRewardProps {
 export interface OnBoardRewardsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
-  meApiKey: string;
-  reqURL: string;
-
   email: string;
   reward_address: string;
   brand_id: BigNumber;
@@ -423,15 +420,7 @@ export interface RemoveRewardMagicProps {
   RUNTIME_URL: string;
 }
 
-export type OmittedProps =
-  | "setLoading"
-  | "setSpendLoading"
-  | "setSpendingSteps"
-  | "email"
-  | "setError"
-  | "meApiKey"
-  | "reqURL"
-  | "costPayerId";
+export type OmittedProps = "setLoading" | "setSpendLoading" | "setSpendingSteps" | "email" | "setError" | "meApiKey" | "reqURL" | "costPayerId";
 export type TaskIdPromise = Promise<{ taskId: string } | undefined>;
 
 export interface AllFnsProps {
@@ -449,33 +438,18 @@ export interface AllFnsProps {
     brandDetails: { name, onlinePresence },
     ignoreDefault,
   }: Omit<UpdateBrandDetailsProps, OmittedProps>) => TaskIdPromise;
-  spendRewardOnIssuingBrand: ({
-    spendAddress,
-    spendAmount,
-  }: Omit<SpendRewardOnIssuingBrandProps, OmittedProps>) => TaskIdPromise;
+  spendRewardOnIssuingBrand: ({ spendAddress, spendAmount }: Omit<SpendRewardOnIssuingBrandProps, OmittedProps>) => TaskIdPromise;
   getExpectedAmountOfTargetedReward: ({
     inputRewardAddress,
     outPutRewardAddress,
     amount,
     returnAsFormatted,
-  }: Omit<GetExpectedAmountOfTargetedRewardProps, OmittedProps>) => Promise<
-    BigNumberish | string | undefined
-  >;
+  }: Omit<GetExpectedAmountOfTargetedRewardProps, OmittedProps>) => Promise<BigNumberish | string | undefined>;
   swapWithDiffBrand: ({
-    spendInfo: {
-      rewardAtHand,
-      targettedReward,
-      amountOfRewardAtHand,
-      expectedAmountOfTargetedReward,
-    },
+    spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
   }: Omit<SwapWithDiffBrandProps, OmittedProps>) => TaskIdPromise;
   spendRewardsOnAnotherBrandWithVaultPermit: ({
-    spendInfo: {
-      rewardAtHand,
-      targettedReward,
-      amountOfRewardAtHand,
-      expectedAmountOfTargetedReward,
-    },
+    spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
     rewardId,
     RUNTIME_URL,
   }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
@@ -495,24 +469,15 @@ export interface AllFnsProps {
     persist,
     RUNTIME_URL,
   }: Omit<RemoveRewardMagicProps, OmittedProps>) => Promise<any>;
-  onBoardRewards: ({
-    brand_id,
-    reward_address,
-    persist,
-    RUNTIME_URL,
-  }: Omit<OnBoardRewardsProps, OmittedProps>) => Promise<any>;
-  changeOptimalOpenReward: ({
-    rewardName,
-    newOptimalValue,
-  }: Omit<ChangeOptimalOpenRewardProps, OmittedProps>) => TaskIdPromise;
-  integrateReward: ({
-    descriptionLink,
-    readTandC,
-  }: Omit<IntegrateRewardProps, OmittedProps>) => TaskIdPromise;
-  topUpOpenRewardLiquidity: ({
-    rewardAmount,
-    meAmount,
-  }: Omit<TopUpOpenRewardLiquidityProps, OmittedProps>) => TaskIdPromise;
+  onBoardRewards: ({ brand_id, reward_address, persist, RUNTIME_URL }: Omit<OnBoardRewardsProps, OmittedProps>) => Promise<
+    | sendTransactionData
+    | {
+        taskId: string;
+      }
+  >;
+  changeOptimalOpenReward: ({ rewardName, newOptimalValue }: Omit<ChangeOptimalOpenRewardProps, OmittedProps>) => TaskIdPromise;
+  integrateReward: ({ descriptionLink, readTandC }: Omit<IntegrateRewardProps, OmittedProps>) => TaskIdPromise;
+  topUpOpenRewardLiquidity: ({ rewardAmount, meAmount }: Omit<TopUpOpenRewardLiquidityProps, OmittedProps>) => TaskIdPromise;
   updateRewardConfig: ({
     rewardConfig: {
       specificException,
@@ -546,16 +511,10 @@ export interface AllFnsProps {
     ignoreDefault,
   }: Omit<UpdateOpenRewardConfigProps, OmittedProps>) => TaskIdPromise;
   pauseOpenReward: ({ rewardAddress }: Omit<PauseOpenRewardProps, OmittedProps>) => TaskIdPromise;
-  createMoreRewardToTreasury: ({
-    rewardAddress,
-  }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) => TaskIdPromise;
-  changeROptimal: ({
-    rewardAddress,
-  }: Omit<PauseOpenRewardProps & { newROptimal: BigNumber }, OmittedProps>) => TaskIdPromise;
+  createMoreRewardToTreasury: ({ rewardAddress }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) => TaskIdPromise;
+  changeROptimal: ({ rewardAddress }: Omit<PauseOpenRewardProps & { newROptimal: BigNumber }, OmittedProps>) => TaskIdPromise;
   resumeOpenReward: ({ rewardAddress }: Omit<ResumeOpenRewardProps, OmittedProps>) => TaskIdPromise;
-  activateOpenReward: ({
-    rewardAddress,
-  }: Omit<ActivateOpenRewardProps, OmittedProps>) => TaskIdPromise;
+  activateOpenReward: ({ rewardAddress }: Omit<ActivateOpenRewardProps, OmittedProps>) => TaskIdPromise;
   setUpOpenReward: ({
     rewardAddress,
     rOptimal,
@@ -568,21 +527,10 @@ export interface AllFnsProps {
     allowSwaps,
   }: Omit<SetUpOpenRewardProps, OmittedProps>) => TaskIdPromise;
 
-  setUpWallet: ({
-    persist,
-  }: Omit<SetUpWalletProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
-  getWalletFromEmail: ({
-    persist,
-  }: Omit<GetWalletFromEmailProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
-  changeMainAccount: ({
-    newMainAcctAddress,
-  }: Omit<ChangeMainAccountProps, OmittedProps>) => TaskIdPromise;
-  createReward: ({
-    name,
-    symbol,
-    descriptionLink,
-    totalSupply,
-  }: Omit<CreateRewardProps, OmittedProps>) => TaskIdPromise;
+  setUpWallet: ({ persist }: Omit<SetUpWalletProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
+  getWalletFromEmail: ({ persist }: Omit<GetWalletFromEmailProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
+  changeMainAccount: ({ newMainAcctAddress }: Omit<ChangeMainAccountProps, OmittedProps>) => TaskIdPromise;
+  createReward: ({ name, symbol, descriptionLink, totalSupply }: Omit<CreateRewardProps, OmittedProps>) => TaskIdPromise;
   deployRewardAndPool: ({
     name,
     symbol,
@@ -603,15 +551,10 @@ export interface AllFnsProps {
     reward,
     rewardAmount,
     persist,
-  }: Omit<
-    AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps,
-    OmittedProps
-  >) => TaskIdPromise;
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => TaskIdPromise;
   getBrandDetails: ({
     getOnlyId,
-  }: Omit<GetBrandDetailsProps, OmittedProps>) => Promise<
-    { brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined
-  >;
+  }: Omit<GetBrandDetailsProps, OmittedProps>) => Promise<{ brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined>;
   // meRegister: ({ brandName, onlinePresence }: Omit<MeRegisterProps, OmittedProps>) => TaskIdPromise;
   distributeRewards: ({
     reward_address,

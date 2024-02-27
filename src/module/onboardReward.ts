@@ -6,17 +6,7 @@ import axios from "axios";
 
 import { onboard_reward_magic, sendTransactionData } from "@developeruche/runtime-sdk";
 
-export async function onBoardRewardsFN({
-  email,
-  brand_id,
-  reward_address,
-  setLoading,
-  setError,
-  meApiKey,
-  reqURL,
-  persist,
-  RUNTIME_URL,
-}: OnBoardRewardsProps) {
+export async function onBoardRewardsFN({ email, brand_id, reward_address, setLoading, setError, persist, RUNTIME_URL }: OnBoardRewardsProps) {
   setLoading(true);
 
   try {
@@ -43,42 +33,36 @@ export async function onBoardRewardsFN({
 
       // ============================================FROM HERE=====================================================================
 
-      const {
-        data: add_reward_magic_data,
-        from,
-        hash,
-        nonce,
-        r,
-        s,
-        v,
-      }: sendTransactionData = await onboard_reward_magic(
-        brand_id,
-        reward_address,
-        ethers.utils.parseEther("1000"),
-        ethers.utils.parseEther("1"),
-        signer,
-        RUNTIME_URL
-      );
+      // const {
+      //   data: add_reward_magic_data,
+      //   from,
+      //   hash,
+      //   nonce,
+      //   r,
+      //   s,
+      //   v,
+      // }: sendTransactionData =
+      return await onboard_reward_magic(brand_id, reward_address, ethers.utils.parseEther("1000"), ethers.utils.parseEther("1"), signer, RUNTIME_URL);
 
-      return await axios.post(
-        `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
-        {
-          params: {
-            from,
-            nonce,
-            data: add_reward_magic_data,
-            r,
-            s,
-            v,
-            hash,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${meApiKey}`,
-          },
-        }
-      );
+      // return await axios.post(
+      //   `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
+      //   {
+      //     params: {
+      //       from,
+      //       nonce,
+      //       data: add_reward_magic_data,
+      //       r,
+      //       s,
+      //       v,
+      //       hash,
+      //     },
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${meApiKey}`,
+      //     },
+      //   }
+      // );
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -99,42 +83,44 @@ export async function onBoardRewardsFN({
 
       // ============================================FROM HERE=====================================================================
 
-      const {
-        data: add_reward_magic_data,
-        from,
-        hash,
-        nonce,
-        r,
-        s,
-        v,
-      }: sendTransactionData = await onboard_reward_magic(
-        brand_id,
-        reward_address,
-        ethers.utils.parseEther("1000"),
-        ethers.utils.parseEther("1"),
-        signer,
-        RUNTIME_URL
-      );
+      return await onboard_reward_magic(brand_id, reward_address, ethers.utils.parseEther("1000"), ethers.utils.parseEther("1"), signer, RUNTIME_URL);
 
-      return await axios.post(
-        `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
-        {
-          params: {
-            from,
-            nonce,
-            data: add_reward_magic_data,
-            r,
-            s,
-            v,
-            hash,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${meApiKey}`,
-          },
-        }
-      );
+      // const {
+      //   data: add_reward_magic_data,
+      //   from,
+      //   hash,
+      //   nonce,
+      //   r,
+      //   s,
+      //   v,
+      // }: sendTransactionData = await onboard_reward_magic(
+      //   brand_id,
+      //   reward_address,
+      //   ethers.utils.parseEther("1000"),
+      //   ethers.utils.parseEther("1"),
+      //   signer,
+      //   RUNTIME_URL
+      // );
+
+      // return await axios.post(
+      //   `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
+      //   {
+      //     params: {
+      //       from,
+      //       nonce,
+      //       data: add_reward_magic_data,
+      //       r,
+      //       s,
+      //       v,
+      //       hash,
+      //     },
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${meApiKey}`,
+      //     },
+      //   }
+      // );
     }
   } catch (error) {
     setError(error);

@@ -73,13 +73,7 @@ export async function deployRewardAndPoolFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, costPayerId);
 
       return { taskId };
     } else {
@@ -124,13 +118,7 @@ export async function deployRewardAndPoolFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, costPayerId);
 
       return { taskId };
     }
