@@ -15,6 +15,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
   meApiKey,
   reqURL,
   costPayerId,
+  currentBrandId,
   persist,
   GELATO_API_KEY,
 }: AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps) {
@@ -52,6 +53,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
           // token: TREASURY,
           spender: OPEN_REWARD_DIAMOND,
           value: meAmount,
+          brandId: currentBrandId,
         },
         {
           headers: {
@@ -117,6 +119,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
           // token: TREASURY,
           spender: OPEN_REWARD_DIAMOND,
           value: meAmount,
+          brandId: currentBrandId,
         },
         {
           headers: {

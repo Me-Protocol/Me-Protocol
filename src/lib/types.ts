@@ -77,6 +77,7 @@ export interface AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoo
   GELATO_API_KEY: string;
   costPayerId?: string;
   email: string;
+  currentBrandId: string;
   reward: string;
   rewardAmount: string;
   meAmount: string;
@@ -576,6 +577,7 @@ export interface AllFnsProps {
     meAmount,
     reward,
     rewardAmount,
+    currentBrandId,
     persist,
   }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => TaskIdPromise;
   getBrandDetails: ({

@@ -654,6 +654,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
     meAmount,
     reward,
     rewardAmount,
+    currentBrandId,
     persist,
   }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) {
     return await addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN({
@@ -667,6 +668,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meAmount,
       reward,
       rewardAmount,
+      currentBrandId,
       persist,
     });
   }
