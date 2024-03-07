@@ -20,6 +20,7 @@ export async function setUpOpenRewardFN({
   setError,
   meApiKey,
   reqURL,
+  GELATO_API_KEY,
   costPayerId,
 }: SetUpOpenRewardProps) {
   setLoading(true);
@@ -64,13 +65,7 @@ export async function setUpOpenRewardFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     } else {
@@ -108,13 +103,7 @@ export async function setUpOpenRewardFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     }

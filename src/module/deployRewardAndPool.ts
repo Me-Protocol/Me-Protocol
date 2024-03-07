@@ -25,6 +25,7 @@ export async function deployRewardAndPoolFN({
   notifyRewardAmount,
   notifyMeAmount,
   persist,
+  GELATO_API_KEY,
 }: DeployRewardAndPoolProps) {
   setLoading(true);
 
@@ -73,7 +74,7 @@ export async function deployRewardAndPoolFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     } else {
@@ -118,7 +119,7 @@ export async function deployRewardAndPoolFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     }

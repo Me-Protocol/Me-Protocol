@@ -13,6 +13,7 @@ export async function spendRewardOnIssuingBrandFN({
   setError,
   meApiKey,
   reqURL,
+  GELATO_API_KEY,
   costPayerId,
 }: SpendRewardOnIssuingBrandProps) {
   setLoading(true);
@@ -39,11 +40,7 @@ export async function spendRewardOnIssuingBrandFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(
-        signer,
-        spendAddress,
-        ethers.utils.parseEther(spendAmount)
-      );
+      const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(signer, spendAddress, ethers.utils.parseEther(spendAmount));
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -51,13 +48,7 @@ export async function spendRewardOnIssuingBrandFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     } else {
@@ -78,11 +69,7 @@ export async function spendRewardOnIssuingBrandFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(
-        signer,
-        spendAddress,
-        ethers.utils.parseEther(spendAmount)
-      );
+      const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(signer, spendAddress, ethers.utils.parseEther(spendAmount));
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -90,13 +77,7 @@ export async function spendRewardOnIssuingBrandFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     }

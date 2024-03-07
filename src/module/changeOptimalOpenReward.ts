@@ -13,6 +13,7 @@ export async function changeOptimalOpenRewardFN({
   setError,
   meApiKey,
   reqURL,
+  GELATO_API_KEY,
   costPayerId,
 }: ChangeOptimalOpenRewardProps) {
   setLoading(true);
@@ -39,23 +40,14 @@ export async function changeOptimalOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.changeOptimalValuationForOpenRewards(
-        rewardName,
-        newOptimalValue
-      );
+      const data = await brandService.changeOptimalValuationForOpenRewards(rewardName, newOptimalValue);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     } else {
@@ -76,22 +68,13 @@ export async function changeOptimalOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.changeOptimalValuationForOpenRewards(
-        rewardName,
-        newOptimalValue
-      );
+      const data = await brandService.changeOptimalValuationForOpenRewards(rewardName, newOptimalValue);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     }

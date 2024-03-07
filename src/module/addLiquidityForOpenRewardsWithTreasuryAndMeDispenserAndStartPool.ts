@@ -16,6 +16,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
   reqURL,
   costPayerId,
   persist,
+  GELATO_API_KEY,
 }: AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps) {
   setLoading(true);
 
@@ -85,7 +86,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
 
       // 0xb6933fa10F5179FA2de6C8B1D0C5B0A9A5B87327;
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     } else {
@@ -153,7 +154,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
 
       // 0xb6933fa10F5179FA2de6C8B1D0C5B0A9A5B87327;
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     }

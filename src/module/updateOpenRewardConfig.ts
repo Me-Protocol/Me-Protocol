@@ -22,6 +22,7 @@ export async function updateOpenRewardConfigFN({
   setError,
   meApiKey,
   reqURL,
+  GELATO_API_KEY,
   costPayerId,
 }: UpdateOpenRewardConfigProps) {
   setLoading(true);
@@ -49,9 +50,7 @@ export async function updateOpenRewardConfigFN({
 
       const config = {
         maximumRLimit,
-        minimumRewardAmountForConversation: ethers.utils.parseEther(
-          minimumRewardAmountForConversation
-        ),
+        minimumRewardAmountForConversation: ethers.utils.parseEther(minimumRewardAmountForConversation),
         minimumMeAmountForConversation: ethers.utils.parseEther(minimumMeAmountForConversation),
         notifyRewardAmount,
         notifyMeAmount,
@@ -59,11 +58,7 @@ export async function updateOpenRewardConfigFN({
         allowSwaps,
       };
 
-      const data = await brandService.updateOpenRewardsConfigurations(
-        rewardAddress,
-        config,
-        ignoreDefault
-      );
+      const data = await brandService.updateOpenRewardsConfigurations(rewardAddress, config, ignoreDefault);
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -71,13 +66,7 @@ export async function updateOpenRewardConfigFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     } else {
@@ -99,9 +88,7 @@ export async function updateOpenRewardConfigFN({
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
       const config = {
         maximumRLimit,
-        minimumRewardAmountForConversation: ethers.utils.parseEther(
-          minimumRewardAmountForConversation
-        ),
+        minimumRewardAmountForConversation: ethers.utils.parseEther(minimumRewardAmountForConversation),
         minimumMeAmountForConversation: ethers.utils.parseEther(minimumMeAmountForConversation),
         notifyRewardAmount,
         notifyMeAmount,
@@ -109,23 +96,13 @@ export async function updateOpenRewardConfigFN({
         allowSwaps,
       };
 
-      const data = await brandService.updateOpenRewardsConfigurations(
-        rewardAddress,
-        config,
-        ignoreDefault
-      );
+      const data = await brandService.updateOpenRewardsConfigurations(rewardAddress, config, ignoreDefault);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
 
       return { taskId };
     }
