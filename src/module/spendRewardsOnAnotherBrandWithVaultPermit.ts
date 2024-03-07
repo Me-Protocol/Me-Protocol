@@ -20,6 +20,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
   costPayerId,
   RUNTIME_URL,
   GELATO_API_KEY,
+  debug,
 }: SpendRewardsOnAnotherBrandWithVaultPermitProps) {
   setLoading(true);
   try {
@@ -127,7 +128,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
       //   data: relayInput.data,
       // });
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       // console.log(taskId, "TASK HIGH DEE");
 
@@ -231,7 +232,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
       //   data: relayInput.data,
       // });
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       // console.log(taskId, "TASK HIGH DEE");
 

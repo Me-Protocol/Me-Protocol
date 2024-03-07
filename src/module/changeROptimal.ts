@@ -15,6 +15,7 @@ export async function changeROptimalFN({
   costPayerId,
   newROptimal,
   GELATO_API_KEY,
+  debug,
 }: PauseOpenRewardProps & { newROptimal: BigNumber }) {
   setLoading(true);
 
@@ -47,7 +48,7 @@ export async function changeROptimalFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -75,7 +76,7 @@ export async function changeROptimalFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

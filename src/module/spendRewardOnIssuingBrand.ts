@@ -15,6 +15,7 @@ export async function spendRewardOnIssuingBrandFN({
   reqURL,
   GELATO_API_KEY,
   costPayerId,
+  debug,
 }: SpendRewardOnIssuingBrandProps) {
   setLoading(true);
 
@@ -48,7 +49,7 @@ export async function spendRewardOnIssuingBrandFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -77,7 +78,7 @@ export async function spendRewardOnIssuingBrandFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

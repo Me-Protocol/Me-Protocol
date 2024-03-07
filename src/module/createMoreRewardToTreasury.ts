@@ -16,6 +16,7 @@ export async function createMoreRewardToTreasuryFN({
 
   amount,
   GELATO_API_KEY,
+  debug,
 }: PauseOpenRewardProps & { amount: string }) {
   setLoading(true);
 
@@ -48,7 +49,7 @@ export async function createMoreRewardToTreasuryFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -76,7 +77,7 @@ export async function createMoreRewardToTreasuryFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

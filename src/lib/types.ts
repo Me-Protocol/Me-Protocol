@@ -8,6 +8,7 @@ export interface MeProtocolProviderProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
 }
 
@@ -28,6 +29,7 @@ export interface CreateRewardProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   name: string;
@@ -52,6 +54,7 @@ export interface DeployRewardAndPoolProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   brandId: string;
@@ -75,6 +78,7 @@ export interface AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoo
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   currentBrandId: string;
@@ -103,6 +107,7 @@ export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   email: string;
   reward_amount: BigNumber;
   reward_address: string;
@@ -117,6 +122,7 @@ export interface ChangeOptimalOpenRewardProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardName: string;
@@ -129,6 +135,7 @@ export interface SetUpOpenRewardProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -147,6 +154,7 @@ export interface SetUpWalletProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   persist: boolean;
@@ -164,6 +172,7 @@ export interface ChangeMainAccountProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   newMainAcctAddress: string;
@@ -175,6 +184,7 @@ export interface ActivateOpenRewardProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -185,6 +195,7 @@ export interface IntegrateRewardProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -197,6 +208,7 @@ export interface TopUpOpenRewardLiquidityProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   address: string;
@@ -210,6 +222,7 @@ export interface SpendRewardOnIssuingBrandProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   spendAddress: string;
@@ -232,6 +245,7 @@ export interface UpdateRewardConfigProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   address: string;
@@ -252,6 +266,7 @@ export interface UpdateRewardDetailsProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -271,6 +286,7 @@ export interface UpdateBrandDetailsProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   brandId: string;
@@ -291,6 +307,7 @@ export interface UpdateGeneralConfigProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   brandId: string;
@@ -313,6 +330,7 @@ export interface UpdateOpenRewardConfigProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -326,6 +344,7 @@ export interface ResumeOpenRewardProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -337,6 +356,7 @@ export interface PauseOpenRewardProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -360,6 +380,7 @@ export interface GetBrandDetailsProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   getOnlyId?: boolean;
@@ -371,6 +392,7 @@ export interface GetExpectedAmountOfTargetedRewardProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   inputRewardAddress: string;
   outPutRewardAddress: string;
@@ -391,6 +413,7 @@ export interface SwapWithDiffBrandProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   spendInfo: SpendingInfo;
   email: string;
@@ -404,6 +427,7 @@ export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   spendInfo: SpendingInfo;
   email: string;
@@ -419,6 +443,7 @@ export interface AddRewardMagicProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   brand_id: BigNumber;
@@ -437,6 +462,7 @@ export interface RemoveRewardMagicProps {
   meApiKey: string;
   reqURL: string;
   GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   brand_id: BigNumber;

@@ -67,7 +67,7 @@ import { getWalletFromEmailFN } from "../../module/getWalletFromEmail";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
-const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meApiKey, reqURL, costPayerId, GELATO_API_KEY }) => {
+const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meApiKey, reqURL, costPayerId, GELATO_API_KEY, debug }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [spendLoading, setSpendLoading] = useState<boolean>(false);
   const [spendingSteps, setSpendingSteps] = useState<number>(0);
@@ -82,6 +82,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
       persist,
     });
@@ -122,6 +123,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -139,6 +141,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -171,6 +174,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -185,6 +189,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -199,6 +204,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -213,6 +219,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -227,6 +234,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -242,6 +250,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -258,6 +267,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -274,6 +284,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -312,6 +323,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -329,6 +341,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -365,6 +378,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -391,6 +405,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -411,6 +426,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -436,6 +452,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -457,6 +474,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -478,6 +496,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
     });
   }
@@ -518,6 +537,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
       RUNTIME_URL,
     });
@@ -544,6 +564,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
       RUNTIME_URL,
     });
@@ -566,6 +587,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       brand_id,
       // reward_address,
       reward_manager,
@@ -592,6 +614,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       brand_id,
       // reward_address,
       reward_manager,
@@ -634,6 +657,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       brandId,
       descriptionLink,
       name,
@@ -664,6 +688,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
       meAmount,
       reward,
@@ -683,6 +708,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
       amount,
     });
@@ -696,6 +722,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       meApiKey,
       reqURL,
       GELATO_API_KEY,
+      debug,
       costPayerId,
       newROptimal,
     });
