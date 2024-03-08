@@ -1,7 +1,7 @@
 import { CHAIN_ID, JSON_RPC_URL } from "@developeruche/protocol-core";
 import { Magic } from "magic-sdk";
 
-const apiKey = "pk_live_F05B7044F5E51FDA";
+const apiKey = "pk_live_FB79F672A43B8AC2"; //sepolia
 
 const createMagic = (key: any) => {
   const customNodeOptions = {
