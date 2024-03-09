@@ -15,7 +15,10 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
   meApiKey,
   reqURL,
   costPayerId,
+  currentBrandId,
   persist,
+  GELATO_API_KEY,
+  debug,
 }: AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps) {
   setLoading(true);
 
@@ -51,6 +54,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
           // token: TREASURY,
           spender: OPEN_REWARD_DIAMOND,
           value: meAmount,
+          brandId: currentBrandId,
         },
         {
           headers: {
@@ -85,8 +89,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
 
       // 0xb6933fa10F5179FA2de6C8B1D0C5B0A9A5B87327;
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, costPayerId);
-
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
       return { taskId };
     } else {
       let isConnected = magicWeb3;
@@ -116,6 +119,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
           // token: TREASURY,
           spender: OPEN_REWARD_DIAMOND,
           value: meAmount,
+          brandId: currentBrandId,
         },
         {
           headers: {
@@ -153,11 +157,12 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
 
       // 0xb6933fa10F5179FA2de6C8B1D0C5B0A9A5B87327;
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, costPayerId);
-
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
       return { taskId };
     }
   } catch (error) {
+    console.log(error, "HAsg err");
+
     setError(error);
     throw error;
   } finally {

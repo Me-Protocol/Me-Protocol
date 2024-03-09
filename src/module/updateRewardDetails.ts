@@ -16,6 +16,8 @@ export async function updateRewardDetailsFN({
   meApiKey,
   reqURL,
   costPayerId,
+  GELATO_API_KEY,
+  debug,
 }: UpdateRewardDetailsProps) {
   setLoading(true);
 
@@ -47,12 +49,7 @@ export async function updateRewardDetailsFN({
         descriptionLink,
       };
 
-      const data = await brandService.updateRewardDetails(
-        brandId,
-        rewardAddress,
-        details,
-        ignoreDefault
-      );
+      const data = await brandService.updateRewardDetails(brandId, rewardAddress, details, ignoreDefault);
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -60,13 +57,7 @@ export async function updateRewardDetailsFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -93,12 +84,7 @@ export async function updateRewardDetailsFN({
         descriptionLink,
       };
 
-      const data = await brandService.updateRewardDetails(
-        brandId,
-        rewardAddress,
-        details,
-        ignoreDefault
-      );
+      const data = await brandService.updateRewardDetails(brandId, rewardAddress, details, ignoreDefault);
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -106,13 +92,7 @@ export async function updateRewardDetailsFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

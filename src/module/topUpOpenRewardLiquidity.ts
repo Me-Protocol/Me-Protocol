@@ -14,7 +14,9 @@ export async function topUpOpenRewardLiquidityFN({
   setError,
   meApiKey,
   reqURL,
+  GELATO_API_KEY,
   costPayerId,
+  debug,
 }: TopUpOpenRewardLiquidityProps) {
   setLoading(true);
 
@@ -53,13 +55,7 @@ export async function topUpOpenRewardLiquidityFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -90,13 +86,7 @@ export async function topUpOpenRewardLiquidityFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

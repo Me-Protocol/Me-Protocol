@@ -1,9 +1,5 @@
 import { BigNumber, ethers } from "ethers";
-import {
-  OPEN_REWARD_DIAMOND,
-  VaultPermitParams,
-  usersServiceWithPermit,
-} from "@developeruche/protocol-core";
+import { OPEN_REWARD_DIAMOND, VaultPermitParams, usersServiceWithPermit } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
 import { relay } from "@developeruche/protocol-core";
@@ -16,18 +12,15 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
   setLoading,
   setSpendLoading,
   setSpendingSteps,
-  spendInfo: {
-    rewardAtHand,
-    targettedReward,
-    amountOfRewardAtHand,
-    expectedAmountOfTargetedReward,
-  },
+  spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
   rewardId,
   setError,
   meApiKey,
   reqURL,
   costPayerId,
   RUNTIME_URL,
+  GELATO_API_KEY,
+  debug,
 }: SpendRewardsOnAnotherBrandWithVaultPermitProps) {
   setLoading(true);
   try {
@@ -114,10 +107,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
 
       setSpendingSteps(2);
 
-      const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(
-        spendInfo,
-        vaultParams
-      );
+      const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(spendInfo, vaultParams);
 
       // console.log(datum, "DATUUM");
 
@@ -138,13 +128,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
       //   data: relayInput.data,
       // });
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       // console.log(taskId, "TASK HIGH DEE");
 
@@ -227,10 +211,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
 
       setSpendingSteps(2);
 
-      const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(
-        spendInfo,
-        vaultParams
-      );
+      const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(spendInfo, vaultParams);
 
       // console.log(datum, "DATUUM");
 
@@ -251,13 +232,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
       //   data: relayInput.data,
       // });
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       // console.log(taskId, "TASK HIGH DEE");
 

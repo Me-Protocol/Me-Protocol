@@ -12,7 +12,9 @@ export async function changeMainAccountFN({
   setError,
   meApiKey,
   reqURL,
+  GELATO_API_KEY,
   costPayerId,
+  debug,
 }: ChangeMainAccountProps) {
   setLoading(true);
 
@@ -45,13 +47,7 @@ export async function changeMainAccountFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -78,13 +74,7 @@ export async function changeMainAccountFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

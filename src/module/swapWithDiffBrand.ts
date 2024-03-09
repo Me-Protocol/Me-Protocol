@@ -8,16 +8,13 @@ import { SwapWithDiffBrandProps } from "../lib/types";
 export async function swapWithDiffBrandFN({
   email,
   setLoading,
-  spendInfo: {
-    rewardAtHand,
-    targettedReward,
-    amountOfRewardAtHand,
-    expectedAmountOfTargetedReward,
-  },
+  spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
   setError,
   meApiKey,
   reqURL,
+  GELATO_API_KEY,
   costPayerId,
+  debug,
 }: SwapWithDiffBrandProps) {
   setLoading(true);
   try {
@@ -49,23 +46,14 @@ export async function swapWithDiffBrandFN({
         expectedAmountOfTargetedReward,
       };
 
-      const data = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithPermit(
-        spendInfo,
-        signer
-      );
+      const data = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithPermit(spendInfo, signer);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -93,23 +81,14 @@ export async function swapWithDiffBrandFN({
         expectedAmountOfTargetedReward,
       };
 
-      const data = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithPermit(
-        spendInfo,
-        signer
-      );
+      const data = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithPermit(spendInfo, signer);
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

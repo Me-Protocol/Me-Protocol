@@ -7,6 +7,8 @@ export interface MeProtocolProviderProps {
   email: string;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
 }
 
@@ -14,7 +16,7 @@ export interface MeProtocolProviderProps {
 //   setLoading: Dispatch<SetStateAction<boolean>>;
 //   setError: Dispatch<SetStateAction<unknown>>;
 //   meApiKey: string;
-//   reqURL: string;
+//   reqURL: string; GELATO_API_KEY:string;
 //   costPayerId?: string;
 //   email: string;
 //   brandName: string;
@@ -26,6 +28,8 @@ export interface CreateRewardProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   name: string;
@@ -49,6 +53,8 @@ export interface DeployRewardAndPoolProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   brandId: string;
@@ -71,8 +77,11 @@ export interface AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoo
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
+  currentBrandId: string;
   reward: string;
   rewardAmount: string;
   meAmount: string;
@@ -97,6 +106,8 @@ export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
   setSpendingSteps: Dispatch<SetStateAction<number>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   email: string;
   reward_amount: BigNumber;
   reward_address: string;
@@ -110,6 +121,8 @@ export interface ChangeOptimalOpenRewardProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardName: string;
@@ -121,6 +134,8 @@ export interface SetUpOpenRewardProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -138,6 +153,8 @@ export interface SetUpWalletProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   persist: boolean;
@@ -154,6 +171,8 @@ export interface ChangeMainAccountProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   newMainAcctAddress: string;
@@ -164,6 +183,8 @@ export interface ActivateOpenRewardProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -173,6 +194,8 @@ export interface IntegrateRewardProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -184,6 +207,8 @@ export interface TopUpOpenRewardLiquidityProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   address: string;
@@ -196,6 +221,8 @@ export interface SpendRewardOnIssuingBrandProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   spendAddress: string;
@@ -217,6 +244,8 @@ export interface UpdateRewardConfigProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   address: string;
@@ -236,6 +265,8 @@ export interface UpdateRewardDetailsProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -254,6 +285,8 @@ export interface UpdateBrandDetailsProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   brandId: string;
@@ -273,6 +306,8 @@ export interface UpdateGeneralConfigProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   brandId: string;
@@ -294,6 +329,8 @@ export interface UpdateOpenRewardConfigProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -306,6 +343,8 @@ export interface ResumeOpenRewardProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -316,6 +355,8 @@ export interface PauseOpenRewardProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   rewardAddress: string;
@@ -338,6 +379,8 @@ export interface GetBrandDetailsProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   getOnlyId?: boolean;
@@ -348,6 +391,8 @@ export interface GetExpectedAmountOfTargetedRewardProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   inputRewardAddress: string;
   outPutRewardAddress: string;
@@ -367,6 +412,8 @@ export interface SwapWithDiffBrandProps {
   setError: Dispatch<SetStateAction<unknown>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   spendInfo: SpendingInfo;
   email: string;
@@ -379,6 +426,8 @@ export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
   setSpendingSteps: Dispatch<SetStateAction<number>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   spendInfo: SpendingInfo;
   email: string;
@@ -393,6 +442,8 @@ export interface AddRewardMagicProps {
   setSpendingSteps: Dispatch<SetStateAction<number>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   brand_id: BigNumber;
@@ -410,6 +461,8 @@ export interface RemoveRewardMagicProps {
   setSpendingSteps: Dispatch<SetStateAction<number>>;
   meApiKey: string;
   reqURL: string;
+  GELATO_API_KEY: string;
+  debug?: boolean;
   costPayerId?: string;
   email: string;
   brand_id: BigNumber;
@@ -550,6 +603,7 @@ export interface AllFnsProps {
     meAmount,
     reward,
     rewardAmount,
+    currentBrandId,
     persist,
   }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => TaskIdPromise;
   getBrandDetails: ({

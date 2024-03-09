@@ -13,7 +13,10 @@ export async function createMoreRewardToTreasuryFN({
   meApiKey,
   reqURL,
   costPayerId,
+
   amount,
+  GELATO_API_KEY,
+  debug,
 }: PauseOpenRewardProps & { amount: string }) {
   setLoading(true);
 
@@ -39,23 +42,14 @@ export async function createMoreRewardToTreasuryFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createMoreRewardToTreasury(
-        rewardAddress,
-        ethers.utils.parseEther(amount)
-      );
+      const data = await brandService.createMoreRewardToTreasury(rewardAddress, ethers.utils.parseEther(amount));
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -76,23 +70,14 @@ export async function createMoreRewardToTreasuryFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createMoreRewardToTreasury(
-        rewardAddress,
-        ethers.utils.parseEther(amount)
-      );
+      const data = await brandService.createMoreRewardToTreasury(rewardAddress, ethers.utils.parseEther(amount));
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

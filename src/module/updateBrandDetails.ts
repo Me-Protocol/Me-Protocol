@@ -14,7 +14,9 @@ export async function updateBrandDetailsFN({
   setError,
   meApiKey,
   reqURL,
+  GELATO_API_KEY,
   costPayerId,
+  debug,
 }: UpdateBrandDetailsProps) {
   setLoading(true);
 
@@ -53,13 +55,7 @@ export async function updateBrandDetailsFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -93,13 +89,7 @@ export async function updateBrandDetailsFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        costPayerId
-      );
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }
