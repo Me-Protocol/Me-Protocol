@@ -1,4 +1,4 @@
-import { brandService } from "../call";
+import { brandService } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { BrandDetailsProps, GetBrandDetailsProps } from "../lib/types";
 

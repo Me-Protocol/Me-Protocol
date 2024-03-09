@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
-import { usersServiceWithPermit, OPEN_REWARD_DIAMOND } from "../call";
+import { usersServiceWithPermit, OPEN_REWARD_DIAMOND } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { relay } from "../call/services/gelatoRelayer";
+import { relay } from "@developeruche/protocol-core";
 import { SpendRewardOnIssuingBrandProps } from "../lib/types";
 
 export async function spendRewardOnIssuingBrandFN({
@@ -11,6 +11,11 @@ export async function spendRewardOnIssuingBrandFN({
   spendAmount,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  GELATO_API_KEY,
+  costPayerId,
+  debug,
 }: SpendRewardOnIssuingBrandProps) {
   setLoading(true);
 
@@ -36,11 +41,7 @@ export async function spendRewardOnIssuingBrandFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(
-        signer,
-        spendAddress,
-        ethers.utils.parseEther(spendAmount)
-      );
+      const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(signer, spendAddress, ethers.utils.parseEther(spendAmount));
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -48,7 +49,7 @@ export async function spendRewardOnIssuingBrandFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -69,11 +70,7 @@ export async function spendRewardOnIssuingBrandFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(
-        signer,
-        spendAddress,
-        ethers.utils.parseEther(spendAmount)
-      );
+      const data = await usersServiceWithPermit.spendRewardsOnIssuingBrandWithPermit(signer, spendAddress, ethers.utils.parseEther(spendAmount));
 
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
@@ -81,7 +78,7 @@ export async function spendRewardOnIssuingBrandFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

@@ -30,6 +30,8 @@ export default [
       "@gelatonetwork/relay-sdk",
       "axios",
       "eth-sig-util",
+      "@developeruche/runtime-sdk",
+      "@developeruche/protocol-core",
     ],
   },
   {
@@ -44,6 +46,8 @@ export default [
       "@gelatonetwork/relay-sdk",
       "axios",
       "eth-sig-util",
+      "@developeruche/runtime-sdk",
+      "@developeruche/protocol-core",
     ],
   },
 ];

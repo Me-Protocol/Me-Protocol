@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
-import { brandService, OPEN_REWARD_DIAMOND } from "../call";
+import { brandService, OPEN_REWARD_DIAMOND } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { relay } from "../call/services/gelatoRelayer";
+import { relay } from "@developeruche/protocol-core";
 import { IntegrateRewardProps } from "../lib/types";
 
 export async function integrateRewardFN({
@@ -12,6 +12,11 @@ export async function integrateRewardFN({
   readTandC,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  GELATO_API_KEY,
+  costPayerId,
+  debug,
 }: IntegrateRewardProps) {
   setLoading(true);
 
@@ -37,11 +42,7 @@ export async function integrateRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.integrateExistingFungibleRewards(
-        rewardAddress,
-        descriptionLink,
-        readTandC
-      );
+      const data = await brandService.integrateExistingFungibleRewards(rewardAddress, descriptionLink, readTandC);
 
       const relayInput = {
         from: loggedInUserInfo.publicrewardAddress,
@@ -49,7 +50,7 @@ export async function integrateRewardFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -70,17 +71,13 @@ export async function integrateRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.integrateExistingFungibleRewards(
-        rewardAddress,
-        descriptionLink,
-        readTandC
-      );
+      const data = await brandService.integrateExistingFungibleRewards(rewardAddress, descriptionLink, readTandC);
       const relayInput = {
         from: loggedInUserInfo.publicrewardAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

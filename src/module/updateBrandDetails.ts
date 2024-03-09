@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
-import { brandService, OPEN_REWARD_DIAMOND } from "../call";
+import { brandService, OPEN_REWARD_DIAMOND } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
 import { UpdateBrandDetailsProps } from "../lib/types";
-import { relay } from "../call/services/gelatoRelayer";
+import { relay } from "@developeruche/protocol-core";
 
 export async function updateBrandDetailsFN({
   email,
@@ -12,6 +12,11 @@ export async function updateBrandDetailsFN({
   ignoreDefault,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  GELATO_API_KEY,
+  costPayerId,
+  debug,
 }: UpdateBrandDetailsProps) {
   setLoading(true);
 
@@ -50,7 +55,7 @@ export async function updateBrandDetailsFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -84,7 +89,7 @@ export async function updateBrandDetailsFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

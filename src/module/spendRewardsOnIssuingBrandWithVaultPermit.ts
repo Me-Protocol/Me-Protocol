@@ -1,0 +1,142 @@
+import { ethers } from "ethers";
+import { magic } from "../lib/magic";
+import { createWeb3 } from "../lib/web3";
+import { same_brand_reward_redeption_magic, sendTransactionData } from "@developeruche/runtime-sdk";
+import axios from "axios";
+import { spendRewardsOnIssuingBrandWithVaultPermitProps } from "../lib/types";
+
+export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
+  email,
+  reward_amount,
+  reward_address,
+  rewardId,
+  setError,
+  reqURL,
+  meApiKey,
+  costPayerId,
+  setLoading,
+  setSpendLoading,
+  setSpendingSteps,
+  RUNTIME_URL,
+}: spendRewardsOnIssuingBrandWithVaultPermitProps) {
+  setLoading(true);
+  try {
+    const magicWeb3 = await createWeb3(magic);
+
+    if (!(await magic.user.isLoggedIn())) {
+      await magic.auth.loginWithEmailOTP({ email });
+      let isConnected = magicWeb3;
+      while (!isConnected) {
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
+        isConnected = magicWeb3;
+      }
+      const accounts = await magicWeb3.eth.getAccounts();
+      //if the user accounts is not found - update it on the console
+      if (accounts.length === 0) {
+        return { taskId: "no accounts found" };
+      }
+      const userAccount = accounts[0];
+      // console.log(userAccount, "user account is this");
+      const provider = await magic.wallet.getProvider();
+      const web3Provider = new ethers.providers.Web3Provider(provider);
+      const signer = web3Provider.getSigner(userAccount);
+      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
+      //=============================================== DO THE REST HERE==========================================================
+      setSpendLoading(true);
+      setSpendingSteps(1);
+
+      const { data, from, hash, nonce, r, s, v }: sendTransactionData =
+        await same_brand_reward_redeption_magic(reward_address, reward_amount, signer, RUNTIME_URL);
+
+      // console.log(data, from, hash, nonce, r, s, v, "from rsv");
+      setSpendingSteps(2);
+
+      const { data: spendData }: any = await axios.post(
+        `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
+        {
+          params: {
+            from,
+            nonce,
+            data,
+            r,
+            s,
+            v,
+            hash,
+          },
+          rewardId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${meApiKey}`,
+          },
+        }
+      );
+      setSpendingSteps(3);
+
+      // console.log(spendData, "Spend data from the  SDK");
+
+      return { taskId: hash };
+    } else {
+      let isConnected = magicWeb3;
+      while (!isConnected) {
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
+        isConnected = magicWeb3;
+      }
+      const accounts = await magicWeb3.eth.getAccounts();
+      //if the user accounts is not found - update it on the console
+      if (accounts.length === 0) {
+        return { taskId: "no accounts found" };
+      }
+      const userAccount = accounts[0];
+      // console.log(userAccount, "user account is this");
+      const provider = await magic.wallet.getProvider();
+      const web3Provider = new ethers.providers.Web3Provider(provider);
+      const signer = web3Provider.getSigner(userAccount);
+      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
+
+      //=================================================== DO THE REST HERE=====================================================
+      setSpendLoading(true);
+      setSpendingSteps(1);
+
+      const { data, from, hash, nonce, r, s, v }: sendTransactionData =
+        await same_brand_reward_redeption_magic(reward_address, reward_amount, signer, RUNTIME_URL);
+
+      // console.log(data, from, hash, nonce, r, s, v, "from rsv");
+      setSpendingSteps(2);
+
+      const { data: spendData }: any = await axios.post(
+        `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
+        {
+          params: {
+            from,
+            nonce,
+            data,
+            r,
+            s,
+            v,
+            hash,
+          },
+          rewardId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${meApiKey}`,
+          },
+        }
+      );
+      setSpendingSteps(3);
+
+      // console.log(spendData, "Spend data from the  SDK");
+
+      return { taskId: hash };
+    }
+  } catch (error) {
+    setError(error);
+    throw error;
+  } finally {
+    setLoading(false);
+    setSpendLoading(false);
+    setSpendingSteps(0);
+    magic.user.logout();
+  }
+}

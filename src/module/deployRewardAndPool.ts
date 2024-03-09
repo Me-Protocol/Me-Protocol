@@ -1,21 +1,33 @@
 import { ethers } from "ethers";
-import { brandService, OPEN_REWARD_DIAMOND } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { relay } from "@developeruche/protocol-core";
-import { PauseOpenRewardProps } from "../lib/types";
+import { OPEN_REWARD_DIAMOND, brandService, relay } from "@developeruche/protocol-core";
+import { Dispatch, SetStateAction } from "react";
+import { DeployRewardAndPoolProps } from "../lib/types";
 
-export async function pauseOpenRewardFN({
+export async function deployRewardAndPoolFN({
   email,
-  rewardAddress,
+  brandId,
+  name,
+  symbol,
+  descriptionLink,
+  totalSupplyVault,
+  totalSupplyTreasury,
   setLoading,
   setError,
   meApiKey,
   reqURL,
   costPayerId,
+  rOptimal,
+  maximumRLimit,
+  minimumRewardAmountForConversation,
+  minimumMeAmountForConversation,
+  notifyRewardAmount,
+  notifyMeAmount,
+  persist,
   GELATO_API_KEY,
   debug,
-}: PauseOpenRewardProps) {
+}: DeployRewardAndPoolProps) {
   setLoading(true);
 
   try {
@@ -40,7 +52,23 @@ export async function pauseOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.pauseOpenRewards(rewardAddress);
+      // ============================================FROM HERE=====================================================================
+      const data = await brandService.createANewRewardWithPermitAndDeployPool(
+        brandId,
+        name,
+        symbol,
+        descriptionLink,
+        totalSupplyVault,
+        totalSupplyTreasury,
+        // OPEN_REWARD_DIAMOND,
+        rOptimal,
+        maximumRLimit,
+        minimumRewardAmountForConversation,
+        minimumMeAmountForConversation,
+        notifyRewardAmount,
+        notifyMeAmount
+      );
+
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -68,12 +96,30 @@ export async function pauseOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.pauseOpenRewards(rewardAddress);
+      // ============================================FROM HERE=====================================================================
+
+      const data = await brandService.createANewRewardWithPermitAndDeployPool(
+        brandId,
+        name,
+        symbol,
+        descriptionLink,
+        totalSupplyVault,
+        totalSupplyTreasury,
+        // OPEN_REWARD_DIAMOND,
+        rOptimal,
+        maximumRLimit,
+        minimumRewardAmountForConversation,
+        minimumMeAmountForConversation,
+        notifyRewardAmount,
+        notifyMeAmount
+      );
+
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
+
       const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
@@ -83,5 +129,8 @@ export async function pauseOpenRewardFN({
     throw error;
   } finally {
     setLoading(false);
+    if (!persist) {
+      magic.user.logout();
+    }
   }
 }

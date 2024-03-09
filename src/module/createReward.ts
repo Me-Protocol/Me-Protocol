@@ -1,8 +1,7 @@
 import { ethers } from "ethers";
-import { brandService, OPEN_REWARD_DIAMOND } from "../call";
+import { brandService, OPEN_REWARD_DIAMOND, relay } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { relay } from "../call/services/gelatoRelayer";
 import { CreateRewardProps } from "../lib/types";
 
 export async function createRewardFN({
@@ -12,6 +11,12 @@ export async function createRewardFN({
   descriptionLink,
   totalSupply,
   setLoading,
+  meApiKey,
+  reqURL,
+  costPayerId,
+  setError,
+  GELATO_API_KEY,
+  debug,
 }: CreateRewardProps) {
   setLoading(true);
 
@@ -50,7 +55,7 @@ export async function createRewardFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -83,11 +88,12 @@ export async function createRewardFN({
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }
   } catch (error) {
+    setError(error);
     throw error;
   } finally {
     setLoading(false);

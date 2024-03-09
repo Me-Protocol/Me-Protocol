@@ -5,7 +5,7 @@ import { createWeb3 } from "../lib/web3";
 import { relay } from "@developeruche/protocol-core";
 import { PauseOpenRewardProps } from "../lib/types";
 
-export async function pauseOpenRewardFN({
+export async function createMoreRewardToTreasuryFN({
   email,
   rewardAddress,
   setLoading,
@@ -13,9 +13,11 @@ export async function pauseOpenRewardFN({
   meApiKey,
   reqURL,
   costPayerId,
+
+  amount,
   GELATO_API_KEY,
   debug,
-}: PauseOpenRewardProps) {
+}: PauseOpenRewardProps & { amount: string }) {
   setLoading(true);
 
   try {
@@ -40,7 +42,7 @@ export async function pauseOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.pauseOpenRewards(rewardAddress);
+      const data = await brandService.createMoreRewardToTreasury(rewardAddress, ethers.utils.parseEther(amount));
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
@@ -68,12 +70,13 @@ export async function pauseOpenRewardFN({
       const signer = web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.pauseOpenRewards(rewardAddress);
+      const data = await brandService.createMoreRewardToTreasury(rewardAddress, ethers.utils.parseEther(amount));
       const relayInput = {
         from: loggedInUserInfo.publicAddress,
         data: data.data,
         to: OPEN_REWARD_DIAMOND,
       };
+
       const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };

@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
-import { brandService, OPEN_REWARD_DIAMOND } from "../call";
+import { brandService, OPEN_REWARD_DIAMOND } from "@developeruche/protocol-core";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
 import { UpdateGeneralConfigProps } from "../lib/types";
-import { relay } from "../call/services/gelatoRelayer";
+import { relay } from "@developeruche/protocol-core";
 
 export async function updateGeneralConfigFN({
   email,
@@ -12,6 +12,11 @@ export async function updateGeneralConfigFN({
   ignoreDefault,
   setLoading,
   setError,
+  meApiKey,
+  reqURL,
+  GELATO_API_KEY,
+  costPayerId,
+  debug,
 }: UpdateGeneralConfigProps) {
   setLoading(true);
 
@@ -52,7 +57,7 @@ export async function updateGeneralConfigFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     } else {
@@ -88,7 +93,7 @@ export async function updateGeneralConfigFN({
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer);
+      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
 
       return { taskId };
     }

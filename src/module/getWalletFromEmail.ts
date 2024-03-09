@@ -1,15 +1,20 @@
 import { magic } from "../lib/magic";
-import { SetUpWalletProps } from "../lib/types";
+import { GetWalletFromEmailProps } from "../lib/types";
 import { createWeb3 } from "../lib/web3";
 
-export async function setUpWalletFN({ email, setLoading, setError, persist }: SetUpWalletProps) {
+export async function getWalletFromEmailFN({
+  userEmail,
+  setLoading,
+  setError,
+  persist,
+}: GetWalletFromEmailProps) {
   setLoading(true);
 
   try {
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email });
+      await magic.auth.loginWithEmailOTP({ email: userEmail });
       let isConnected = magicWeb3;
       while (!isConnected) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
