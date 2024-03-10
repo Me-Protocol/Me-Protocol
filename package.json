@@ -1,6 +1,6 @@
 {
   "name": "me-protocol",
-  "version": "3.9.2-staging-go-live",
+  "version": "3.9.3-staging-go-live",
   "description": "A library for interacting with the me-protocol ecosystem",
   "scripts": {
     "prebuild": "rimraf dist",
