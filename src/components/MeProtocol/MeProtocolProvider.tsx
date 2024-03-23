@@ -64,6 +64,7 @@ import { createMoreRewardToTreasuryFN } from "../../module/createMoreRewardToTre
 import { changeROptimalFN } from "../../module/changeROptimal";
 import { BigNumber } from "ethers";
 import { getWalletFromEmailFN } from "../../module/getWalletFromEmail";
+import { magic } from "../../lib/magic";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -730,6 +731,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
   async function logOut(clearCache = true) {
     return await logOutFn(clearCache);
   }
+  // function magicInfo() {
+  //   return magic;
+  // }
 
   return (
     <MeProtocolContext.Provider
@@ -770,6 +774,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
         createMoreRewardToTreasury,
         changeROptimal,
         logOut,
+        magic,
       }}
     >
       {children}

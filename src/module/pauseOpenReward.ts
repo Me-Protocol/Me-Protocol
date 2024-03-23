@@ -56,6 +56,11 @@ export async function pauseOpenRewardFN({
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
         isConnected = magicWeb3;
       }
+      const { email: connectedEmail } = await magic.user.getInfo();
+      //IF THE PERSISTED USER INFO IS NOT THE INFO OF THE USER TRYING TO PERFORM THE FUNCTION logout and try to login again
+      if (email !== connectedEmail) {
+        await magic.user.logout();
+      }
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
