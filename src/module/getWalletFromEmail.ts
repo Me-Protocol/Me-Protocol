@@ -2,12 +2,7 @@ import { magic } from "../lib/magic";
 import { GetWalletFromEmailProps } from "../lib/types";
 import { createWeb3 } from "../lib/web3";
 
-export async function getWalletFromEmailFN({
-  userEmail,
-  setLoading,
-  setError,
-  persist,
-}: GetWalletFromEmailProps) {
+export async function getWalletFromEmailFN({ userEmail, setLoading, setError, persist }: GetWalletFromEmailProps) {
   setLoading(true);
 
   try {
@@ -34,6 +29,7 @@ export async function getWalletFromEmailFN({
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
         isConnected = magicWeb3;
       }
+
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {

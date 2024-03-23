@@ -481,6 +481,7 @@ export interface AllFnsProps {
   loading: boolean;
   spendLoading: boolean;
   spendingSteps: number;
+  magic: any;
   updateGeneralConfig: ({
     generalConfig: { enableBountyRewards, enableCais, payIncomingGasFees, payOutgoingGasFees },
     ignoreDefault,
