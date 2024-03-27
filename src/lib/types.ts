@@ -566,6 +566,7 @@ export interface AllFnsProps {
   }: Omit<UpdateOpenRewardConfigProps, OmittedProps>) => TaskIdPromise;
   pauseOpenReward: ({ rewardAddress }: Omit<PauseOpenRewardProps, OmittedProps>) => TaskIdPromise;
   createMoreRewardToTreasury: ({ rewardAddress }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) => TaskIdPromise;
+  createMoreRewardToVault: ({ rewardAddress }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) => TaskIdPromise;
   changeROptimal: ({ rewardAddress }: Omit<PauseOpenRewardProps & { newROptimal: BigNumber }, OmittedProps>) => TaskIdPromise;
   resumeOpenReward: ({ rewardAddress }: Omit<ResumeOpenRewardProps, OmittedProps>) => TaskIdPromise;
   activateOpenReward: ({ rewardAddress }: Omit<ActivateOpenRewardProps, OmittedProps>) => TaskIdPromise;

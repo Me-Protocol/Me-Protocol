@@ -65,6 +65,7 @@ import { changeROptimalFN } from "../../module/changeROptimal";
 import { BigNumber } from "ethers";
 import { getWalletFromEmailFN } from "../../module/getWalletFromEmail";
 import { magic } from "../../lib/magic";
+import { createMoreRewardsToVaultFN } from "../../module/createMoreRewardToVault";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -714,6 +715,20 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       amount,
     });
   }
+  async function createMoreRewardToVault({ rewardAddress, amount }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) {
+    return await createMoreRewardsToVaultFN({
+      email,
+      rewardAddress,
+      setLoading,
+      setError,
+      meApiKey,
+      reqURL,
+      GELATO_API_KEY,
+      debug,
+      costPayerId,
+      amount,
+    });
+  }
   async function changeROptimal({ rewardAddress, newROptimal }: Omit<PauseOpenRewardProps & { newROptimal: BigNumber }, OmittedProps>) {
     return await changeROptimalFN({
       email,
@@ -772,6 +787,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
         addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool,
         onBoardRewards,
         createMoreRewardToTreasury,
+        createMoreRewardToVault,
         changeROptimal,
         logOut,
         magic,
