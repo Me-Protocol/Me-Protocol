@@ -18,6 +18,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
   setSpendLoading,
   setSpendingSteps,
   RUNTIME_URL,
+  orderId,
 }: spendRewardsOnIssuingBrandWithVaultPermitProps) {
   setLoading(true);
   try {
@@ -52,6 +53,15 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
         RUNTIME_URL
       );
 
+      const { data: couponData } = await axios.post(
+        `${reqURL.replace("/cost/request/in-app", "")}/order/coupon`,
+        { orderId },
+        {
+          headers: {
+            Authorization: `Bearer ${meApiKey}`,
+          },
+        }
+      );
       // console.log(data, from, hash, nonce, r, s, v, "from rsv");
       setSpendingSteps(2);
 
@@ -118,6 +128,15 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
           RUNTIME_URL
         );
 
+        const { data: couponData } = await axios.post(
+          `${reqURL.replace("/cost/request/in-app", "")}/order/coupon`,
+          { orderId },
+          {
+            headers: {
+              Authorization: `Bearer ${meApiKey}`,
+            },
+          }
+        );
         // console.log(data, from, hash, nonce, r, s, v, "from rsv");
         setSpendingSteps(2);
 
@@ -168,6 +187,15 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
         RUNTIME_URL
       );
 
+      const { data: couponData } = await axios.post(
+        `${reqURL.replace("/cost/request/in-app", "")}/order/coupon`,
+        { orderId },
+        {
+          headers: {
+            Authorization: `Bearer ${meApiKey}`,
+          },
+        }
+      );
       // console.log(data, from, hash, nonce, r, s, v, "from rsv");
       setSpendingSteps(2);
 

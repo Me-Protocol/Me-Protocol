@@ -526,6 +526,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
     rewardId,
     reward_amount,
     RUNTIME_URL,
+    orderId,
   }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) {
     return await spendRewardsOnIssuingBrandWithVaultPermitFN({
       email,
@@ -542,12 +543,14 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       debug,
       costPayerId,
       RUNTIME_URL,
+      orderId,
     });
   }
 
   async function spendRewardsOnAnotherBrandWithVaultPermit({
     rewardId,
     spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
+    orderId,
     RUNTIME_URL,
   }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) {
     return await spendRewardsOnAnotherBrandWithVaultPermitFN({
@@ -569,6 +572,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       debug,
       costPayerId,
       RUNTIME_URL,
+      orderId,
     });
   }
 

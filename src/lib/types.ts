@@ -114,6 +114,7 @@ export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
   rewardId: string;
   costPayerId?: string;
   RUNTIME_URL: string;
+  orderId: string;
 }
 
 export interface ChangeOptimalOpenRewardProps {
@@ -433,6 +434,7 @@ export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
   email: string;
   rewardId: string;
   RUNTIME_URL: string;
+  orderId: string;
 }
 
 export interface AddRewardMagicProps {
@@ -506,6 +508,7 @@ export interface AllFnsProps {
     spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
     rewardId,
     RUNTIME_URL,
+    orderId,
   }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
   addRewardManager: ({
     brand_id,
@@ -625,6 +628,7 @@ export interface AllFnsProps {
     reward_amount,
     rewardId,
     RUNTIME_URL,
+    orderId,
   }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
   logOut: (clearCache?: boolean) => Promise<any>;
 }

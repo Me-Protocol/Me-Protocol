@@ -21,6 +21,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
   RUNTIME_URL,
   GELATO_API_KEY,
   debug,
+  orderId,
 }: SpendRewardsOnAnotherBrandWithVaultPermitProps) {
   setLoading(true);
   try {
@@ -70,6 +71,16 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         RUNTIME_URL
       );
 
+      const { data: couponData } = await axios.post(
+        `${reqURL.replace("/cost/request/in-app", "")}/order/coupon`,
+        { orderId },
+        {
+          headers: {
+            Authorization: `Bearer ${meApiKey}`,
+          },
+        }
+      );
+
       setSpendingSteps(1);
       const { data: spendData }: any = await axios.post(
         `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
@@ -107,19 +118,37 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
 
       setSpendingSteps(2);
 
-      const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(spendInfo, vaultParams);
+      try {
+        const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(spendInfo, vaultParams);
 
-      const relayInput = {
-        from: loggedInUserInfo.publicAddress,
-        data: datum.data,
-        to: OPEN_REWARD_DIAMOND,
-      };
+        const relayInput = {
+          from: loggedInUserInfo.publicAddress,
+          data: datum.data,
+          to: OPEN_REWARD_DIAMOND,
+        };
 
-      setSpendingSteps(3);
+        setSpendingSteps(3);
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
+        const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
+        return { taskId, spendData };
+      } catch (error) {
+        return { taskId: "0x0000000000000000000000000000000000000000000000000000000000000000", spendData };
+      }
+      // .then(async (res) => {
+      //   const relayInput = {
+      //     from: loggedInUserInfo.publicAddress,
+      //     data: datum.data,
+      //     to: OPEN_REWARD_DIAMOND,
+      //   };
 
-      return { taskId, spendData };
+      //   setSpendingSteps(3);
+
+      //   const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
+      //   return { taskId, spendData };
+      // })
+      // .catch((err) => {
+      //   if (err) return { taskId: "0x0000000000000000000000000000000000000000000000000000000000000000", spendData };
+      // });
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -174,7 +203,18 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
           RUNTIME_URL
         );
 
+        const { data: couponData } = await axios.post(
+          `${reqURL.replace("/cost/request/in-app", "")}/order/coupon`,
+          { orderId },
+          {
+            headers: {
+              Authorization: `Bearer ${meApiKey}`,
+            },
+          }
+        );
+
         setSpendingSteps(1);
+
         const { data: spendData }: any = await axios.post(
           `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
           {
@@ -211,19 +251,40 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
 
         setSpendingSteps(2);
 
-        const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(spendInfo, vaultParams);
+        try {
+          const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(spendInfo, vaultParams);
 
-        const relayInput = {
-          from: loggedInUserInfo.publicAddress,
-          data: datum.data,
-          to: OPEN_REWARD_DIAMOND,
-        };
+          const relayInput = {
+            from: loggedInUserInfo.publicAddress,
+            data: datum.data,
+            to: OPEN_REWARD_DIAMOND,
+          };
 
-        setSpendingSteps(3);
+          setSpendingSteps(3);
 
-        const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
+          const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
+          return { taskId, spendData };
+        } catch (error) {
+          return { taskId: "0x0000000000000000000000000000000000000000000000000000000000000000", spendData };
+        }
 
-        return { taskId, spendData };
+        // const datum: any = await usersServiceWithPermit
+        //   .spendRewardsOnAnotherBrandWithVaultPermit(spendInfo, vaultParams)
+        //   .then(async (res) => {
+        //     const relayInput = {
+        //       from: loggedInUserInfo.publicAddress,
+        //       data: datum.data,
+        //       to: OPEN_REWARD_DIAMOND,
+        //     };
+
+        //     setSpendingSteps(3);
+
+        //     const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
+        //     return { taskId, spendData };
+        //   })
+        //   .catch((err) => {
+        //     if (err) return { taskId: "0x0000000000000000000000000000000000000000000000000000000000000000", spendData };
+        //   });
       }
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
@@ -258,6 +319,16 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
         OPEN_REWARD_DIAMOND,
         signer,
         RUNTIME_URL
+      );
+
+      const { data: couponData } = await axios.post(
+        `${reqURL.replace("/cost/request/in-app", "")}/order/coupon`,
+        { orderId },
+        {
+          headers: {
+            Authorization: `Bearer ${meApiKey}`,
+          },
+        }
       );
 
       setSpendingSteps(1);
@@ -297,19 +368,38 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
 
       setSpendingSteps(2);
 
-      const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(spendInfo, vaultParams);
+      try {
+        const datum: any = await usersServiceWithPermit.spendRewardsOnAnotherBrandWithVaultPermit(spendInfo, vaultParams);
 
-      const relayInput = {
-        from: loggedInUserInfo.publicAddress,
-        data: datum.data,
-        to: OPEN_REWARD_DIAMOND,
-      };
+        const relayInput = {
+          from: loggedInUserInfo.publicAddress,
+          data: datum.data,
+          to: OPEN_REWARD_DIAMOND,
+        };
 
-      setSpendingSteps(3);
+        setSpendingSteps(3);
 
-      const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
+        const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
+        return { taskId, spendData };
+      } catch (error) {
+        return { taskId: "0x0000000000000000000000000000000000000000000000000000000000000000", spendData };
+      }
 
-      return { taskId, spendData };
+      // .then(async (res) => {
+      //   const relayInput = {
+      //     from: loggedInUserInfo.publicAddress,
+      //     data: datum.data,
+      //     to: OPEN_REWARD_DIAMOND,
+      //   };
+
+      //   setSpendingSteps(3);
+
+      //   const { taskId }: { taskId: string } = await relay(relayInput, signer, meApiKey, reqURL, GELATO_API_KEY, costPayerId, debug);
+      //   return { taskId, spendData };
+      // })
+      // .catch((err) => {
+      //   if (err) return { taskId: "0x0000000000000000000000000000000000000000000000000000000000000000", spendData };
+      // });
     }
   } catch (error) {
     setError(error);
