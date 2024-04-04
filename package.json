@@ -13,8 +13,8 @@
   ],
   "license": "ISC",
   "devDependencies": {
-    "@developeruche/protocol-core": "1.0.1",
-    "@developeruche/runtime-sdk": "1.0.1",
+    "@developeruche/protocol-core": "0.10.0-staging",
+    "@developeruche/runtime-sdk": "0.10.0-staging",
     "@gelatonetwork/relay-sdk": "^4.0.0",
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-json": "^6.0.0",
