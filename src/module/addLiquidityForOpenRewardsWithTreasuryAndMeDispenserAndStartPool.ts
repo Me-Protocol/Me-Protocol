@@ -1,15 +1,15 @@
 import { ethers } from "ethers";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { OPEN_REWARD_DIAMOND, TREASURY, brandService, defaultProvider, relay } from "@developeruche/protocol-core";
+import { OPEN_REWARD_DIAMOND, TREASURY, VaultPermitParams, brandService, defaultProvider, relay } from "@developeruche/protocol-core";
 import { AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps } from "../lib/types";
 import axios from "axios";
 
 export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN({
   email,
-  reward,
   rewardAmount,
   meAmount,
+  rewardAddress,
   setLoading,
   setError,
   meApiKey,
@@ -48,13 +48,15 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
 
       // console.log(OPEN_REWARD_DIAMOND, "REWARD DIAMOND DEV");
 
-      const { data: GTP }: any = await axios.post(
-        `${reqURL}/reward/get-treasury-permit`,
+      const { data: GTP }: { data: { data: VaultPermitParams } } = await axios.post(
+        `${reqURL}/reward/get-vault-permit`,
+        // `${reqURL}/reward/get-treasury-permit`,
         {
           // token: TREASURY,
-          spender: OPEN_REWARD_DIAMOND,
+
           value: meAmount,
           brandId: currentBrandId,
+          rewardAddress,
         },
         {
           headers: {
@@ -65,12 +67,10 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
       // console.log(GTP, "FROM TREASUREY PERMIT REQ");
 
       const data = await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool(
-        reward,
+        rewardAddress,
         ethers.utils.parseEther(rewardAmount),
         ethers.utils.parseEther(meAmount),
-        Number(GTP?.data?.v),
-        GTP?.data?.r,
-        GTP?.data?.s
+        GTP?.data
       );
 
       const relayInput = {
@@ -124,13 +124,14 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
 
         // console.log(OPEN_REWARD_DIAMOND, "REWARD DIAMOND DEV");
 
-        const { data: GTP }: any = await axios.post(
-          `${reqURL}/reward/get-treasury-permit`,
+        const { data: GTP }: { data: { data: VaultPermitParams } } = await axios.post(
+          `${reqURL}/reward/get-vault-permit`,
           {
             // token: TREASURY,
-            spender: OPEN_REWARD_DIAMOND,
+
             value: meAmount,
             brandId: currentBrandId,
+            rewardAddress,
           },
           {
             headers: {
@@ -141,12 +142,10 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
         // console.log(GTP, "FROM TREASUREY PERMIT REQ");
 
         const data = await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool(
-          reward,
+          rewardAddress,
           ethers.utils.parseEther(rewardAmount),
           ethers.utils.parseEther(meAmount),
-          Number(GTP?.data?.v),
-          GTP?.data?.r,
-          GTP?.data?.s
+          GTP?.data
         );
 
         const relayInput = {
@@ -183,14 +182,14 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
       // ============================================FROM HERE=====================================================================
 
       // console.log(OPEN_REWARD_DIAMOND, "REWARD DIAMOND DEV");
-
-      const { data: GTP }: any = await axios.post(
-        `${reqURL}/reward/get-treasury-permit`,
+      const { data: GTP }: { data: { data: VaultPermitParams } } = await axios.post(
+        `${reqURL}/reward/get-vault-permit`,
         {
           // token: TREASURY,
-          spender: OPEN_REWARD_DIAMOND,
+
           value: meAmount,
           brandId: currentBrandId,
+          rewardAddress,
         },
         {
           headers: {
@@ -201,12 +200,10 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
       // console.log(GTP, "FROM TREASUREY PERMIT REQ");
 
       const data = await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool(
-        reward,
+        rewardAddress,
         ethers.utils.parseEther(rewardAmount),
         ethers.utils.parseEther(meAmount),
-        Number(GTP?.data?.v),
-        GTP?.data?.r,
-        GTP?.data?.s
+        GTP?.data
       );
 
       const relayInput = {

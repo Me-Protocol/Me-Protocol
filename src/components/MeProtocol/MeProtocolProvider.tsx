@@ -682,8 +682,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
   }
   async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool({
     meAmount,
-    reward,
     rewardAmount,
+    rewardAddress,
     currentBrandId,
     persist,
   }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) {
@@ -697,7 +697,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       debug,
       costPayerId,
       meAmount,
-      reward,
+      rewardAddress,
       rewardAmount,
       currentBrandId,
       persist,

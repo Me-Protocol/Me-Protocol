@@ -82,7 +82,7 @@ export interface AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoo
   costPayerId?: string;
   email: string;
   currentBrandId: string;
-  reward: string;
+  rewardAddress: string;
   rewardAmount: string;
   meAmount: string;
   persist: boolean;
@@ -606,8 +606,8 @@ export interface AllFnsProps {
   }: Omit<DeployRewardAndPoolProps, OmittedProps>) => TaskIdPromise;
   addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool: ({
     meAmount,
-    reward,
     rewardAmount,
+    rewardAddress,
     currentBrandId,
     persist,
   }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => TaskIdPromise;
