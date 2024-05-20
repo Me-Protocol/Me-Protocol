@@ -1,7 +1,16 @@
 import { ethers } from "ethers";
 import { magic } from "../lib/magic";
 import { createWeb3 } from "../lib/web3";
-import { OPEN_REWARD_DIAMOND, TREASURY, VaultPermitParams, brandService, defaultProvider, relay } from "@developeruche/protocol-core";
+import {
+  ME_TOKEN,
+  OPEN_REWARD_DIAMOND,
+  TREASURY,
+  VaultPermitParams,
+  brandService,
+  defaultProvider,
+  relay,
+  signConsent,
+} from "@developeruche/protocol-core";
 import { AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps } from "../lib/types";
 import axios from "axios";
 
@@ -47,6 +56,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
       // ============================================FROM HERE=====================================================================
 
       // console.log(OPEN_REWARD_DIAMOND, "REWARD DIAMOND DEV");
+      let sign = await signConsent(signer, ME_TOKEN, ethers.utils.parseEther(meAmount).toString());
 
       const { data: GTP }: { data: { data: VaultPermitParams } } = await axios.post(
         `${reqURL}/reward/get-vault-permit`,
@@ -54,9 +64,10 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
         {
           // token: TREASURY,
 
-          value: meAmount,
+          value: ethers.utils.parseEther(meAmount).toString(),
           brandId: currentBrandId,
           rewardAddress,
+          sign,
         },
         {
           headers: {
@@ -123,15 +134,17 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
         // ============================================FROM HERE=====================================================================
 
         // console.log(OPEN_REWARD_DIAMOND, "REWARD DIAMOND DEV");
+        let sign = await signConsent(signer, ME_TOKEN, ethers.utils.parseEther(meAmount).toString());
 
         const { data: GTP }: { data: { data: VaultPermitParams } } = await axios.post(
           `${reqURL}/reward/get-vault-permit`,
           {
             // token: TREASURY,
 
-            value: meAmount,
+            value: ethers.utils.parseEther(meAmount).toString(),
             brandId: currentBrandId,
             rewardAddress,
+            sign,
           },
           {
             headers: {
@@ -182,14 +195,17 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
       // ============================================FROM HERE=====================================================================
 
       // console.log(OPEN_REWARD_DIAMOND, "REWARD DIAMOND DEV");
+      let sign = await signConsent(signer, ME_TOKEN, ethers.utils.parseEther(meAmount).toString());
+
       const { data: GTP }: { data: { data: VaultPermitParams } } = await axios.post(
         `${reqURL}/reward/get-vault-permit`,
         {
           // token: TREASURY,
 
-          value: meAmount,
+          value: ethers.utils.parseEther(meAmount).toString(),
           brandId: currentBrandId,
           rewardAddress,
+          sign,
         },
         {
           headers: {
