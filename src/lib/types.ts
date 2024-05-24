@@ -611,6 +611,20 @@ export interface AllFnsProps {
     currentBrandId,
     persist,
   }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => TaskIdPromise;
+  addLiquidityForOpenRewardsWithTreasuryAndMeDispenser: ({
+    meAmount,
+    rewardAmount,
+    rewardAddress,
+    currentBrandId,
+    persist,
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => TaskIdPromise;
+  addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopup: ({
+    meAmount,
+    rewardAmount,
+    rewardAddress,
+    currentBrandId,
+    persist,
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => TaskIdPromise;
   getBrandDetails: ({
     getOnlyId,
   }: Omit<GetBrandDetailsProps, OmittedProps>) => Promise<{ brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined>;

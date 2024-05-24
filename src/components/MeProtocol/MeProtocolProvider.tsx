@@ -66,6 +66,8 @@ import { BigNumber } from "ethers";
 import { getWalletFromEmailFN } from "../../module/getWalletFromEmail";
 import { magic } from "../../lib/magic";
 import { createMoreRewardsToVaultFN } from "../../module/createMoreRewardToVault";
+import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser";
+import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser copy";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -703,6 +705,52 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       persist,
     });
   }
+  async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenser({
+    meAmount,
+    rewardAmount,
+    rewardAddress,
+    currentBrandId,
+    persist,
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) {
+    return await addLiquidityForOpenRewardsWithTreasuryAndMeDispenserFN({
+      email,
+      setError,
+      setLoading,
+      meApiKey,
+      reqURL,
+      GELATO_API_KEY,
+      debug,
+      costPayerId,
+      meAmount,
+      rewardAddress,
+      rewardAmount,
+      currentBrandId,
+      persist,
+    });
+  }
+  async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopup({
+    meAmount,
+    rewardAmount,
+    rewardAddress,
+    currentBrandId,
+    persist,
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) {
+    return await addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN({
+      email,
+      setError,
+      setLoading,
+      meApiKey,
+      reqURL,
+      GELATO_API_KEY,
+      debug,
+      costPayerId,
+      meAmount,
+      rewardAddress,
+      rewardAmount,
+      currentBrandId,
+      persist,
+    });
+  }
 
   // ========================================= THIS IS THE FUNCTION TO UpDaTE OPEN REWRAD ==========================================================
   async function createMoreRewardToTreasury({ rewardAddress, amount }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) {
@@ -789,6 +837,8 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
         removeRewardManager,
         deployRewardAndPool,
         addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool,
+        addLiquidityForOpenRewardsWithTreasuryAndMeDispenser,
+        addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopup,
         onBoardRewards,
         createMoreRewardToTreasury,
         createMoreRewardToVault,
