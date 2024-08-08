@@ -401,6 +401,14 @@ export interface GetExpectedAmountOfTargetedRewardProps {
   returnAsFormatted?: boolean;
 }
 
+export interface GetUserRewardsRuntimeProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  rewardListFromBackend: RewardRuntime[];
+  RUNTIME_URL: string;
+  userData: UserProps;
+}
+
 export interface SpendingInfo {
   rewardAtHand: string;
   targettedReward: string;
@@ -473,6 +481,199 @@ export interface RemoveRewardMagicProps {
   role_id: BigNumber;
   persist: boolean;
   RUNTIME_URL: string;
+}
+
+export interface RewardRuntime {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  brandId: string;
+  description: string;
+  balance?: {
+    balance: string;
+    contractAddress: string;
+  };
+  slug: string;
+  rewardImage: string;
+  otherRewardType: any;
+  rewardSymbol: string;
+  rewardName: string;
+  autoSyncEnabled: boolean;
+  contractAddress: string;
+  isBounty: boolean;
+  blockchain: string;
+  acceptedCustomerIdentitytypes: string[];
+  syncData?: string[];
+  redistributionPublicKey?: string;
+  bountyPublicKey?: string;
+  redistributionKeyIdentifierId?: string;
+  bountyKeyIdentifierId?: string;
+  status: string;
+  brand: Brand;
+}
+
+export interface Reward {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  brandId: string;
+  description: string;
+  slug: string;
+  rewardImage: string;
+  otherRewardType: any;
+  rewardSymbol: string;
+  rewardName: string;
+  autoSyncEnabled: boolean;
+  contractAddress: string;
+  isBounty: boolean;
+  blockchain: string;
+  acceptedCustomerIdentitytypes: string[];
+  syncData?: string[];
+  redistributionPublicKey?: string;
+  bountyPublicKey?: string;
+  redistributionKeyIdentifierId?: string;
+  bountyKeyIdentifierId?: string;
+  status: string;
+  brand: Brand;
+}
+
+export interface Brand {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  name: string;
+  slug: string;
+  website: string;
+  description: string;
+  slogan: string;
+  socialMediaLinks: any;
+  logo: string;
+  logo_icon: any;
+  logo_white: string;
+  logo_white_icon: any;
+  banners: string[];
+  location: string;
+  categoryId: string;
+  revenueRange: any;
+  vatTaxId: any;
+  ecommercePlatform: any;
+  loyaltyProgram: any;
+  isVerified: boolean;
+  followersCount: number;
+  viewsCount: number;
+  canPayCost: boolean;
+  canPayCost_inApp: boolean;
+  autoTopupAmount: string;
+  subscribedServices: string[];
+  enableAutoTopup: boolean;
+  supportPhoneNumber: any;
+  brandProtocolId: string;
+  listOnStore: boolean;
+  brandPrimaryColor: any;
+  brandSecondaryColor: any;
+  walletAddress: string;
+  vaultPercentage: number;
+  noOfCustomers: number;
+  currency: any;
+  countryCode: any;
+  country: any;
+  region: any;
+  additionalAddress: any;
+  city: any;
+  postalCode: any;
+}
+
+export interface UserProps {
+  id: string;
+  email: string;
+  phone: string;
+  username: string;
+  loginType: string;
+  emailVerified: boolean;
+  phoneVerified: boolean;
+  is2faEnabled: boolean;
+  role: string;
+  twoFAType: string;
+  following_interests: any;
+  userType: string;
+  countryCode: string;
+  countryName: string;
+  user_category_interests: string[];
+  language: any;
+  timezone: any;
+  region: any;
+  currency: any;
+  customer: Customer;
+  brand: any;
+  twitterUsername: string | null;
+  brandMember: any;
+  deviceToken: DeviceToken;
+  referralCode: string;
+  airdropPoints: number;
+  totalReferred: number;
+  rewardBalances?: RewardRuntime[];
+}
+
+export interface Customer {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  name: string;
+  country: any;
+  bio: string;
+  location: string;
+  weight: string;
+  height: string;
+  profilePicture: string;
+  login_2fa: boolean;
+  deposit_2fa: boolean;
+  withdraw_2fa: boolean;
+  sizes: any;
+  news_notifications: string;
+  offer_notifications: string;
+  brand_notifications: string;
+  expiring_notifications: string;
+  point_notifications: string;
+  order_notifications: string;
+  other_notifications: string;
+  walletAddress: string;
+  totalRedeemed: number;
+  totalRedemptionAmount: number;
+  firstTimeLogin: boolean;
+}
+
+export interface DeviceToken {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  name: any;
+  agent: string;
+  ip: string;
+  location: string;
+  type: string;
+  userId: string;
+  device_token: any;
+  timezone: string;
+  lat_lng: string[];
+  range: string[];
+}
+
+export interface Balance {
+  [key: string]: string;
+}
+
+export interface Result {
+  balance: Balance;
+  nonce: string;
+  storage_hash: string;
+}
+
+export interface JsonRpcResponse {
+  jsonrpc: string;
+  result: Result;
+  id: number;
 }
 
 export type OmittedProps = "setLoading" | "setSpendLoading" | "setSpendingSteps" | "email" | "setError" | "meApiKey" | "reqURL" | "costPayerId";
@@ -644,5 +845,9 @@ export interface AllFnsProps {
     RUNTIME_URL,
     orderId,
   }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
+  getUserRewardsRuntime: ({ rewardListFromBackend, userData, RUNTIME_URL }: Omit<GetUserRewardsRuntimeProps, OmittedProps>) => Promise<{
+    rewardBalances: RewardRuntime[];
+    userDataWithBalance: UserProps;
+  }>;
   logOut: (clearCache?: boolean) => Promise<any>;
 }

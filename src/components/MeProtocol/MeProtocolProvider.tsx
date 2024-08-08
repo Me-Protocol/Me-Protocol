@@ -31,6 +31,7 @@ import {
   AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps,
   OnBoardRewardsProps,
   GetWalletFromEmailProps,
+  GetUserRewardsRuntimeProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -68,6 +69,7 @@ import { magic } from "../../lib/magic";
 import { createMoreRewardsToVaultFN } from "../../module/createMoreRewardToVault";
 import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser";
 import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser copy";
+import { getUserRewardsRuntimeFN } from "../../module/getUserRewardsRuntime";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -795,6 +797,15 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       newROptimal,
     });
   }
+  async function getUserRewardsRuntime({ RUNTIME_URL, rewardListFromBackend, userData }: Omit<GetUserRewardsRuntimeProps, OmittedProps>) {
+    return await getUserRewardsRuntimeFN({
+      setLoading,
+      setError,
+      rewardListFromBackend,
+      RUNTIME_URL,
+      userData,
+    });
+  }
   async function logOut(clearCache = true) {
     return await logOutFn(clearCache);
   }
@@ -843,6 +854,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
         createMoreRewardToTreasury,
         createMoreRewardToVault,
         changeROptimal,
+        getUserRewardsRuntime,
         logOut,
         magic,
       }}
