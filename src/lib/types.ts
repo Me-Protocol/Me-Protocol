@@ -809,6 +809,9 @@ export type OmittedProps =
   | "costPayerId"
   | "JSON_RPC_URL"
   | "OPEN_REWARD_DIAMOND"
+  | "OPEN_REWARD_IMPLEMENTATION"
+  | "VAULT"
+  | "TREASURY"
   | "ME_TOKEN"
   | "CHAIN_ID"
   | "magic";
