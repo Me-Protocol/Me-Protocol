@@ -1,4 +1,4 @@
-import React, { FC, createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 import {
   // MeRegisterProps,
   MeProtocolProviderProps,
@@ -31,6 +31,7 @@ import {
   AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps,
   OnBoardRewardsProps,
   GetWalletFromEmailProps,
+  GetUserRewardsRuntimeProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -64,16 +65,37 @@ import { createMoreRewardToTreasuryFN } from "../../module/createMoreRewardToTre
 import { changeROptimalFN } from "../../module/changeROptimal";
 import { BigNumber } from "ethers";
 import { getWalletFromEmailFN } from "../../module/getWalletFromEmail";
-import { magic } from "../../lib/magic";
+import { createMagic } from "../../lib/magic";
 import { createMoreRewardsToVaultFN } from "../../module/createMoreRewardToVault";
+import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser";
+import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser copy";
+import { getUserRewardsRuntimeFN } from "../../module/getUserRewardsRuntime";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
-const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meApiKey, reqURL, costPayerId, GELATO_API_KEY, debug }) => {
+const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
+  children,
+  email,
+  meApiKey,
+  magicApiKey,
+  reqURL,
+  costPayerId,
+  GELATO_API_KEY,
+  debug,
+  OPEN_REWARD_DIAMOND,
+  JSON_RPC_URL,
+  CHAIN_ID,
+  OPEN_REWARD_IMPLEMENTATION,
+  ME_TOKEN,
+  VAULT,
+  TREASURY,
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [spendLoading, setSpendLoading] = useState<boolean>(false);
   const [spendingSteps, setSpendingSteps] = useState<number>(0);
   const [error, setError] = useState<unknown>([]);
+
+  const magic: any = createMagic({ key: magicApiKey, CHAIN_ID, JSON_RPC_URL });
 
   // ============================================= THIS IS THE REGISTER FUNCTION  ============================================================
   async function setUpWallet({ persist }: Omit<SetUpWalletProps, OmittedProps>) {
@@ -85,13 +107,18 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
       persist,
     });
   }
   async function getWalletFromEmail({ userEmail, persist }: Omit<GetWalletFromEmailProps, OmittedProps>) {
     return await getWalletFromEmailFN({
       userEmail,
+      magic,
       setLoading,
       setError,
       persist,
@@ -126,7 +153,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -144,7 +175,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -177,7 +212,13 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
+      ME_TOKEN,
+      OPEN_REWARD_IMPLEMENTATION,
     });
   }
 
@@ -192,7 +233,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -207,7 +252,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -222,7 +271,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -237,7 +290,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -253,7 +310,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -270,7 +331,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -287,7 +352,12 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
+      ME_TOKEN,
     });
   }
 
@@ -326,7 +396,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -344,7 +418,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -381,7 +459,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -408,7 +490,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -429,7 +515,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -455,7 +545,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -478,6 +572,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       GELATO_API_KEY,
       debug,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -499,7 +596,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
     });
   }
 
@@ -512,6 +613,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
   }: Omit<DistributeRewardsProps, OmittedProps>) {
     return await distributeRewardsFN({
       email,
+      magic,
       reward_address,
       reward_amounts,
       reward_recipient,
@@ -541,7 +643,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
       RUNTIME_URL,
       orderId,
     });
@@ -570,7 +676,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
       RUNTIME_URL,
       orderId,
     });
@@ -594,6 +704,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       brand_id,
       // reward_address,
       reward_manager,
@@ -601,6 +712,9 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       costPayerId,
       persist,
       RUNTIME_URL,
+      CHAIN_ID,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
     });
   }
   async function removeRewardManager({
@@ -621,6 +735,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       brand_id,
       // reward_address,
       reward_manager,
@@ -628,11 +743,15 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       costPayerId,
       persist,
       RUNTIME_URL,
+      CHAIN_ID,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
     });
   }
   async function onBoardRewards({ brand_id, reward_address, persist, RUNTIME_URL }: Omit<OnBoardRewardsProps, OmittedProps>) {
     return await onBoardRewardsFN({
       email,
+      magic,
       setError,
       setLoading,
       brand_id,
@@ -664,6 +783,7 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       brandId,
       descriptionLink,
       name,
@@ -678,12 +798,18 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       notifyRewardAmount,
       notifyMeAmount,
       persist,
+      CHAIN_ID,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      OPEN_REWARD_IMPLEMENTATION,
+      TREASURY,
+      VAULT,
     });
   }
   async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool({
     meAmount,
-    reward,
     rewardAmount,
+    rewardAddress,
     currentBrandId,
     persist,
   }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) {
@@ -695,12 +821,73 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
       meAmount,
-      reward,
+      rewardAddress,
       rewardAmount,
       currentBrandId,
       persist,
+      ME_TOKEN,
+    });
+  }
+  async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenser({
+    meAmount,
+    rewardAmount,
+    rewardAddress,
+    currentBrandId,
+    persist,
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) {
+    return await addLiquidityForOpenRewardsWithTreasuryAndMeDispenserFN({
+      email,
+      setError,
+      setLoading,
+      meApiKey,
+      reqURL,
+      GELATO_API_KEY,
+      debug,
+      magic,
+      costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
+      meAmount,
+      rewardAddress,
+      rewardAmount,
+      currentBrandId,
+      persist,
+      ME_TOKEN,
+    });
+  }
+  async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopup({
+    meAmount,
+    rewardAmount,
+    rewardAddress,
+    currentBrandId,
+    persist,
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) {
+    return await addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN({
+      email,
+      setError,
+      setLoading,
+      meApiKey,
+      reqURL,
+      GELATO_API_KEY,
+      debug,
+      magic,
+      costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
+      meAmount,
+      rewardAddress,
+      rewardAmount,
+      currentBrandId,
+      persist,
+      ME_TOKEN,
     });
   }
 
@@ -715,7 +902,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
       amount,
     });
   }
@@ -729,7 +920,11 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
       amount,
     });
   }
@@ -743,12 +938,25 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
       reqURL,
       GELATO_API_KEY,
       debug,
+      magic,
       costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      CHAIN_ID,
       newROptimal,
     });
   }
+  async function getUserRewardsRuntime({ RUNTIME_URL, rewardListFromBackend, userData }: Omit<GetUserRewardsRuntimeProps, OmittedProps>) {
+    return await getUserRewardsRuntimeFN({
+      setLoading,
+      setError,
+      rewardListFromBackend,
+      RUNTIME_URL,
+      userData,
+    });
+  }
   async function logOut(clearCache = true) {
-    return await logOutFn(clearCache);
+    return await logOutFn(magic, clearCache);
   }
   // function magicInfo() {
   //   return magic;
@@ -789,10 +997,13 @@ const MeProtocolProvider: FC<MeProtocolProviderProps> = ({ children, email, meAp
         removeRewardManager,
         deployRewardAndPool,
         addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool,
+        addLiquidityForOpenRewardsWithTreasuryAndMeDispenser,
+        addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopup,
         onBoardRewards,
         createMoreRewardToTreasury,
         createMoreRewardToVault,
         changeROptimal,
+        getUserRewardsRuntime,
         logOut,
         magic,
       }}

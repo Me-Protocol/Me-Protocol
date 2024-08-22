@@ -2,9 +2,9 @@ import { ethers } from "ethers";
 import { createWeb3 } from "../lib/web3";
 import { delay } from "../helpers/delay";
 import { VaultPermitParams, brandService, relay, signConsent } from "@developeruche/protocol-core";
-import { AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps } from "../lib/types";
 import axios from "axios";
-export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN({
+import { AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps } from "../lib/types";
+export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN({
   email,
   magic,
   rewardAmount,
@@ -72,7 +72,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
       );
       // console.log(GTP, "FROM TREASUREY PERMIT REQ");
 
-      const data = await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool(
+      const data = await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenser_autoTopup(
         rewardAddress,
         ethers.utils.parseEther(rewardAmount),
         ethers.utils.parseEther(meAmount),
@@ -162,7 +162,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
         );
         // console.log(GTP, "FROM TREASUREY PERMIT REQ");
 
-        const data = await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool(
+        const data = await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenser_autoTopup(
           rewardAddress,
           ethers.utils.parseEther(rewardAmount),
           ethers.utils.parseEther(meAmount),
@@ -236,7 +236,7 @@ export async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndSta
       );
       // console.log(GTP, "FROM TREASUREY PERMIT REQ");
 
-      const data = await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool(
+      const data = await brandService.addLiquidityForOpenRewardsWithTreasuryAndMeDispenser_autoTopup(
         rewardAddress,
         ethers.utils.parseEther(rewardAmount),
         ethers.utils.parseEther(meAmount),
