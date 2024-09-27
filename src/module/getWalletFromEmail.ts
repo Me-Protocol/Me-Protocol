@@ -9,7 +9,8 @@ export async function getWalletFromEmailFN({ userEmail, magic, setLoading, setEr
     const magicWeb3 = await createWeb3(magic);
 
     if (await magic.user.isLoggedIn()) {
-      await magic.user.logout();
+      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
+      return { publicAddress: loggedInUserInfo.publicAddress };
     }
 
     // if (!(await magic.user.isLoggedIn())) {
