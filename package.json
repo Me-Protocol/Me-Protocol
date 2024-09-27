@@ -1,6 +1,6 @@
 {
   "name": "me-protocol",
-  "version": "4.1.8-dev-go-live",
+  "version": "4.1.8-staging-go-live",
   "description": "A library for interacting with the me-protocol ecosystem",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -14,7 +14,7 @@
   "license": "ISC",
   "devDependencies": {
     "@developeruche/protocol-core": "0.10.9-development",
-    "@developeruche/runtime-sdk": "1.0.0-updated",
+    "@developeruche/runtime-sdk": "0.10.0-staging",
     "@gelatonetwork/relay-sdk": "^4.0.0",
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-json": "^6.0.0",
