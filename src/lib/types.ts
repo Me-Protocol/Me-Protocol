@@ -1,4 +1,5 @@
 import { sendTransactionData } from "@developeruche/runtime-sdk/dist/utils/interfaces";
+import { AxiosResponse } from "axios";
 import { GasApiResponse, Magic } from "magic-sdk";
 import { Dispatch, SetStateAction } from "react";
 
@@ -54,6 +55,17 @@ export interface OnBoardRewardsProps {
   email: string;
   magic: Magic;
   reward_address: string;
+  brand_id: BigInt;
+  persist: boolean;
+  RUNTIME_URL: string;
+}
+export interface OnBoardBrandRuntimeProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  email: string;
+  magic: Magic;
+  main_acct: string;
+  brand_reward: string;
   brand_id: BigInt;
   persist: boolean;
   RUNTIME_URL: string;
@@ -862,6 +874,13 @@ export interface AllFnsProps {
     persist,
     RUNTIME_URL,
   }: Omit<OnBoardRewardsProps, OmittedProps>) => Promise<sendTransactionData | undefined>;
+  onBoardBrandRuntime: ({
+    brand_id,
+    brand_reward,
+    main_acct,
+    persist,
+    RUNTIME_URL,
+  }: Omit<OnBoardBrandRuntimeProps, OmittedProps>) => Promise<AxiosResponse<any, any> | undefined>;
   changeOptimalOpenReward: ({ rewardName, newOptimalValue }: Omit<ChangeOptimalOpenRewardProps, OmittedProps>) => GasApiPromise;
   integrateReward: ({ descriptionLink, readTandC }: Omit<IntegrateRewardProps, OmittedProps>) => GasApiPromise;
   topUpOpenRewardLiquidity: ({ rewardAmount, meAmount }: Omit<TopUpOpenRewardLiquidityProps, OmittedProps>) => GasApiPromise;

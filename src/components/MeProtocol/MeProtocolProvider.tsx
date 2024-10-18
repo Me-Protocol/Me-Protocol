@@ -33,6 +33,7 @@ import {
   GetWalletFromEmailProps,
   GetUserRewardsRuntimeProps,
   OnboardBrandProps,
+  OnBoardBrandRuntimeProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -73,6 +74,7 @@ import { getUserRewardsRuntimeFN } from "../../module/getUserRewardsRuntime";
 import { Magic } from "magic-sdk";
 import { onboardBrandFN } from "../../module/onboardBrand";
 import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopup";
+import { onBoardBrandRuntimeFN } from "../../module/onboardBrandRuntime";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -760,6 +762,19 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       RUNTIME_URL,
     });
   }
+  async function onBoardBrandRuntime({ brand_id, brand_reward, main_acct, persist, RUNTIME_URL }: Omit<OnBoardBrandRuntimeProps, OmittedProps>) {
+    return await onBoardBrandRuntimeFN({
+      email,
+      magic,
+      setError,
+      setLoading,
+      brand_id,
+      brand_reward,
+      main_acct,
+      persist,
+      RUNTIME_URL,
+    });
+  }
   async function deployRewardAndPool({
     brandId,
     descriptionLink,
@@ -994,6 +1009,7 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
         addLiquidityForOpenRewardsWithTreasuryAndMeDispenser,
         addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopup,
         onBoardRewards,
+        onBoardBrandRuntime,
         createMoreRewardToTreasury,
         createMoreRewardToVault,
         changeROptimal,

@@ -1,6 +1,6 @@
 {
   "name": "me-protocol",
-  "version": "0.1.9-magic",
+  "version": "0.2.0-magic",
   "description": "A library for interacting with the me-protocol ecosystem",
   "scripts": {
     "prebuild": "rimraf dist",
