@@ -18,13 +18,13 @@ export async function getExpectedAmountOfTargetedRewardFN({
     const neededAmount = await secretoryService.getAmountIn(
       inputRewardAddress.trim(),
       outPutRewardAddress.trim(),
-      ethers.utils.parseEther(amount.toString()),
+      BigInt(ethers.parseEther(amount.toString()).toString()),
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND
     );
 
     if (returnAsFormatted) {
-      return ethers.utils.formatUnits(neededAmount, 18);
+      return ethers.formatUnits(neededAmount, 18);
     } else {
       return neededAmount;
     }

@@ -2,37 +2,19 @@ import { ethers } from "ethers";
 import { createWeb3 } from "../lib/web3";
 import { delay } from "../helpers/delay";
 import { brandService, magicRelay } from "@developeruche/protocol-core";
-import { DeployRewardAndPoolProps } from "../lib/types";
-export async function deployRewardAndPoolFN({
+import { OnboardBrandProps } from "../lib/types";
+export async function onboardBrandFN({
   email,
   magic,
-  brandId,
-  name,
-  symbol,
-  descriptionLink,
-  totalSupplyVault,
-  totalSupplyTreasury,
   setLoading,
   setError,
-  meApiKey,
-  reqURL,
-  costPayerId,
-  rOptimal,
-  maximumRLimit,
-  minimumRewardAmountForConversation,
-  minimumMeAmountForConversation,
-  notifyRewardAmount,
-  notifyMeAmount,
   persist,
-
-  debug,
+  brandName,
+  brandOnlinePresence,
+  brandId,
   OPEN_REWARD_DIAMOND,
   JSON_RPC_URL,
-  TREASURY,
-  VAULT,
-  OPEN_REWARD_IMPLEMENTATION,
-  CHAIN_ID,
-}: DeployRewardAndPoolProps) {
+}: OnboardBrandProps) {
   setLoading(true);
 
   try {
@@ -54,30 +36,18 @@ export async function deployRewardAndPoolFN({
       // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
       const web3Provider = new ethers.BrowserProvider(provider);
-      const signer = await web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       // ============================================FROM HERE=====================================================================
-      const data = await brandService.createANewRewardWithPermitAndDeployPool(
+      const data = await brandService.registerBrandOpen(
+        brandName,
+        brandOnlinePresence,
+        loggedInUserInfo.publicAddress,
         brandId,
-        name,
-        symbol,
-        descriptionLink,
-        totalSupplyVault,
-        totalSupplyTreasury,
-        // OPEN_REWARD_DIAMOND,
-        rOptimal,
-        maximumRLimit,
-        minimumRewardAmountForConversation,
-        minimumMeAmountForConversation,
-        notifyRewardAmount,
-        notifyMeAmount,
-        TREASURY,
-        VAULT,
-        OPEN_REWARD_IMPLEMENTATION,
-        JSON_RPC_URL,
-        OPEN_REWARD_DIAMOND
+        OPEN_REWARD_DIAMOND,
+        JSON_RPC_URL
       );
+
       const magicInput = {
         from: loggedInUserInfo.publicAddress,
         data,
@@ -132,29 +102,16 @@ export async function deployRewardAndPoolFN({
         // console.log(userAccount, "user account is this");
         const provider = await magic.wallet.getProvider();
         const web3Provider = new ethers.BrowserProvider(provider);
-        const signer = await web3Provider.getSigner(userAccount);
         const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
         // ============================================FROM HERE=====================================================================
-        const data = await brandService.createANewRewardWithPermitAndDeployPool(
+        const data = await brandService.registerBrandOpen(
+          brandName,
+          brandOnlinePresence,
+          loggedInUserInfo.publicAddress,
           brandId,
-          name,
-          symbol,
-          descriptionLink,
-          totalSupplyVault,
-          totalSupplyTreasury,
-          // OPEN_REWARD_DIAMOND,
-          rOptimal,
-          maximumRLimit,
-          minimumRewardAmountForConversation,
-          minimumMeAmountForConversation,
-          notifyRewardAmount,
-          notifyMeAmount,
-          TREASURY,
-          VAULT,
-          OPEN_REWARD_IMPLEMENTATION,
-          JSON_RPC_URL,
-          OPEN_REWARD_DIAMOND
+          OPEN_REWARD_DIAMOND,
+          JSON_RPC_URL
         );
 
         const magicInput = {
@@ -195,34 +152,21 @@ export async function deployRewardAndPoolFN({
       // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
       const web3Provider = new ethers.BrowserProvider(provider);
-      const signer = await web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       // ============================================FROM HERE=====================================================================
 
-      const data = await brandService.createANewRewardWithPermitAndDeployPool(
+      const data = await brandService.registerBrandOpen(
+        brandName,
+        brandOnlinePresence,
+        loggedInUserInfo.publicAddress,
         brandId,
-        name,
-        symbol,
-        descriptionLink,
-        totalSupplyVault,
-        totalSupplyTreasury,
-        // OPEN_REWARD_DIAMOND,
-        rOptimal,
-        maximumRLimit,
-        minimumRewardAmountForConversation,
-        minimumMeAmountForConversation,
-        notifyRewardAmount,
-        notifyMeAmount,
-        TREASURY,
-        VAULT,
-        OPEN_REWARD_IMPLEMENTATION,
-        JSON_RPC_URL,
-        OPEN_REWARD_DIAMOND
+        OPEN_REWARD_DIAMOND,
+        JSON_RPC_URL
       );
       const magicInput = {
         from: loggedInUserInfo.publicAddress,
-        data,
+        data: data,
         to: OPEN_REWARD_DIAMOND,
       };
 

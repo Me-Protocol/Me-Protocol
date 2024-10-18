@@ -19,8 +19,8 @@ export async function getUserRewardsRuntimeFN({ rewardListFromBackend, setLoadin
 
     for (const address in data.result.balance) {
       result.push({
-        contractAddress: ethers.utils.getAddress(address),
-        balance: ethers.utils.formatEther(data.result.balance[address]),
+        contractAddress: ethers.getAddress(address),
+        balance: ethers.formatEther(data.result.balance[address]),
       });
     }
 

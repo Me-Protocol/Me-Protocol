@@ -1,8 +1,7 @@
 import { ethers } from "ethers";
-import { brandService } from "@developeruche/protocol-core";
+import { brandService, magicRelay } from "@developeruche/protocol-core";
 import { createWeb3 } from "../lib/web3";
 import { delay } from "../helpers/delay";
-import { relay } from "@developeruche/protocol-core";
 import { ResumeOpenRewardProps } from "../lib/types";
 export async function resumeOpenRewardFN({
   email,
@@ -13,7 +12,7 @@ export async function resumeOpenRewardFN({
   meApiKey,
   reqURL,
   costPayerId,
-  GELATO_API_KEY,
+
   debug,
   OPEN_REWARD_DIAMOND,
   JSON_RPC_URL,
@@ -34,36 +33,45 @@ export async function resumeOpenRewardFN({
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { taskId: "no accounts found" };
+        return undefined;
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
+      const web3Provider = new ethers.BrowserProvider(provider);
+      const signer = await web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       const data = await brandService.resumeOpenRewards(rewardAddress, JSON_RPC_URL, OPEN_REWARD_DIAMOND);
-      const relayInput = {
-        from: loggedInUserInfo.publicrewardAddress,
-        data: data.data,
+
+      const magicInput = {
+        from: loggedInUserInfo.publicAddress,
+        data,
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        GELATO_API_KEY,
-        JSON_RPC_URL,
-        CHAIN_ID,
-        OPEN_REWARD_DIAMOND,
-        costPayerId,
-        debug
-      );
+      return await magicRelay(magicInput, magic);
 
-      return { taskId };
+      // const relayInput = {
+      //   from: loggedInUserInfo.publicrewardAddress,
+      //   data: data.data,
+      //   to: OPEN_REWARD_DIAMOND,
+      // };
+
+      // const { taskId }: { taskId: string } = await relay(
+      //   relayInput,
+      //   signer,
+      //   meApiKey,
+      //   reqURL,
+      //
+      //   JSON_RPC_URL,
+      //   CHAIN_ID,
+      //   OPEN_REWARD_DIAMOND,
+      //   costPayerId,
+      //   debug
+      // );
+
+      // return { taskId };
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -84,69 +92,85 @@ export async function resumeOpenRewardFN({
         const accounts = await magicWeb3.eth.getAccounts();
         //if the user accounts is not found - update it on the console
         if (accounts.length === 0) {
-          return { taskId: "no accounts found" };
+          return undefined;
         }
         const userAccount = accounts[0];
         // console.log(userAccount, "user account is this");
         const provider = await magic.wallet.getProvider();
-        const web3Provider = new ethers.providers.Web3Provider(provider);
-        const signer = web3Provider.getSigner(userAccount);
+        const web3Provider = new ethers.BrowserProvider(provider);
+        const signer = await web3Provider.getSigner(userAccount);
         const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
         const data = await brandService.resumeOpenRewards(rewardAddress, JSON_RPC_URL, OPEN_REWARD_DIAMOND);
-        const relayInput = {
-          from: loggedInUserInfo.publicrewardAddress,
-          data: data.data,
+        const magicInput = {
+          from: loggedInUserInfo.publicAddress,
+          data,
           to: OPEN_REWARD_DIAMOND,
         };
 
-        const { taskId }: { taskId: string } = await relay(
-          relayInput,
-          signer,
-          meApiKey,
-          reqURL,
-          GELATO_API_KEY,
-          JSON_RPC_URL,
-          CHAIN_ID,
-          OPEN_REWARD_DIAMOND,
-          costPayerId,
-          debug
-        );
+        return await magicRelay(magicInput, magic);
 
-        return { taskId };
+        // const relayInput = {
+        //   from: loggedInUserInfo.publicrewardAddress,
+        //   data: data.data,
+        //   to: OPEN_REWARD_DIAMOND,
+        // };
+
+        // const { taskId }: { taskId: string } = await relay(
+        //   relayInput,
+        //   signer,
+        //   meApiKey,
+        //   reqURL,
+        //
+        //   JSON_RPC_URL,
+        //   CHAIN_ID,
+        //   OPEN_REWARD_DIAMOND,
+        //   costPayerId,
+        //   debug
+        // );
+
+        // return { taskId };
       }
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { taskId: "no accounts found" };
+        return undefined;
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
+      const web3Provider = new ethers.BrowserProvider(provider);
+      const signer = await web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       const data = await brandService.resumeOpenRewards(rewardAddress, JSON_RPC_URL, OPEN_REWARD_DIAMOND);
-      const relayInput = {
-        from: loggedInUserInfo.publicrewardAddress,
-        data: data.data,
+      const magicInput = {
+        from: loggedInUserInfo.publicAddress,
+        data,
         to: OPEN_REWARD_DIAMOND,
       };
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        GELATO_API_KEY,
-        JSON_RPC_URL,
-        CHAIN_ID,
-        OPEN_REWARD_DIAMOND,
-        costPayerId,
-        debug
-      );
 
-      return { taskId };
+      return await magicRelay(magicInput, magic);
+
+      // const relayInput = {
+      //   from: loggedInUserInfo.publicrewardAddress,
+      //   data: data.data,
+      //   to: OPEN_REWARD_DIAMOND,
+      // };
+      // const { taskId }: { taskId: string } = await relay(
+      //   relayInput,
+      //   signer,
+      //   meApiKey,
+      //   reqURL,
+      //
+      //   JSON_RPC_URL,
+      //   CHAIN_ID,
+      //   OPEN_REWARD_DIAMOND,
+      //   costPayerId,
+      //   debug
+      // );
+
+      // return { taskId };
     }
   } catch (error) {
     setError(error);

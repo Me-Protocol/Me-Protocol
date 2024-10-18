@@ -39,8 +39,8 @@ export async function addRewardManagerFN({
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
+      const web3Provider = new ethers.BrowserProvider(provider);
+      const signer = await web3Provider.getSigner(userAccount);
 
       //=============================================== DO THE REST HERE==========================================================
       setSpendLoading(true);
@@ -105,8 +105,8 @@ export async function addRewardManagerFN({
         const userAccount = accounts[0];
         // console.log(userAccount, "user account is this");
         const provider = await magic.wallet.getProvider();
-        const web3Provider = new ethers.providers.Web3Provider(provider);
-        const signer = web3Provider.getSigner(userAccount);
+        const web3Provider = new ethers.BrowserProvider(provider);
+        const signer = await web3Provider.getSigner(userAccount);
 
         //=============================================== DO THE REST HERE==========================================================
         setSpendLoading(true);
@@ -153,8 +153,8 @@ export async function addRewardManagerFN({
       }
       const userAccount = accounts[0];
       const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
+      const web3Provider = new ethers.BrowserProvider(provider);
+      const signer = await web3Provider.getSigner(userAccount);
 
       setSpendLoading(true);
       const {

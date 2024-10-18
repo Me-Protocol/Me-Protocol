@@ -32,8 +32,8 @@ export async function distributeRewardsFN({
       }
       const userAccount = accounts[0];
       const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
+      const web3Provider = new ethers.BrowserProvider(provider);
+      const signer = await web3Provider.getSigner(userAccount);
       const res: sendTransactionData = await distribute_reward_specific_magic(reward_address, reward_recipient, reward_amounts, signer, RUNTIME_URL);
 
       return res;
@@ -60,8 +60,8 @@ export async function distributeRewardsFN({
         }
         const userAccount = accounts[0];
         const provider = await magic.wallet.getProvider();
-        const web3Provider = new ethers.providers.Web3Provider(provider);
-        const signer = web3Provider.getSigner(userAccount);
+        const web3Provider = new ethers.BrowserProvider(provider);
+        const signer = await web3Provider.getSigner(userAccount);
         const res: sendTransactionData = await distribute_reward_specific_magic(
           reward_address,
           reward_recipient,
@@ -79,8 +79,8 @@ export async function distributeRewardsFN({
       }
       const userAccount = accounts[0];
       const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
+      const web3Provider = new ethers.BrowserProvider(provider);
+      const signer = await web3Provider.getSigner(userAccount);
       const res: sendTransactionData = await distribute_reward_specific_magic(reward_address, reward_recipient, reward_amounts, signer, RUNTIME_URL);
       return res;
     }

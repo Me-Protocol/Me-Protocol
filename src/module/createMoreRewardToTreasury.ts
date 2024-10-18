@@ -1,8 +1,7 @@
 import { ethers } from "ethers";
-import { brandService } from "@developeruche/protocol-core";
+import { brandService, magicRelay } from "@developeruche/protocol-core";
 import { createWeb3 } from "../lib/web3";
 import { delay } from "../helpers/delay";
-import { relay } from "@developeruche/protocol-core";
 import { PauseOpenRewardProps } from "../lib/types";
 export async function createMoreRewardToTreasuryFN({
   email,
@@ -15,7 +14,7 @@ export async function createMoreRewardToTreasuryFN({
   costPayerId,
 
   amount,
-  GELATO_API_KEY,
+
   debug,
   OPEN_REWARD_DIAMOND,
   JSON_RPC_URL,
@@ -36,36 +35,50 @@ export async function createMoreRewardToTreasuryFN({
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { taskId: "no accounts found" };
+        return undefined;
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
+      const web3Provider = new ethers.BrowserProvider(provider);
+      const signer = await web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createMoreRewardToTreasury(rewardAddress, ethers.utils.parseEther(amount), JSON_RPC_URL, OPEN_REWARD_DIAMOND);
-      const relayInput = {
+      const data = await brandService.createMoreRewardToTreasury(
+        rewardAddress,
+        BigInt(ethers.parseEther(amount).toString()),
+        JSON_RPC_URL,
+        OPEN_REWARD_DIAMOND
+      );
+
+      const magicInput = {
         from: loggedInUserInfo.publicAddress,
-        data: data.data,
+        data,
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        GELATO_API_KEY,
-        JSON_RPC_URL,
-        CHAIN_ID,
-        OPEN_REWARD_DIAMOND,
-        costPayerId,
-        debug
-      );
+      return await magicRelay(magicInput, magic);
 
-      return { taskId };
+      // const relayInput = {
+      //   from: loggedInUserInfo.publicAddress,
+      //   data: data.data,
+      //   to: OPEN_REWARD_DIAMOND,
+      // };
+
+      // const { taskId }: { taskId: string } = await relay(
+      //   relayInput,
+      //   signer,
+      //   meApiKey,
+      //   reqURL,
+      //
+      //   JSON_RPC_URL,
+      //   CHAIN_ID,
+      //   OPEN_REWARD_DIAMOND,
+      //   costPayerId,
+      //   debug
+      // );
+
+      // return { taskId };
     } else {
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -86,70 +99,98 @@ export async function createMoreRewardToTreasuryFN({
         const accounts = await magicWeb3.eth.getAccounts();
         //if the user accounts is not found - update it on the console
         if (accounts.length === 0) {
-          return { taskId: "no accounts found" };
+          return undefined;
         }
         const userAccount = accounts[0];
         // console.log(userAccount, "user account is this");
         const provider = await magic.wallet.getProvider();
-        const web3Provider = new ethers.providers.Web3Provider(provider);
-        const signer = web3Provider.getSigner(userAccount);
+        const web3Provider = new ethers.BrowserProvider(provider);
+        const signer = await web3Provider.getSigner(userAccount);
         const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-        const data = await brandService.createMoreRewardToTreasury(rewardAddress, ethers.utils.parseEther(amount), JSON_RPC_URL, OPEN_REWARD_DIAMOND);
-        const relayInput = {
+        const data = await brandService.createMoreRewardToTreasury(
+          rewardAddress,
+          BigInt(ethers.parseEther(amount).toString()),
+          JSON_RPC_URL,
+          OPEN_REWARD_DIAMOND
+        );
+
+        const magicInput = {
           from: loggedInUserInfo.publicAddress,
-          data: data.data,
+          data,
           to: OPEN_REWARD_DIAMOND,
         };
 
-        const { taskId }: { taskId: string } = await relay(
-          relayInput,
-          signer,
-          meApiKey,
-          reqURL,
-          GELATO_API_KEY,
-          JSON_RPC_URL,
-          CHAIN_ID,
-          OPEN_REWARD_DIAMOND,
-          costPayerId,
-          debug
-        );
+        return await magicRelay(magicInput, magic);
 
-        return { taskId };
+        // const relayInput = {
+        //   from: loggedInUserInfo.publicAddress,
+        //   data: data.data,
+        //   to: OPEN_REWARD_DIAMOND,
+        // };
+
+        // const { taskId }: { taskId: string } = await relay(
+        //   relayInput,
+        //   signer,
+        //   meApiKey,
+        //   reqURL,
+        //
+        //   JSON_RPC_URL,
+        //   CHAIN_ID,
+        //   OPEN_REWARD_DIAMOND,
+        //   costPayerId,
+        //   debug
+        // );
+
+        // return { taskId };
       }
       const accounts = await magicWeb3.eth.getAccounts();
       //if the user accounts is not found - update it on the console
       if (accounts.length === 0) {
-        return { taskId: "no accounts found" };
+        return undefined;
       }
       const userAccount = accounts[0];
       // console.log(userAccount, "user account is this");
       const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
+      const web3Provider = new ethers.BrowserProvider(provider);
+      const signer = await web3Provider.getSigner(userAccount);
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
-      const data = await brandService.createMoreRewardToTreasury(rewardAddress, ethers.utils.parseEther(amount), JSON_RPC_URL, OPEN_REWARD_DIAMOND);
-      const relayInput = {
+      const data = await brandService.createMoreRewardToTreasury(
+        rewardAddress,
+        BigInt(ethers.parseEther(amount).toString()),
+        JSON_RPC_URL,
+        OPEN_REWARD_DIAMOND
+      );
+
+      const magicInput = {
         from: loggedInUserInfo.publicAddress,
-        data: data.data,
+        data,
         to: OPEN_REWARD_DIAMOND,
       };
 
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        GELATO_API_KEY,
-        JSON_RPC_URL,
-        CHAIN_ID,
-        OPEN_REWARD_DIAMOND,
-        costPayerId,
-        debug
-      );
+      return await magicRelay(magicInput, magic);
 
-      return { taskId };
+      // const relayInput = {
+      //   from: loggedInUserInfo.publicAddress,
+      //   data: data.data,
+      //   to: OPEN_REWARD_DIAMOND,
+      // };
+
+      // const { taskId }: { taskId: string } = await relay(
+      //   relayInput,
+      //   signer,
+      //   meApiKey,
+      //   reqURL,
+      //
+      //   JSON_RPC_URL,
+      //   CHAIN_ID,
+      //   OPEN_REWARD_DIAMOND,
+      //   costPayerId,
+      //   debug
+      // );
+
+      // return { taskId };
     }
   } catch (error) {
     setError(error);

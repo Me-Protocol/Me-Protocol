@@ -1,6 +1,6 @@
 {
   "name": "me-protocol",
-  "version": "4.2.0-dev-go-live",
+  "version": "0.1.9-magic",
   "description": "A library for interacting with the me-protocol ecosystem",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -13,8 +13,11 @@
   ],
   "license": "ISC",
   "devDependencies": {
-    "@developeruche/protocol-core": "0.10.9-development",
-    "@developeruche/runtime-sdk": "1.0.0-updated",
+    "@developeruche/protocol-core": "0.10.32-development",
+    "web3": "^4.0.3",
+    "magic-sdk": "28.11.0",
+    "@developeruche/runtime-sdk": "0.10.20-development",
+    "ethers": "6.13.4",
     "@gelatonetwork/relay-sdk": "^4.0.0",
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-json": "^6.0.0",
@@ -23,21 +26,21 @@
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/react": "^18.2.15",
     "axios": "^1.4.0",
-    "ethers": "^5.6.9",
     "jest-environment-jsdom": "^29.6.1",
-    "magic-sdk": "^18.4.1",
     "react": "^18.2.0",
     "rimraf": "^5.0.1",
     "rollup": "^3.26.3",
     "rollup-plugin-dts": "^5.3.0",
     "tslib": "^2.6.0",
-    "typescript": "^5.1.6",
-    "web3": "^4.0.3"
+    "typescript": "^5.1.6"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@magic-ext/avalanche": "^23.11.0"
+  }
 }

@@ -30,13 +30,13 @@
 //       const accounts = await magicWeb3.eth.getAccounts();
 //       //if the user accounts is not found - update it on the console
 //       if (accounts.length === 0) {
-//         return { taskId: "no accounts found" };
+//         return { request_id:"", state:"",success:false};
 //       }
 //       const userAccount = accounts[0];
 //       // console.log(userAccount, "user account is this");
 //       const provider = await magic.wallet.getProvider();
-//       const web3Provider = new ethers.providers.Web3Provider(provider);
-//       const signer = web3Provider.getSigner(userAccount);
+//       const web3Provider = new ethers.BrowserProvider(provider);
+//       const signer = await web3Provider.getSigner(userAccount);;
 //       const data = await brandService.register(brandName, onlinePresence);
 //       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 //       const relayInput = {
@@ -62,13 +62,13 @@
 //       const accounts = await magicWeb3.eth.getAccounts();
 //       //if the user accounts is not found - update it on the console
 //       if (accounts.length === 0) {
-//         return { taskId: "no accounts found" };
+//         return { request_id:"", state:"",success:false};
 //       }
 //       const userAccount = accounts[0];
 //       // console.log(userAccount, "user account is this");
 //       const provider = await magic.wallet.getProvider();
-//       const web3Provider = new ethers.providers.Web3Provider(provider);
-//       const signer = web3Provider.getSigner(userAccount);
+//       const web3Provider = new ethers.BrowserProvider(provider);
+//       const signer = await web3Provider.getSigner(userAccount);;
 //       const data = await brandService.register(brandName, onlinePresence);
 //       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 //       const relayInput = {

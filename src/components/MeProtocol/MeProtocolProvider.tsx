@@ -32,6 +32,7 @@ import {
   OnBoardRewardsProps,
   GetWalletFromEmailProps,
   GetUserRewardsRuntimeProps,
+  OnboardBrandProps,
 } from "../../lib/types";
 import { getBrandDetailsFN } from "../../module/getBrandDetails";
 import { createRewardFN } from "../../module/createReward";
@@ -63,13 +64,15 @@ import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN } fr
 import { onBoardRewardsFN } from "../../module/onboardReward";
 import { createMoreRewardToTreasuryFN } from "../../module/createMoreRewardToTreasury";
 import { changeROptimalFN } from "../../module/changeROptimal";
-import { BigNumber } from "ethers";
 import { getWalletFromEmailFN } from "../../module/getWalletFromEmail";
 import { createMagic } from "../../lib/magic";
 import { createMoreRewardsToVaultFN } from "../../module/createMoreRewardToVault";
 import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser";
-import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser copy";
+
 import { getUserRewardsRuntimeFN } from "../../module/getUserRewardsRuntime";
+import { Magic } from "magic-sdk";
+import { onboardBrandFN } from "../../module/onboardBrand";
+import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopup";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -80,7 +83,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
   magicApiKey,
   reqURL,
   costPayerId,
-  GELATO_API_KEY,
   debug,
   OPEN_REWARD_DIAMOND,
   JSON_RPC_URL,
@@ -95,7 +97,7 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
   const [spendingSteps, setSpendingSteps] = useState<number>(0);
   const [error, setError] = useState<unknown>([]);
 
-  const magic: any = createMagic({ key: magicApiKey, CHAIN_ID, JSON_RPC_URL });
+  const magic: Magic = createMagic({ key: magicApiKey, CHAIN_ID, JSON_RPC_URL });
 
   // ============================================= THIS IS THE REGISTER FUNCTION  ============================================================
   async function setUpWallet({ persist }: Omit<SetUpWalletProps, OmittedProps>) {
@@ -105,13 +107,33 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      persist,
+    });
+  }
+
+  // ============================================= THIS IS THE REGISTER FUNCTION  ============================================================
+  async function onboardBrand({ persist, brandId, brandName, brandOnlinePresence }: Omit<OnboardBrandProps, OmittedProps>) {
+    return await onboardBrandFN({
+      email,
+      setLoading,
+      setError,
+      meApiKey,
+      reqURL,
+      debug,
+      magic,
+      costPayerId,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      brandId,
+      brandName,
+      brandOnlinePresence,
+      OPEN_REWARD_IMPLEMENTATION,
       persist,
     });
   }
@@ -133,7 +155,7 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
   //     setLoading,
   //     setError,
   //     meApiKey,
-  //     reqURL,GELATO_API_KEY,
+  //     reqURL
   //     costPayerId,
   //   });
   // }
@@ -151,7 +173,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       getOnlyId,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -173,7 +194,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -210,7 +230,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       rOptimal,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -231,7 +250,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -250,7 +268,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -269,7 +286,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -288,7 +304,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -308,7 +323,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -329,7 +343,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -350,7 +363,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -394,7 +406,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -416,7 +427,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -457,7 +467,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -488,7 +497,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -513,7 +521,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -543,7 +550,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -569,7 +575,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       returnAsFormatted,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       costPayerId,
       JSON_RPC_URL,
@@ -594,7 +599,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       },
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -641,7 +645,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setSpendingSteps,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -674,7 +677,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setLoading,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -702,7 +704,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setLoading,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       brand_id,
@@ -733,7 +734,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setLoading,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       brand_id,
@@ -781,7 +781,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setLoading,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       brandId,
@@ -819,7 +818,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setLoading,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -847,7 +845,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setLoading,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -875,7 +872,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setLoading,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -900,7 +896,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -918,7 +913,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -928,7 +922,7 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       amount,
     });
   }
-  async function changeROptimal({ rewardAddress, newROptimal }: Omit<PauseOpenRewardProps & { newROptimal: BigNumber }, OmittedProps>) {
+  async function changeROptimal({ rewardAddress, newROptimal }: Omit<PauseOpenRewardProps & { newROptimal: BigInt }, OmittedProps>) {
     return await changeROptimalFN({
       email,
       rewardAddress,
@@ -936,7 +930,6 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setError,
       meApiKey,
       reqURL,
-      GELATO_API_KEY,
       debug,
       magic,
       costPayerId,
@@ -971,6 +964,7 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
         spendingSteps,
         // meRegister,
         getBrandDetails,
+        onboardBrand,
         getWalletFromEmail,
         createReward,
         setUpOpenReward,

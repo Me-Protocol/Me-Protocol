@@ -1,5 +1,5 @@
 import { sendTransactionData } from "@developeruche/runtime-sdk/dist/utils/interfaces";
-import { BigNumber, BigNumberish } from "ethers";
+import { GasApiResponse, Magic } from "magic-sdk";
 import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
@@ -15,7 +15,6 @@ export interface MeProtocolProviderProps {
   CHAIN_ID: number;
   TREASURY: string;
   VAULT: string;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
 }
@@ -24,7 +23,7 @@ export interface MeProtocolProviderProps {
 //   setLoading: Dispatch<SetStateAction<boolean>>;
 //   setError: Dispatch<SetStateAction<unknown>>;
 //   meApiKey: string;
-//   reqURL: string; GELATO_API_KEY:string;
+//   reqURL: string;
 //   costPayerId?: string;
 //   email: string; magic:any
 //   brandName: string;
@@ -39,11 +38,10 @@ export interface CreateRewardProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   name: string;
   symbol: string;
   descriptionLink: string;
@@ -54,9 +52,9 @@ export interface OnBoardRewardsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
   email: string;
-  magic: any;
+  magic: Magic;
   reward_address: string;
-  brand_id: BigNumber;
+  brand_id: BigInt;
   persist: boolean;
   RUNTIME_URL: string;
 }
@@ -72,23 +70,39 @@ export interface DeployRewardAndPoolProps {
   VAULT: string;
   OPEN_REWARD_IMPLEMENTATION: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   brandId: string;
   name: string;
   symbol: string;
   descriptionLink: string;
-  totalSupplyVault: number | BigNumber;
-  totalSupplyTreasury: number | BigNumber;
-  rOptimal: number | BigNumber;
-  maximumRLimit: number | BigNumber;
-  minimumRewardAmountForConversation: number | BigNumber;
-  minimumMeAmountForConversation: number | BigNumber;
-  notifyRewardAmount: number | BigNumber;
-  notifyMeAmount: number | BigNumber;
+  totalSupplyVault: number | BigInt;
+  totalSupplyTreasury: number | BigInt;
+  rOptimal: number | BigInt;
+  maximumRLimit: number | BigInt;
+  minimumRewardAmountForConversation: number | BigInt;
+  minimumMeAmountForConversation: number | BigInt;
+  notifyRewardAmount: number | BigInt;
+  notifyMeAmount: number | BigInt;
+  persist: boolean;
+}
+export interface OnboardBrandProps {
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setError: Dispatch<SetStateAction<unknown>>;
+  meApiKey: string;
+  reqURL: string;
+  OPEN_REWARD_DIAMOND: string;
+  JSON_RPC_URL: string;
+  OPEN_REWARD_IMPLEMENTATION: string;
+  debug?: boolean;
+  costPayerId?: string;
+  email: string;
+  magic: Magic;
+  brandId: string;
+  brandName: string;
+  brandOnlinePresence: string;
   persist: boolean;
 }
 
@@ -101,11 +115,10 @@ export interface AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoo
   ME_TOKEN: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   currentBrandId: string;
   rewardAddress: string;
   rewardAmount: string;
@@ -117,10 +130,10 @@ export interface DistributeRewardsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
   email: string;
-  magic: any;
+  magic: Magic;
   reward_address: string;
   reward_recipient: Array<string>;
-  reward_amounts: Array<BigNumber>;
+  reward_amounts: Array<BigInt>;
   persist: boolean;
   RUNTIME_URL: string;
 }
@@ -140,11 +153,10 @@ export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   email: string;
-  magic: any;
-  reward_amount: BigNumber;
+  magic: Magic;
+  reward_amount: BigInt;
   reward_address: string;
   rewardId: string;
   costPayerId?: string;
@@ -160,11 +172,10 @@ export interface ChangeOptimalOpenRewardProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardName: string;
   newOptimalValue: number;
 }
@@ -177,13 +188,12 @@ export interface SetUpOpenRewardProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   OPEN_REWARD_IMPLEMENTATION: string;
   ME_TOKEN: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
   rOptimal: number;
   maximumRLimit: number;
@@ -202,18 +212,17 @@ export interface SetUpWalletProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   persist: boolean;
 }
 export interface GetWalletFromEmailProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
   userEmail: string;
-  magic: any;
+  magic: Magic;
   persist: boolean;
 }
 
@@ -225,11 +234,10 @@ export interface ChangeMainAccountProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   newMainAcctAddress: string;
 }
 
@@ -241,11 +249,10 @@ export interface ActivateOpenRewardProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
 }
 export interface IntegrateRewardProps {
@@ -256,11 +263,10 @@ export interface IntegrateRewardProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
   descriptionLink: string;
   readTandC: boolean;
@@ -273,12 +279,11 @@ export interface TopUpOpenRewardLiquidityProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   ME_TOKEN: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   address: string;
   meAmount: string;
   rewardAmount: string;
@@ -292,11 +297,10 @@ export interface SpendRewardOnIssuingBrandProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   spendAddress: string;
   spendAmount: string;
 }
@@ -319,11 +323,10 @@ export interface UpdateRewardConfigProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   address: string;
   brandId: string;
   ignoreDefault: boolean;
@@ -344,11 +347,10 @@ export interface UpdateRewardDetailsProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
   brandId: string;
   details: EditableRewardDetails;
@@ -368,11 +370,10 @@ export interface UpdateBrandDetailsProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   brandId: string;
   brandDetails: EditableBrandDetails;
   ignoreDefault: boolean;
@@ -393,11 +394,10 @@ export interface UpdateGeneralConfigProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   brandId: string;
   generalConfig: EditableBrandConfig;
   ignoreDefault: boolean;
@@ -420,11 +420,10 @@ export interface UpdateOpenRewardConfigProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
   config: EditableConfigForTypeAOpenRewards;
   ignoreDefault: boolean;
@@ -438,11 +437,10 @@ export interface ResumeOpenRewardProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
 }
 
@@ -454,11 +452,10 @@ export interface PauseOpenRewardProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
 }
 
@@ -482,11 +479,10 @@ export interface GetBrandDetailsProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   getOnlyId?: boolean;
 }
 
@@ -498,7 +494,6 @@ export interface GetExpectedAmountOfTargetedRewardProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   inputRewardAddress: string;
@@ -518,8 +513,8 @@ export interface GetUserRewardsRuntimeProps {
 export interface SpendingInfo {
   rewardAtHand: string;
   targettedReward: string;
-  amountOfRewardAtHand: number | BigNumber;
-  expectedAmountOfTargetedReward: number | BigNumber;
+  amountOfRewardAtHand: number | BigInt;
+  expectedAmountOfTargetedReward: number | BigInt;
 }
 
 export interface SwapWithDiffBrandProps {
@@ -530,12 +525,11 @@ export interface SwapWithDiffBrandProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   spendInfo: SpendingInfo;
   email: string;
-  magic: any;
+  magic: Magic;
 }
 
 export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
@@ -548,12 +542,11 @@ export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   spendInfo: SpendingInfo;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardId: string;
   RUNTIME_URL: string;
   orderId: string;
@@ -569,16 +562,15 @@ export interface AddRewardMagicProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
-  brand_id: BigNumber;
+  magic: Magic;
+  brand_id: BigInt;
   // reward_address: string;
   reward_manager: string;
   RUNTIME_URL: string;
-  role_id: BigNumber;
+  role_id: BigInt;
   persist: boolean;
 }
 
@@ -592,15 +584,14 @@ export interface RemoveRewardMagicProps {
   OPEN_REWARD_DIAMOND: string;
   JSON_RPC_URL: string;
   CHAIN_ID: number;
-  GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
-  brand_id: BigNumber;
+  magic: Magic;
+  brand_id: BigInt;
   // reward_address: string;
   reward_manager: string;
-  role_id: BigNumber;
+  role_id: BigInt;
   persist: boolean;
   RUNTIME_URL: string;
 }
@@ -815,40 +806,40 @@ export type OmittedProps =
   | "ME_TOKEN"
   | "CHAIN_ID"
   | "magic";
-export type TaskIdPromise = Promise<{ taskId: string } | undefined>;
+export type GasApiPromise = Promise<GasApiResponse | undefined>;
 
 export interface AllFnsProps {
   error: unknown;
   loading: boolean;
   spendLoading: boolean;
   spendingSteps: number;
-  magic: any;
+  magic: Magic;
   updateGeneralConfig: ({
     generalConfig: { enableBountyRewards, enableCais, payIncomingGasFees, payOutgoingGasFees },
     ignoreDefault,
     brandId,
-  }: Omit<UpdateGeneralConfigProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<UpdateGeneralConfigProps, OmittedProps>) => GasApiPromise;
   updateBrandDetails: ({
     brandId,
     brandDetails: { name, onlinePresence },
     ignoreDefault,
-  }: Omit<UpdateBrandDetailsProps, OmittedProps>) => TaskIdPromise;
-  spendRewardOnIssuingBrand: ({ spendAddress, spendAmount }: Omit<SpendRewardOnIssuingBrandProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<UpdateBrandDetailsProps, OmittedProps>) => GasApiPromise;
+  spendRewardOnIssuingBrand: ({ spendAddress, spendAmount }: Omit<SpendRewardOnIssuingBrandProps, OmittedProps>) => GasApiPromise;
   getExpectedAmountOfTargetedReward: ({
     inputRewardAddress,
     outPutRewardAddress,
     amount,
     returnAsFormatted,
-  }: Omit<GetExpectedAmountOfTargetedRewardProps, OmittedProps>) => Promise<BigNumberish | string | undefined>;
+  }: Omit<GetExpectedAmountOfTargetedRewardProps, OmittedProps>) => Promise<BigInt | string | undefined>;
   swapWithDiffBrand: ({
     spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
-  }: Omit<SwapWithDiffBrandProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<SwapWithDiffBrandProps, OmittedProps>) => GasApiPromise;
   spendRewardsOnAnotherBrandWithVaultPermit: ({
     spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
     rewardId,
     RUNTIME_URL,
     orderId,
-  }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<SpendRewardsOnAnotherBrandWithVaultPermitProps, OmittedProps>) => GasApiPromise;
   addRewardManager: ({
     brand_id,
     // reward_address,
@@ -865,15 +856,15 @@ export interface AllFnsProps {
     persist,
     RUNTIME_URL,
   }: Omit<RemoveRewardMagicProps, OmittedProps>) => Promise<any>;
-  onBoardRewards: ({ brand_id, reward_address, persist, RUNTIME_URL }: Omit<OnBoardRewardsProps, OmittedProps>) => Promise<
-    | sendTransactionData
-    | {
-        taskId: string;
-      }
-  >;
-  changeOptimalOpenReward: ({ rewardName, newOptimalValue }: Omit<ChangeOptimalOpenRewardProps, OmittedProps>) => TaskIdPromise;
-  integrateReward: ({ descriptionLink, readTandC }: Omit<IntegrateRewardProps, OmittedProps>) => TaskIdPromise;
-  topUpOpenRewardLiquidity: ({ rewardAmount, meAmount }: Omit<TopUpOpenRewardLiquidityProps, OmittedProps>) => TaskIdPromise;
+  onBoardRewards: ({
+    brand_id,
+    reward_address,
+    persist,
+    RUNTIME_URL,
+  }: Omit<OnBoardRewardsProps, OmittedProps>) => Promise<sendTransactionData | undefined>;
+  changeOptimalOpenReward: ({ rewardName, newOptimalValue }: Omit<ChangeOptimalOpenRewardProps, OmittedProps>) => GasApiPromise;
+  integrateReward: ({ descriptionLink, readTandC }: Omit<IntegrateRewardProps, OmittedProps>) => GasApiPromise;
+  topUpOpenRewardLiquidity: ({ rewardAmount, meAmount }: Omit<TopUpOpenRewardLiquidityProps, OmittedProps>) => GasApiPromise;
   updateRewardConfig: ({
     rewardConfig: {
       specificException,
@@ -886,13 +877,13 @@ export interface AllFnsProps {
     },
     ignoreDefault,
     brandId,
-  }: Omit<UpdateRewardConfigProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<UpdateRewardConfigProps, OmittedProps>) => GasApiPromise;
   updateRewardDetails: ({
     rewardAddress,
     details: { name, symbol, descriptionLink },
     ignoreDefault,
     brandId,
-  }: Omit<UpdateRewardDetailsProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<UpdateRewardDetailsProps, OmittedProps>) => GasApiPromise;
   updateOpenRewardConfig: ({
     rewardAddress,
     config: {
@@ -905,13 +896,13 @@ export interface AllFnsProps {
       allowSwaps,
     },
     ignoreDefault,
-  }: Omit<UpdateOpenRewardConfigProps, OmittedProps>) => TaskIdPromise;
-  pauseOpenReward: ({ rewardAddress }: Omit<PauseOpenRewardProps, OmittedProps>) => TaskIdPromise;
-  createMoreRewardToTreasury: ({ rewardAddress }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) => TaskIdPromise;
-  createMoreRewardToVault: ({ rewardAddress }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) => TaskIdPromise;
-  changeROptimal: ({ rewardAddress }: Omit<PauseOpenRewardProps & { newROptimal: BigNumber }, OmittedProps>) => TaskIdPromise;
-  resumeOpenReward: ({ rewardAddress }: Omit<ResumeOpenRewardProps, OmittedProps>) => TaskIdPromise;
-  activateOpenReward: ({ rewardAddress }: Omit<ActivateOpenRewardProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<UpdateOpenRewardConfigProps, OmittedProps>) => GasApiPromise;
+  pauseOpenReward: ({ rewardAddress }: Omit<PauseOpenRewardProps, OmittedProps>) => GasApiPromise;
+  createMoreRewardToTreasury: ({ rewardAddress }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) => GasApiPromise;
+  createMoreRewardToVault: ({ rewardAddress }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) => GasApiPromise;
+  changeROptimal: ({ rewardAddress }: Omit<PauseOpenRewardProps & { newROptimal: BigInt }, OmittedProps>) => GasApiPromise;
+  resumeOpenReward: ({ rewardAddress }: Omit<ResumeOpenRewardProps, OmittedProps>) => GasApiPromise;
+  activateOpenReward: ({ rewardAddress }: Omit<ActivateOpenRewardProps, OmittedProps>) => GasApiPromise;
   setUpOpenReward: ({
     rewardAddress,
     rOptimal,
@@ -922,12 +913,12 @@ export interface AllFnsProps {
     notifyMeAmount,
     defaultSlippageInPrecision,
     allowSwaps,
-  }: Omit<SetUpOpenRewardProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<SetUpOpenRewardProps, OmittedProps>) => GasApiPromise;
 
   setUpWallet: ({ persist }: Omit<SetUpWalletProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
   getWalletFromEmail: ({ persist }: Omit<GetWalletFromEmailProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
-  changeMainAccount: ({ newMainAcctAddress }: Omit<ChangeMainAccountProps, OmittedProps>) => TaskIdPromise;
-  createReward: ({ name, symbol, descriptionLink, totalSupply }: Omit<CreateRewardProps, OmittedProps>) => TaskIdPromise;
+  changeMainAccount: ({ newMainAcctAddress }: Omit<ChangeMainAccountProps, OmittedProps>) => GasApiPromise;
+  createReward: ({ name, symbol, descriptionLink, totalSupply }: Omit<CreateRewardProps, OmittedProps>) => GasApiPromise;
   deployRewardAndPool: ({
     name,
     symbol,
@@ -942,32 +933,33 @@ export interface AllFnsProps {
     notifyRewardAmount,
     notifyMeAmount,
     persist,
-  }: Omit<DeployRewardAndPoolProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<DeployRewardAndPoolProps, OmittedProps>) => GasApiPromise;
+  onboardBrand: ({ brandId, brandName, brandOnlinePresence, persist }: Omit<OnboardBrandProps, OmittedProps>) => GasApiPromise;
   addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool: ({
     meAmount,
     rewardAmount,
     rewardAddress,
     currentBrandId,
     persist,
-  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => GasApiPromise;
   addLiquidityForOpenRewardsWithTreasuryAndMeDispenser: ({
     meAmount,
     rewardAmount,
     rewardAddress,
     currentBrandId,
     persist,
-  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => GasApiPromise;
   addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopup: ({
     meAmount,
     rewardAmount,
     rewardAddress,
     currentBrandId,
     persist,
-  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) => GasApiPromise;
   getBrandDetails: ({
     getOnlyId,
   }: Omit<GetBrandDetailsProps, OmittedProps>) => Promise<{ brandId: string } | Promise<{ brandDetails: BrandDetailsProps }> | undefined>;
-  // meRegister: ({ brandName, onlinePresence }: Omit<MeRegisterProps, OmittedProps>) => TaskIdPromise;
+  // meRegister: ({ brandName, onlinePresence }: Omit<MeRegisterProps, OmittedProps>) => GasApiPromise;
   distributeRewards: ({
     reward_address,
     reward_recipient,
@@ -982,7 +974,7 @@ export interface AllFnsProps {
     rewardId,
     RUNTIME_URL,
     orderId,
-  }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
+  }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) => Promise<string | undefined>;
   getUserRewardsRuntime: ({ rewardListFromBackend, userData, RUNTIME_URL }: Omit<GetUserRewardsRuntimeProps, OmittedProps>) => Promise<{
     rewardBalances: RewardRuntime[];
     userDataWithBalance: UserProps;
