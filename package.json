@@ -1,6 +1,6 @@
 {
   "name": "me-protocol",
-  "version": "stable-0.0.1",
+  "version": "0.0.1-stable",
   "description": "A library for interacting with the me-protocol ecosystem",
   "scripts": {
     "prebuild": "rimraf dist",
