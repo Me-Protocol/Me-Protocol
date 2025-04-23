@@ -53,15 +53,15 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
         RUNTIME_URL
       );
 
-      const { data: couponData } = await axios.post(
-        `${reqURL.replace("/cost/request/in-app", "")}/order/coupon`,
-        { orderId },
-        {
-          headers: {
-            Authorization: `Bearer ${meApiKey}`,
-          },
-        }
-      );
+      // const { data: couponData } = await axios.post(
+      //   `${reqURL.replace("/cost/request/in-app", "")}/order/coupon`,
+      //   { orderId },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${meApiKey}`,
+      //     },
+      //   }
+      // );
       // console.log(data, from, hash, nonce, r, s, v, "from rsv");
       setSpendingSteps(2);
 

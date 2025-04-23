@@ -149,7 +149,7 @@ export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
   rewardId: string;
   costPayerId?: string;
   RUNTIME_URL: string;
-  orderId: string;
+  orderId?: string;
 }
 
 export interface ChangeOptimalOpenRewardProps {
@@ -556,7 +556,7 @@ export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
   magic: any;
   rewardId: string;
   RUNTIME_URL: string;
-  orderId: string;
+  orderId?: string;
 }
 
 export interface AddRewardMagicProps {

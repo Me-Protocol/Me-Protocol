@@ -39,6 +39,7 @@ export async function deployRewardAndPoolFN({
     const magicWeb3 = await createWeb3(magic);
 
     if (!(await magic.user.isLoggedIn())) {
+      console.log("log: came here straight cos user is not logged in");
       await magic.auth.loginWithEmailOTP({ email });
       let isConnected = magicWeb3;
       while (!isConnected) {
@@ -58,6 +59,26 @@ export async function deployRewardAndPoolFN({
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       // ============================================FROM HERE=====================================================================
+      console.log({
+        brandId,
+        name,
+        symbol,
+        descriptionLink,
+        totalSupplyVault,
+        totalSupplyTreasury,
+        // OPEN_REWARD_DIAMOND,
+        rOptimal,
+        maximumRLimit,
+        minimumRewardAmountForConversation,
+        minimumMeAmountForConversation,
+        notifyRewardAmount,
+        notifyMeAmount,
+        TREASURY,
+        VAULT,
+        OPEN_REWARD_IMPLEMENTATION,
+        JSON_RPC_URL,
+        OPEN_REWARD_DIAMOND,
+      });
       const data = await brandService.createANewRewardWithPermitAndDeployPool(
         brandId,
         name,
@@ -100,6 +121,7 @@ export async function deployRewardAndPoolFN({
 
       return { taskId };
     } else {
+      console.log("log: user is logged in");
       let isConnected = magicWeb3;
       while (!isConnected) {
         await delay(1000); // Wait for 1 second
@@ -107,6 +129,9 @@ export async function deployRewardAndPoolFN({
       }
 
       const { email: connectedEmail } = await magic.user.getInfo();
+
+      console.log("🚀 ~ email logged in:", email);
+      console.log("🚀 ~ connectedEmail:", connectedEmail);
       //IF THE PERSISTED USER INFO IS NOT THE INFO OF THE USER TRYING TO PERFORM THE FUNCTION logout and try to login again
       if (email !== connectedEmail) {
         await magic.user.logout();
@@ -184,6 +209,26 @@ export async function deployRewardAndPoolFN({
       const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
 
       // ============================================FROM HERE=====================================================================
+      console.log({
+        brandId,
+        name,
+        symbol,
+        descriptionLink,
+        totalSupplyVault,
+        totalSupplyTreasury,
+        // OPEN_REWARD_DIAMOND,
+        rOptimal,
+        maximumRLimit,
+        minimumRewardAmountForConversation,
+        minimumMeAmountForConversation,
+        notifyRewardAmount,
+        notifyMeAmount,
+        TREASURY,
+        VAULT,
+        OPEN_REWARD_IMPLEMENTATION,
+        JSON_RPC_URL,
+        OPEN_REWARD_DIAMOND,
+      });
 
       const data = await brandService.createANewRewardWithPermitAndDeployPool(
         brandId,
