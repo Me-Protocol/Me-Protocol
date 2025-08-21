@@ -1,5 +1,5 @@
 import { sendTransactionData } from "@developeruche/runtime-sdk/dist/utils/interfaces";
-import { BigNumber, BigNumberish } from "ethers";
+import { BigNumber } from "ethers";
 import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
@@ -831,12 +831,12 @@ export interface AllFnsProps {
     ignoreDefault,
   }: Omit<UpdateBrandDetailsProps, OmittedProps>) => TaskIdPromise;
   spendRewardOnIssuingBrand: ({ spendAddress, spendAmount }: Omit<SpendRewardOnIssuingBrandProps, OmittedProps>) => TaskIdPromise;
-  getExpectedAmountOfTargetedReward: ({
-    inputRewardAddress,
-    outPutRewardAddress,
-    amount,
-    returnAsFormatted,
-  }: Omit<GetExpectedAmountOfTargetedRewardProps, OmittedProps>) => Promise<BigNumberish | string | undefined>;
+  // getExpectedAmountOfTargetedReward: ({
+  //   inputRewardAddress,
+  //   outPutRewardAddress,
+  //   amount,
+  //   returnAsFormatted,
+  // }: Omit<GetExpectedAmountOfTargetedRewardProps, OmittedProps>) => Promise<BigNumberish | string | undefined>;
   swapWithDiffBrand: ({
     spendInfo: { rewardAtHand, targettedReward, amountOfRewardAtHand, expectedAmountOfTargetedReward },
   }: Omit<SwapWithDiffBrandProps, OmittedProps>) => TaskIdPromise;

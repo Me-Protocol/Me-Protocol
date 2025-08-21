@@ -17,7 +17,6 @@ import {
   SpendRewardOnIssuingBrandProps,
   UpdateOpenRewardConfigProps,
   UpdateRewardDetailsProps,
-  GetExpectedAmountOfTargetedRewardProps,
   SwapWithDiffBrandProps,
   UpdateBrandDetailsProps,
   UpdateGeneralConfigProps,
@@ -47,7 +46,6 @@ import { updateRewardConfigFN } from "../../module/updateRewardConfig";
 import { spendRewardOnIssuingBrandFN } from "../../module/spendRewardOnIssuingBrand";
 import { updateOpenRewardConfigFN } from "../../module/updateOpenRewardConfig";
 import { updateRewardDetailsFN } from "../../module/updateRewardDetails";
-import { getExpectedAmountOfTargetedRewardFN } from "../../module/getExpectedAmountOfTargetedReward";
 import { swapWithDiffBrandFN } from "../../module/swapWithDiffBrand";
 import { updateBrandDetailsFN } from "../../module/updateBrandDetails";
 import { updateGeneralConfigFN } from "../../module/updateGeneralConfig";
@@ -553,30 +551,30 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
     });
   }
 
-  // ========================================= THIS IS THE FUNCTION TO getExpectedAmountOfTargetedReward ==========================================================
-  async function getExpectedAmountOfTargetedReward({
-    inputRewardAddress,
-    outPutRewardAddress,
-    amount,
-    returnAsFormatted,
-  }: Omit<GetExpectedAmountOfTargetedRewardProps, OmittedProps>) {
-    return await getExpectedAmountOfTargetedRewardFN({
-      inputRewardAddress,
-      outPutRewardAddress,
-      amount,
-      setLoading,
-      setError,
-      returnAsFormatted,
-      meApiKey,
-      reqURL,
-      GELATO_API_KEY,
-      debug,
-      costPayerId,
-      JSON_RPC_URL,
-      OPEN_REWARD_DIAMOND,
-      CHAIN_ID,
-    });
-  }
+  // // ========================================= THIS IS THE FUNCTION TO getExpectedAmountOfTargetedReward ==========================================================
+  // async function getExpectedAmountOfTargetedReward({
+  //   inputRewardAddress,
+  //   outPutRewardAddress,
+  //   amount,
+  //   returnAsFormatted,
+  // }: Omit<GetExpectedAmountOfTargetedRewardProps, OmittedProps>) {
+  //   return await getExpectedAmountOfTargetedRewardFN({
+  //     inputRewardAddress,
+  //     outPutRewardAddress,
+  //     amount,
+  //     setLoading,
+  //     setError,
+  //     returnAsFormatted,
+  //     meApiKey,
+  //     reqURL,
+  //     GELATO_API_KEY,
+  //     debug,
+  //     costPayerId,
+  //     JSON_RPC_URL,
+  //     OPEN_REWARD_DIAMOND,
+  //     CHAIN_ID,
+  //   });
+  // }
 
   // ========================================= THIS IS THE FUNCTION TO swapWithDiffBrand ==========================================================
   async function swapWithDiffBrand({
@@ -985,7 +983,7 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
         spendRewardOnIssuingBrand,
         updateOpenRewardConfig,
         updateRewardDetails,
-        getExpectedAmountOfTargetedReward,
+        // getExpectedAmountOfTargetedReward,
         swapWithDiffBrand,
         updateBrandDetails,
         updateGeneralConfig,
