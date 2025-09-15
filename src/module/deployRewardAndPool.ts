@@ -1,8 +1,20 @@
 import { ethers } from "ethers";
 import { createWeb3 } from "../lib/web3";
-import { delay } from "../helpers/delay";
-import { brandService, relay } from "@developeruche/protocol-core";
 import { DeployRewardAndPoolProps } from "../lib/types";
+import { TransactionResult } from "../helpers/types";
+import { handleUserAuthentication } from "../helpers/authentication";
+import { executeDeployRewardAndPoolWorkflow } from "../helpers/deploymentHelpers";
+
+/**
+ * Deploys a new reward token and creates a liquidity pool.
+ *
+ * This function handles user authentication and executes the complete deployment
+ * workflow including reward token creation and pool setup through a relay service.
+ *
+ * @param params - Configuration object containing all required deployment parameters
+ * @returns Promise resolving to transaction result with taskId
+ * @throws Error if authentication, deployment, or transaction execution fails
+ */
 export async function deployRewardAndPoolFN({
   email,
   magic,
@@ -32,253 +44,78 @@ export async function deployRewardAndPoolFN({
   VAULT,
   OPEN_REWARD_IMPLEMENTATION,
   CHAIN_ID,
-}: DeployRewardAndPoolProps) {
+  pk,
+  hedera,
+}: DeployRewardAndPoolProps): Promise<TransactionResult> {
+  // Input validation
+  if (!email || !brandId || !name || !symbol) {
+    throw new Error("Missing required parameters: email, brandId, name, or symbol");
+  }
+
   setLoading(true);
 
   try {
     const magicWeb3 = await createWeb3(magic);
 
-    if (!(await magic.user.isLoggedIn())) {
-      console.log("log: came here straight cos user is not logged in");
-      await magic.auth.loginWithEmailOTP({ email });
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      //if the user accounts is not found - update it on the console
-      if (accounts.length === 0) {
-        return { taskId: "no accounts found" };
-      }
-      const userAccount = accounts[0];
-      // console.log(userAccount, "user account is this");
-      const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
-      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-      // ============================================FROM HERE=====================================================================
-      console.log({
-        brandId,
-        name,
-        symbol,
-        descriptionLink,
-        totalSupplyVault,
-        totalSupplyTreasury,
-        // OPEN_REWARD_DIAMOND,
-        rOptimal,
-        maximumRLimit,
-        minimumRewardAmountForConversation,
-        minimumMeAmountForConversation,
-        notifyRewardAmount,
-        notifyMeAmount,
-        TREASURY,
-        VAULT,
-        OPEN_REWARD_IMPLEMENTATION,
-        JSON_RPC_URL,
-        OPEN_REWARD_DIAMOND,
-      });
-      const data = await brandService.createANewRewardWithPermitAndDeployPool(
-        brandId,
-        name,
-        symbol,
-        descriptionLink,
-        totalSupplyVault,
-        totalSupplyTreasury,
-        // OPEN_REWARD_DIAMOND,
-        rOptimal,
-        maximumRLimit,
-        minimumRewardAmountForConversation,
-        minimumMeAmountForConversation,
-        notifyRewardAmount,
-        notifyMeAmount,
-        TREASURY,
-        VAULT,
-        OPEN_REWARD_IMPLEMENTATION,
-        JSON_RPC_URL,
-        OPEN_REWARD_DIAMOND
-      );
-
-      const relayInput = {
-        from: loggedInUserInfo.publicAddress,
-        data: data.data,
-        to: OPEN_REWARD_DIAMOND,
-      };
-
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        GELATO_API_KEY,
-        JSON_RPC_URL,
-        CHAIN_ID,
-        OPEN_REWARD_DIAMOND,
-        costPayerId,
-        debug
-      );
-
-      return { taskId };
-    } else {
-      console.log("log: user is logged in");
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-
-      const { email: connectedEmail } = await magic.user.getInfo();
-
-      console.log("🚀 ~ email logged in:", email);
-      console.log("🚀 ~ connectedEmail:", connectedEmail);
-      //IF THE PERSISTED USER INFO IS NOT THE INFO OF THE USER TRYING TO PERFORM THE FUNCTION logout and try to login again
-      if (email !== connectedEmail) {
-        await magic.user.logout();
-        await magic.auth.loginWithEmailOTP({ email });
-        let isConnected = magicWeb3;
-        while (!isConnected) {
-          await delay(1000); // Wait for 1 second
-          isConnected = magicWeb3;
-        }
-        const accounts = await magicWeb3.eth.getAccounts();
-        //if the user accounts is not found - update it on the console
-        if (accounts.length === 0) {
-          return { taskId: "no accounts found" };
-        }
-        const userAccount = accounts[0];
-        // console.log(userAccount, "user account is this");
-        const provider = await magic.wallet.getProvider();
-        const web3Provider = new ethers.providers.Web3Provider(provider);
-        const signer = web3Provider.getSigner(userAccount);
-        const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-        // ============================================FROM HERE=====================================================================
-        const data = await brandService.createANewRewardWithPermitAndDeployPool(
-          brandId,
-          name,
-          symbol,
-          descriptionLink,
-          totalSupplyVault,
-          totalSupplyTreasury,
-          // OPEN_REWARD_DIAMOND,
-          rOptimal,
-          maximumRLimit,
-          minimumRewardAmountForConversation,
-          minimumMeAmountForConversation,
-          notifyRewardAmount,
-          notifyMeAmount,
-          TREASURY,
-          VAULT,
-          OPEN_REWARD_IMPLEMENTATION,
-          JSON_RPC_URL,
-          OPEN_REWARD_DIAMOND
-        );
-
-        const relayInput = {
-          from: loggedInUserInfo.publicAddress,
-          data: data.data,
-          to: OPEN_REWARD_DIAMOND,
-        };
-
-        const { taskId }: { taskId: string } = await relay(
-          relayInput,
-          signer,
-          meApiKey,
-          reqURL,
-          GELATO_API_KEY,
-          JSON_RPC_URL,
-          CHAIN_ID,
-          OPEN_REWARD_DIAMOND,
-          costPayerId,
-          debug
-        );
-
-        return { taskId };
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      //if the user accounts is not found - update it on the console
-      if (accounts.length === 0) {
-        return { taskId: "no accounts found" };
-      }
-      const userAccount = accounts[0];
-      // console.log(userAccount, "user account is this");
-      const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
-      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-      // ============================================FROM HERE=====================================================================
-      console.log({
-        brandId,
-        name,
-        symbol,
-        descriptionLink,
-        totalSupplyVault,
-        totalSupplyTreasury,
-        // OPEN_REWARD_DIAMOND,
-        rOptimal,
-        maximumRLimit,
-        minimumRewardAmountForConversation,
-        minimumMeAmountForConversation,
-        notifyRewardAmount,
-        notifyMeAmount,
-        TREASURY,
-        VAULT,
-        OPEN_REWARD_IMPLEMENTATION,
-        JSON_RPC_URL,
-        OPEN_REWARD_DIAMOND,
-      });
-
-      const data = await brandService.createANewRewardWithPermitAndDeployPool(
-        brandId,
-        name,
-        symbol,
-        descriptionLink,
-        totalSupplyVault,
-        totalSupplyTreasury,
-        // OPEN_REWARD_DIAMOND,
-        rOptimal,
-        maximumRLimit,
-        minimumRewardAmountForConversation,
-        minimumMeAmountForConversation,
-        notifyRewardAmount,
-        notifyMeAmount,
-        TREASURY,
-        VAULT,
-        OPEN_REWARD_IMPLEMENTATION,
-        JSON_RPC_URL,
-        OPEN_REWARD_DIAMOND
-      );
-
-      const relayInput = {
-        from: loggedInUserInfo.publicAddress,
-        data: data.data,
-        to: OPEN_REWARD_DIAMOND,
-      };
-
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        GELATO_API_KEY,
-        JSON_RPC_URL,
-        CHAIN_ID,
-        OPEN_REWARD_DIAMOND,
-        costPayerId,
-        debug
-      );
-
-      return { taskId };
+    if (!magicWeb3) {
+      throw new Error("Failed to create web3 instance");
     }
+
+    // Handle user authentication and setup
+    const { signer, userInfo } = await handleUserAuthentication(magic, magicWeb3, email);
+
+    // Execute the deployment workflow
+    const result = await executeDeployRewardAndPoolWorkflow({
+      signer,
+      userInfo,
+      brandId,
+      name,
+      symbol,
+      descriptionLink,
+      totalSupplyVault: typeof totalSupplyVault === "number" ? ethers.BigNumber.from(totalSupplyVault) : totalSupplyVault,
+      totalSupplyTreasury: typeof totalSupplyTreasury === "number" ? ethers.BigNumber.from(totalSupplyTreasury) : totalSupplyTreasury,
+      rOptimal: typeof rOptimal === "number" ? ethers.BigNumber.from(rOptimal) : rOptimal,
+      maximumRLimit: typeof maximumRLimit === "number" ? ethers.BigNumber.from(maximumRLimit) : maximumRLimit,
+      minimumRewardAmountForConversation:
+        typeof minimumRewardAmountForConversation === "number"
+          ? ethers.BigNumber.from(minimumRewardAmountForConversation)
+          : minimumRewardAmountForConversation,
+      minimumMeAmountForConversation:
+        typeof minimumMeAmountForConversation === "number" ? ethers.BigNumber.from(minimumMeAmountForConversation) : minimumMeAmountForConversation,
+      notifyRewardAmount: typeof notifyRewardAmount === "number" ? ethers.BigNumber.from(notifyRewardAmount) : notifyRewardAmount,
+      notifyMeAmount: typeof notifyMeAmount === "number" ? ethers.BigNumber.from(notifyMeAmount) : notifyMeAmount,
+      TREASURY,
+      VAULT,
+      OPEN_REWARD_IMPLEMENTATION,
+      JSON_RPC_URL,
+      OPEN_REWARD_DIAMOND,
+      meApiKey,
+      reqURL,
+      GELATO_API_KEY,
+      CHAIN_ID,
+      costPayerId,
+      debug,
+      pk,
+      hedera,
+    });
+
+    return result;
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Deploy reward and pool transaction failed:", errorMessage);
+
     setError(error);
     throw error;
   } finally {
     setLoading(false);
+
+    // Logout user if not persisting session
     if (!persist) {
-      magic.user.logout();
+      try {
+        await magic.user.logout();
+      } catch (logoutError) {
+        console.warn("Failed to logout user:", logoutError);
+      }
     }
   }
 }

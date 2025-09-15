@@ -1,100 +1,75 @@
 import { ethers } from "ethers";
 import { createWeb3 } from "../lib/web3";
-import { delay } from "../helpers/delay";
 import { OnBoardRewardsProps } from "../lib/types";
-import { onboard_reward_magic } from "@developeruche/runtime-sdk";
+import { sendTransactionData } from "@developeruche/runtime-sdk";
+import { handleUserAuthentication } from "../helpers/authentication";
+import { executeOnboardRewardWorkflow } from "../helpers/runtimeOperationHelpers";
 
-export async function onBoardRewardsFN({ email, magic, brand_id, reward_address, setLoading, setError, persist, RUNTIME_URL }: OnBoardRewardsProps) {
+/**
+ * Onboards a reward with default treasury and vault amounts.
+ *
+ * This function handles user authentication and executes the onboard reward
+ * workflow through runtime SDK.
+ *
+ * @param params - Configuration object containing all required parameters
+ * @returns Promise resolving to transaction data
+ * @throws Error if authentication, onboarding, or transaction execution fails
+ */
+export async function onBoardRewardsFN({
+  email,
+  magic,
+  brand_id,
+  reward_address,
+  setLoading,
+  setError,
+  persist,
+  RUNTIME_URL,
+}: OnBoardRewardsProps): Promise<sendTransactionData> {
+  // Input validation
+  if (!email || !brand_id || !reward_address) {
+    throw new Error("Missing required parameters: email, brand_id, or reward_address");
+  }
+
   setLoading(true);
 
   try {
     const magicWeb3 = await createWeb3(magic);
 
-    if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email });
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      //if the user accounts is not found - update it on the console
-      if (accounts.length === 0) {
-        return { taskId: "no accounts found" };
-      }
-      const userAccount = accounts[0];
-      // console.log(userAccount, "user account is this");
-      const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
-      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-      // ============================================FROM HERE=====================================================================
-
-      return await onboard_reward_magic(brand_id, reward_address, ethers.utils.parseEther("1000"), ethers.utils.parseEther("1"), signer, RUNTIME_URL);
-    } else {
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-
-      const { email: connectedEmail } = await magic.user.getInfo();
-      //IF THE PERSISTED USER INFO IS NOT THE INFO OF THE USER TRYING TO PERFORM THE FUNCTION logout and try to login again
-      if (email !== connectedEmail) {
-        await magic.user.logout();
-        await magic.auth.loginWithEmailOTP({ email });
-        let isConnected = magicWeb3;
-        while (!isConnected) {
-          await delay(1000); // Wait for 1 second
-          isConnected = magicWeb3;
-        }
-        const accounts = await magicWeb3.eth.getAccounts();
-        //if the user accounts is not found - update it on the console
-        if (accounts.length === 0) {
-          return { taskId: "no accounts found" };
-        }
-        const userAccount = accounts[0];
-        // console.log(userAccount, "user account is this");
-        const provider = await magic.wallet.getProvider();
-        const web3Provider = new ethers.providers.Web3Provider(provider);
-        const signer = web3Provider.getSigner(userAccount);
-        const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-        // ============================================FROM HERE=====================================================================
-
-        return await onboard_reward_magic(
-          brand_id,
-          reward_address,
-          ethers.utils.parseEther("1000"),
-          ethers.utils.parseEther("1"),
-          signer,
-          RUNTIME_URL
-        );
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      //if the user accounts is not found - update it on the console
-      if (accounts.length === 0) {
-        return { taskId: "no accounts found" };
-      }
-      const userAccount = accounts[0];
-      // console.log(userAccount, "user account is this");
-      const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
-      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-      // ============================================FROM HERE=====================================================================
-
-      return await onboard_reward_magic(brand_id, reward_address, ethers.utils.parseEther("1000"), ethers.utils.parseEther("1"), signer, RUNTIME_URL);
+    if (!magicWeb3) {
+      throw new Error("Failed to create web3 instance");
     }
+
+    // Handle user authentication and setup
+    const { signer } = await handleUserAuthentication(magic, magicWeb3, email);
+
+    // Execute the onboard reward workflow
+    const result = await executeOnboardRewardWorkflow({
+      signer,
+      userInfo: { publicAddress: "", email }, // Not needed for this operation
+      brandId: brand_id.toString(),
+      rewardAddress: reward_address,
+      treasuryAmount: ethers.utils.parseEther("1000"),
+      vaultAmount: ethers.utils.parseEther("1"),
+      RUNTIME_URL,
+    });
+
+    return result;
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Onboard reward failed:", errorMessage);
+
     setError(error);
     throw error;
   } finally {
     setLoading(false);
+
+    // Logout user if not persisting session
     if (!persist) {
-      magic.user.logout();
+      try {
+        await magic.user.logout();
+      } catch (logoutError) {
+        console.warn("Failed to logout user:", logoutError);
+      }
     }
   }
 }

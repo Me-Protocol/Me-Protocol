@@ -1,44 +1,37 @@
-import { ethers } from "ethers";
-import { GetUserRewardsRuntimeProps, JsonRpcResponse } from "../lib/types";
-import * as runtimeSdk from "@developeruche/runtime-sdk";
+import { GetUserRewardsRuntimeProps } from "../lib/types";
+import { getUserRewardsRuntime, UserRewardsRuntimeResult } from "../helpers/utilityHelpers";
 
-export async function getUserRewardsRuntimeFN({ rewardListFromBackend, setLoading, setError, userData, RUNTIME_URL }: GetUserRewardsRuntimeProps) {
+/**
+ * Gets user rewards runtime data including balances.
+ *
+ * This function retrieves user account details and calculates reward balances
+ * from the runtime SDK.
+ *
+ * @param params - Configuration object containing required parameters
+ * @returns Promise resolving to user rewards data with balances
+ * @throws Error if runtime data retrieval fails
+ */
+export async function getUserRewardsRuntimeFN({
+  rewardListFromBackend,
+  setLoading,
+  setError,
+  userData,
+  RUNTIME_URL,
+}: GetUserRewardsRuntimeProps): Promise<UserRewardsRuntimeResult> {
+  // Input validation
+  if (!userData?.customer?.walletAddress || !RUNTIME_URL) {
+    throw new Error("Missing required parameters: userData.customer.walletAddress or RUNTIME_URL");
+  }
+
   setLoading(true);
 
-  let userInfo = userData;
-
   try {
-    const { data }: { data: JsonRpcResponse } = await runtimeSdk.get_account_detail_with_url(
-      {
-        address: userInfo?.customer?.walletAddress,
-      },
-      RUNTIME_URL
-    );
-
-    let result: Array<{ balance: string; contractAddress: string }> = [];
-
-    for (const address in data.result.balance) {
-      result.push({
-        contractAddress: ethers.utils.getAddress(address),
-        balance: ethers.utils.formatEther(data.result.balance[address]),
-      });
-    }
-
-    const userBalances = rewardListFromBackend?.map((reward) => {
-      const balRes = result?.find((bal) => bal.contractAddress === reward?.contractAddress);
-      return {
-        ...reward,
-        balance: balRes,
-      };
-    });
-
-    const rewardBalances = userBalances?.filter((e) => e.balance);
-
-    return {
-      rewardBalances,
-      userDataWithBalance: { ...userInfo, rewardBalances },
-    };
+    const result = await getUserRewardsRuntime(rewardListFromBackend, userData, RUNTIME_URL);
+    return result;
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Get user rewards runtime failed:", errorMessage);
+
     setError(error);
     throw error;
   } finally {

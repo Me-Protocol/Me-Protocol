@@ -1,71 +1,52 @@
-import { SetUpWalletProps } from "../lib/types";
 import { createWeb3 } from "../lib/web3";
-import { delay } from "../helpers/delay";
+import { SetUpWalletProps } from "../lib/types";
+import { OperationResult } from "../helpers/types";
+import { executeSimpleWalletOperation } from "../helpers/walletHelpers";
 
-export async function setUpWalletFN({ email, magic, setLoading, setError, persist }: SetUpWalletProps) {
+/**
+ * Sets up a wallet by authenticating the user and returning their public address.
+ *
+ * This function handles user authentication and wallet setup.
+ *
+ * @param params - Configuration object containing required parameters
+ * @returns Promise resolving to wallet operation result with publicAddress
+ * @throws Error if authentication or wallet setup fails
+ */
+export async function setUpWalletFN({ email, magic, setLoading, setError, persist }: SetUpWalletProps): Promise<OperationResult> {
+  // Input validation
+  if (!email) {
+    throw new Error("Missing required parameter: email");
+  }
+
   setLoading(true);
 
   try {
     const magicWeb3 = await createWeb3(magic);
 
-    if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email });
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      //if the user accounts is not found - update it on the console
-      if (accounts.length === 0) {
-        return { publicAddress: "no accounts found" };
-      }
-      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-      return { publicAddress: loggedInUserInfo.publicAddress };
-    } else {
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-
-      const { email: connectedEmail } = await magic.user.getInfo();
-      //IF THE PERSISTED USER INFO IS NOT THE INFO OF THE USER TRYING TO PERFORM THE FUNCTION logout and try to login again
-      if (email !== connectedEmail) {
-        await magic.user.logout();
-        await magic.auth.loginWithEmailOTP({ email });
-        let isConnected = magicWeb3;
-        while (!isConnected) {
-          await delay(1000); // Wait for 1 second
-          isConnected = magicWeb3;
-        }
-        const accounts = await magicWeb3.eth.getAccounts();
-        //if the user accounts is not found - update it on the console
-        if (accounts.length === 0) {
-          return { publicAddress: "no accounts found" };
-        }
-        const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-        return { publicAddress: loggedInUserInfo.publicAddress };
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      //if the user accounts is not found - update it on the console
-      if (accounts.length === 0) {
-        return { publicAddress: "no accounts found" };
-      }
-
-      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-      return { publicAddress: loggedInUserInfo.publicAddress };
+    if (!magicWeb3) {
+      throw new Error("Failed to create web3 instance");
     }
+
+    // Execute simple wallet operation
+    const result = await executeSimpleWalletOperation(magic, magicWeb3, email, false);
+
+    return result;
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Set up wallet failed:", errorMessage);
+
     setError(error);
     throw error;
   } finally {
     setLoading(false);
+
+    // Logout user if not persisting session
     if (!persist) {
-      magic.user.logout();
+      try {
+        await magic.user.logout();
+      } catch (logoutError) {
+        console.warn("Failed to logout user:", logoutError);
+      }
     }
   }
 }

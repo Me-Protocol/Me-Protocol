@@ -1,6 +1,6 @@
 {
   "name": "me-protocol",
-  "version": "0.0.2-debug-hedera",
+  "version": "0.0.202-multi-network",
   "description": "A library for interacting with the me-protocol ecosystem",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -12,27 +12,31 @@
     "My AI"
   ],
   "license": "ISC",
-  "devDependencies": {
-    "@developeruche/protocol-core": "0.10.45-ethers5-hedera",
-    "@developeruche/runtime-sdk": "1.0.0-updated",
+  "dependencies": {
+    "@developeruche/protocol-core": "0.10.51-ethers5",
+    "@developeruche/runtime-sdk": "0.11.1-development",
     "@gelatonetwork/relay-sdk": "^4.0.0",
+    "axios": "^1.4.0",
+    "ethers": "^5.6.9",
+    "magic-sdk": "^18.4.1",
+    "web3": "^4.0.3"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/react": "^18.2.15",
-    "axios": "^1.4.0",
-    "ethers": "^5.6.9",
     "jest-environment-jsdom": "^29.6.1",
-    "magic-sdk": "^18.4.1",
-    "react": "^18.2.0",
     "rimraf": "^5.0.1",
     "rollup": "^3.26.3",
     "rollup-plugin-dts": "^5.3.0",
     "tslib": "^2.6.0",
-    "typescript": "^5.1.6",
-    "web3": "^4.0.3"
+    "typescript": "^5.1.6"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

@@ -1,5 +1,6 @@
 import { sendTransactionData } from "@developeruche/runtime-sdk/dist/utils/interfaces";
 import { BigNumber } from "ethers";
+import { Magic } from "magic-sdk";
 import { Dispatch, SetStateAction } from "react";
 
 export interface MeProtocolProviderProps {
@@ -18,6 +19,8 @@ export interface MeProtocolProviderProps {
   GELATO_API_KEY: string;
   debug?: boolean;
   costPayerId?: string;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 // export interface MeRegisterProps {
@@ -43,18 +46,20 @@ export interface CreateRewardProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   name: string;
   symbol: string;
   descriptionLink: string;
   totalSupply: string;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface OnBoardRewardsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
   email: string;
-  magic: any;
+  magic: Magic;
   reward_address: string;
   brand_id: BigNumber;
   persist: boolean;
@@ -76,7 +81,7 @@ export interface DeployRewardAndPoolProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   brandId: string;
   name: string;
   symbol: string;
@@ -90,6 +95,8 @@ export interface DeployRewardAndPoolProps {
   notifyRewardAmount: number | BigNumber;
   notifyMeAmount: number | BigNumber;
   persist: boolean;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps {
@@ -105,19 +112,21 @@ export interface AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoo
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   currentBrandId: string;
   rewardAddress: string;
   rewardAmount: string;
   meAmount: string;
   persist: boolean;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface DistributeRewardsProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
   email: string;
-  magic: any;
+  magic: Magic;
   reward_address: string;
   reward_recipient: Array<string>;
   reward_amounts: Array<BigNumber>;
@@ -143,7 +152,7 @@ export interface spendRewardsOnIssuingBrandWithVaultPermitProps {
   GELATO_API_KEY: string;
   debug?: boolean;
   email: string;
-  magic: any;
+  magic: Magic;
   reward_amount: BigNumber;
   reward_address: string;
   rewardId: string;
@@ -164,9 +173,11 @@ export interface ChangeOptimalOpenRewardProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardName: string;
   newOptimalValue: number;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface SetUpOpenRewardProps {
@@ -183,7 +194,7 @@ export interface SetUpOpenRewardProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
   rOptimal: number;
   maximumRLimit: number;
@@ -193,6 +204,8 @@ export interface SetUpOpenRewardProps {
   notifyMeAmount: number;
   defaultSlippageInPrecision: number;
   allowSwaps: boolean;
+  pk: string | undefined;
+  hedera: boolean;
 }
 export interface SetUpWalletProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -206,14 +219,14 @@ export interface SetUpWalletProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   persist: boolean;
 }
 export interface GetWalletFromEmailProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<unknown>>;
   userEmail: string;
-  magic: any;
+  magic: Magic;
   persist: boolean;
 }
 
@@ -229,8 +242,10 @@ export interface ChangeMainAccountProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   newMainAcctAddress: string;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface ActivateOpenRewardProps {
@@ -245,8 +260,10 @@ export interface ActivateOpenRewardProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
+  pk: string | undefined;
+  hedera: boolean;
 }
 export interface IntegrateRewardProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -260,10 +277,12 @@ export interface IntegrateRewardProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
   descriptionLink: string;
   readTandC: boolean;
+  pk: string | undefined;
+  hedera: boolean;
 }
 export interface TopUpOpenRewardLiquidityProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -278,10 +297,12 @@ export interface TopUpOpenRewardLiquidityProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   address: string;
   meAmount: string;
   rewardAmount: string;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface SpendRewardOnIssuingBrandProps {
@@ -296,7 +317,7 @@ export interface SpendRewardOnIssuingBrandProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   spendAddress: string;
   spendAmount: string;
 }
@@ -323,11 +344,13 @@ export interface UpdateRewardConfigProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   address: string;
   brandId: string;
   ignoreDefault: boolean;
   rewardConfig: EditableRewardConfig;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface EditableRewardDetails {
@@ -348,11 +371,13 @@ export interface UpdateRewardDetailsProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
   brandId: string;
   details: EditableRewardDetails;
   ignoreDefault: boolean;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface EditableBrandDetails {
@@ -372,10 +397,12 @@ export interface UpdateBrandDetailsProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   brandId: string;
   brandDetails: EditableBrandDetails;
   ignoreDefault: boolean;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface EditableBrandConfig {
@@ -397,10 +424,12 @@ export interface UpdateGeneralConfigProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   brandId: string;
   generalConfig: EditableBrandConfig;
   ignoreDefault: boolean;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface EditableConfigForTypeAOpenRewards {
@@ -424,10 +453,12 @@ export interface UpdateOpenRewardConfigProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
   config: EditableConfigForTypeAOpenRewards;
   ignoreDefault: boolean;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface ResumeOpenRewardProps {
@@ -442,8 +473,10 @@ export interface ResumeOpenRewardProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface PauseOpenRewardProps {
@@ -458,8 +491,10 @@ export interface PauseOpenRewardProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardAddress: string;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface BrandDetailsProps {
@@ -486,7 +521,7 @@ export interface GetBrandDetailsProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   getOnlyId?: boolean;
 }
 
@@ -535,7 +570,9 @@ export interface SwapWithDiffBrandProps {
   costPayerId?: string;
   spendInfo: SpendingInfo;
   email: string;
-  magic: any;
+  magic: Magic;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
@@ -553,10 +590,12 @@ export interface SpendRewardsOnAnotherBrandWithVaultPermitProps {
   costPayerId?: string;
   spendInfo: SpendingInfo;
   email: string;
-  magic: any;
+  magic: Magic;
   rewardId: string;
   RUNTIME_URL: string;
   orderId?: string;
+  pk: string | undefined;
+  hedera: boolean;
 }
 
 export interface AddRewardMagicProps {
@@ -573,7 +612,7 @@ export interface AddRewardMagicProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   brand_id: BigNumber;
   // reward_address: string;
   reward_manager: string;
@@ -596,7 +635,7 @@ export interface RemoveRewardMagicProps {
   debug?: boolean;
   costPayerId?: string;
   email: string;
-  magic: any;
+  magic: Magic;
   brand_id: BigNumber;
   // reward_address: string;
   reward_manager: string;
@@ -811,7 +850,9 @@ export type OmittedProps =
   | "OPEN_REWARD_DIAMOND"
   | "ME_TOKEN"
   | "CHAIN_ID"
-  | "magic";
+  | "magic"
+  | "pk"
+  | "hedera";
 export type TaskIdPromise = Promise<{ taskId: string } | undefined>;
 
 export interface AllFnsProps {
@@ -819,7 +860,7 @@ export interface AllFnsProps {
   loading: boolean;
   spendLoading: boolean;
   spendingSteps: number;
-  magic: any;
+  magic: Magic;
   updateGeneralConfig: ({
     generalConfig: { enableBountyRewards, enableCais, payIncomingGasFees, payOutgoingGasFees },
     ignoreDefault,
@@ -921,8 +962,8 @@ export interface AllFnsProps {
     allowSwaps,
   }: Omit<SetUpOpenRewardProps, OmittedProps>) => TaskIdPromise;
 
-  setUpWallet: ({ persist }: Omit<SetUpWalletProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
-  getWalletFromEmail: ({ persist }: Omit<GetWalletFromEmailProps, OmittedProps>) => Promise<{ publicAddress: string } | undefined>;
+  setUpWallet: ({ persist }: Omit<SetUpWalletProps, OmittedProps>) => Promise<{ publicAddress?: string } | undefined>;
+  getWalletFromEmail: ({ persist }: Omit<GetWalletFromEmailProps, OmittedProps>) => Promise<{ publicAddress?: string } | undefined>;
   changeMainAccount: ({ newMainAcctAddress }: Omit<ChangeMainAccountProps, OmittedProps>) => TaskIdPromise;
   createReward: ({ name, symbol, descriptionLink, totalSupply }: Omit<CreateRewardProps, OmittedProps>) => TaskIdPromise;
   deployRewardAndPool: ({
@@ -981,8 +1022,11 @@ export interface AllFnsProps {
     orderId,
   }: Omit<spendRewardsOnIssuingBrandWithVaultPermitProps, OmittedProps>) => TaskIdPromise;
   getUserRewardsRuntime: ({ rewardListFromBackend, userData, RUNTIME_URL }: Omit<GetUserRewardsRuntimeProps, OmittedProps>) => Promise<{
-    rewardBalances: RewardRuntime[];
-    userDataWithBalance: UserProps;
+    rewardBalances: Array<{
+      contractAddress: string;
+      balance: string;
+    }>;
+    userDataWithBalance: any;
   }>;
   logOut: (clearCache?: boolean) => Promise<any>;
 }

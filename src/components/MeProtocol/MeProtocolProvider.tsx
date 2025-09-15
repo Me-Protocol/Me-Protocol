@@ -1,73 +1,72 @@
+import { BigNumber } from "ethers";
 import React, { createContext, useState } from "react";
+import { createMagic } from "../../lib/magic";
 import {
+  ActivateOpenRewardProps,
+  AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps,
+  AddRewardMagicProps,
+  AllFnsProps,
+  BrandDetailsProps,
+  ChangeMainAccountProps,
+  ChangeOptimalOpenRewardProps,
+  CreateRewardProps,
+  DeployRewardAndPoolProps,
+  DistributeRewardsProps,
+  GetUserRewardsRuntimeProps,
+  GetWalletFromEmailProps,
+  IntegrateRewardProps,
   // MeRegisterProps,
   MeProtocolProviderProps,
-  BrandDetailsProps,
-  CreateRewardProps,
-  SetUpOpenRewardProps,
-  ChangeMainAccountProps,
-  AllFnsProps,
-  ActivateOpenRewardProps,
-  ResumeOpenRewardProps,
+  OmittedProps,
+  OnBoardRewardsProps,
   PauseOpenRewardProps,
-  ChangeOptimalOpenRewardProps,
-  IntegrateRewardProps,
-  TopUpOpenRewardLiquidityProps,
-  UpdateRewardConfigProps,
+  ResumeOpenRewardProps,
+  SetUpOpenRewardProps,
+  SetUpWalletProps,
   SpendRewardOnIssuingBrandProps,
-  UpdateOpenRewardConfigProps,
-  UpdateRewardDetailsProps,
+  SpendRewardsOnAnotherBrandWithVaultPermitProps,
+  spendRewardsOnIssuingBrandWithVaultPermitProps,
   SwapWithDiffBrandProps,
+  TopUpOpenRewardLiquidityProps,
   UpdateBrandDetailsProps,
   UpdateGeneralConfigProps,
-  SetUpWalletProps,
-  OmittedProps,
-  DistributeRewardsProps,
-  spendRewardsOnIssuingBrandWithVaultPermitProps,
-  SpendRewardsOnAnotherBrandWithVaultPermitProps,
-  AddRewardMagicProps,
-  DeployRewardAndPoolProps,
-  AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps,
-  OnBoardRewardsProps,
-  GetWalletFromEmailProps,
-  GetUserRewardsRuntimeProps,
+  UpdateOpenRewardConfigProps,
+  UpdateRewardConfigProps,
+  UpdateRewardDetailsProps,
 } from "../../lib/types";
-import { getBrandDetailsFN } from "../../module/getBrandDetails";
-import { createRewardFN } from "../../module/createReward";
-import { setUpOpenRewardFN } from "../../module/setUpOpenReward";
-import { changeMainAccountFN } from "../../module/changeMainAccount";
 import { activateOpenRewardFN } from "../../module/activateOpenReward";
-import { resumeOpenRewardFN } from "../../module/resumeOpenReward";
-import { pauseOpenRewardFN } from "../../module/pauseOpenReward";
+import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser";
+import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool";
+import { addRewardManagerFN } from "../../module/addRewardManager";
+import { changeMainAccountFN } from "../../module/changeMainAccount";
 import { changeOptimalOpenRewardFN } from "../../module/changeOptimalOpenReward";
+import { changeROptimalFN } from "../../module/changeROptimal";
+import { createMoreRewardToTreasuryFN } from "../../module/createMoreRewardToTreasury";
+import { createMoreRewardsToVaultFN } from "../../module/createMoreRewardToVault";
+import { createRewardFN } from "../../module/createReward";
+import { deployRewardAndPoolFN } from "../../module/deployRewardAndPool";
+import { distributeRewardsFN } from "../../module/distributeRewards";
+import { getBrandDetailsFN } from "../../module/getBrandDetails";
+import { getUserRewardsRuntimeFN } from "../../module/getUserRewardsRuntime";
+import { getWalletFromEmailFN } from "../../module/getWalletFromEmail";
 import { integrateRewardFN } from "../../module/integrateReward";
-import { topUpOpenRewardLiquidityFN } from "../../module/topUpOpenRewardLiquidity";
-import { updateRewardConfigFN } from "../../module/updateRewardConfig";
+import { logOutFn } from "../../module/logOut";
+import { onBoardRewardsFN } from "../../module/onboardReward";
+import { pauseOpenRewardFN } from "../../module/pauseOpenReward";
+import { removeRewardManagerFN } from "../../module/removeRewardManager";
+import { resumeOpenRewardFN } from "../../module/resumeOpenReward";
+import { setUpOpenRewardFN } from "../../module/setUpOpenReward";
+import { setUpWalletFN } from "../../module/setUpWallet";
 import { spendRewardOnIssuingBrandFN } from "../../module/spendRewardOnIssuingBrand";
-import { updateOpenRewardConfigFN } from "../../module/updateOpenRewardConfig";
-import { updateRewardDetailsFN } from "../../module/updateRewardDetails";
+import { spendRewardsOnAnotherBrandWithVaultPermitFN } from "../../module/spendRewardsOnAnotherBrandWithVaultPermit";
+import { spendRewardsOnIssuingBrandWithVaultPermitFN } from "../../module/spendRewardsOnIssuingBrandWithVaultPermit";
 import { swapWithDiffBrandFN } from "../../module/swapWithDiffBrand";
+import { topUpOpenRewardLiquidityFN } from "../../module/topUpOpenRewardLiquidity";
 import { updateBrandDetailsFN } from "../../module/updateBrandDetails";
 import { updateGeneralConfigFN } from "../../module/updateGeneralConfig";
-import { setUpWalletFN } from "../../module/setUpWallet";
-import { distributeRewardsFN } from "../../module/distributeRewards";
-import { spendRewardsOnIssuingBrandWithVaultPermitFN } from "../../module/spendRewardsOnIssuingBrandWithVaultPermit";
-import { spendRewardsOnAnotherBrandWithVaultPermitFN } from "../../module/spendRewardsOnAnotherBrandWithVaultPermit";
-import { logOutFn } from "../../module/logOut";
-import { addRewardManagerFN } from "../../module/addRewardManager";
-import { removeRewardManagerFN } from "../../module/removeRewardManager";
-import { deployRewardAndPoolFN } from "../../module/deployRewardAndPool";
-import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool";
-import { onBoardRewardsFN } from "../../module/onboardReward";
-import { createMoreRewardToTreasuryFN } from "../../module/createMoreRewardToTreasury";
-import { changeROptimalFN } from "../../module/changeROptimal";
-import { BigNumber } from "ethers";
-import { getWalletFromEmailFN } from "../../module/getWalletFromEmail";
-import { createMagic } from "../../lib/magic";
-import { createMoreRewardsToVaultFN } from "../../module/createMoreRewardToVault";
-import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser";
-import { addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN } from "../../module/addLiquidityForOpenRewardsWithTreasuryAndMeDispenser copy";
-import { getUserRewardsRuntimeFN } from "../../module/getUserRewardsRuntime";
+import { updateOpenRewardConfigFN } from "../../module/updateOpenRewardConfig";
+import { updateRewardConfigFN } from "../../module/updateRewardConfig";
+import { updateRewardDetailsFN } from "../../module/updateRewardDetails";
 
 export const MeProtocolContext = createContext<AllFnsProps | null>(null);
 
@@ -87,6 +86,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
   ME_TOKEN,
   VAULT,
   TREASURY,
+  pk,
+  hedera,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [spendLoading, setSpendLoading] = useState<boolean>(false);
@@ -178,6 +179,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -217,6 +220,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       CHAIN_ID,
       ME_TOKEN,
       OPEN_REWARD_IMPLEMENTATION,
+      pk,
+      hedera,
     });
   }
 
@@ -236,6 +241,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -255,6 +262,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -274,6 +283,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -293,6 +304,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -313,6 +326,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -334,6 +349,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -356,6 +373,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
       ME_TOKEN,
+      pk,
+      hedera,
     });
   }
 
@@ -399,6 +418,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -462,6 +483,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -493,6 +516,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -518,6 +543,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -548,6 +575,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -599,6 +628,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       JSON_RPC_URL,
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
+      pk,
+      hedera,
     });
   }
 
@@ -681,6 +712,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       CHAIN_ID,
       RUNTIME_URL,
       orderId,
+      pk,
+      hedera,
     });
   }
 
@@ -802,6 +835,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       OPEN_REWARD_IMPLEMENTATION,
       TREASURY,
       VAULT,
+      pk,
+      hedera,
     });
   }
   async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPool({
@@ -830,6 +865,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       currentBrandId,
       persist,
       ME_TOKEN,
+      pk,
+      hedera,
     });
   }
   async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenser({
@@ -858,6 +895,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       currentBrandId,
       persist,
       ME_TOKEN,
+      pk,
+      hedera,
     });
   }
   async function addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopup({
@@ -867,7 +906,7 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
     currentBrandId,
     persist,
   }: Omit<AddLiquidityForOpenRewardsWithTreasuryAndMeDispenserAndStartPoolProps, OmittedProps>) {
-    return await addLiquidityForOpenRewardsWithTreasuryAndMeDispenserAutoTopupFN({
+    return await addLiquidityForOpenRewardsWithTreasuryAndMeDispenserFN({
       email,
       setError,
       setLoading,
@@ -886,6 +925,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       currentBrandId,
       persist,
       ME_TOKEN,
+      pk,
+      hedera,
     });
   }
 
@@ -906,6 +947,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
       amount,
+      pk,
+      hedera,
     });
   }
   async function createMoreRewardToVault({ rewardAddress, amount }: Omit<PauseOpenRewardProps & { amount: string }, OmittedProps>) {
@@ -924,6 +967,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
       amount,
+      pk,
+      hedera,
     });
   }
   async function changeROptimal({ rewardAddress, newROptimal }: Omit<PauseOpenRewardProps & { newROptimal: BigNumber }, OmittedProps>) {
@@ -942,6 +987,8 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       OPEN_REWARD_DIAMOND,
       CHAIN_ID,
       newROptimal,
+      pk,
+      hedera,
     });
   }
   async function getUserRewardsRuntime({ RUNTIME_URL, rewardListFromBackend, userData }: Omit<GetUserRewardsRuntimeProps, OmittedProps>) {

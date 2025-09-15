@@ -1,9 +1,20 @@
 import { ethers } from "ethers";
-import { brandService } from "@developeruche/protocol-core";
 import { createWeb3 } from "../lib/web3";
-import { delay } from "../helpers/delay";
-import { relay } from "@developeruche/protocol-core";
 import { UpdateOpenRewardConfigProps } from "../lib/types";
+import { TransactionResult } from "../helpers/types";
+import { handleUserAuthentication } from "../helpers/authentication";
+import { executeUpdateOpenRewardConfigWorkflow } from "../helpers/configurationHelpers";
+
+/**
+ * Updates the configuration of an open reward.
+ *
+ * This function handles user authentication and executes the update configuration
+ * workflow through a relay service.
+ *
+ * @param params - Configuration object containing all required parameters
+ * @returns Promise resolving to transaction result with taskId
+ * @throws Error if authentication, configuration update, or transaction execution fails
+ */
 export async function updateOpenRewardConfigFN({
   email,
   magic,
@@ -28,169 +39,69 @@ export async function updateOpenRewardConfigFN({
   CHAIN_ID,
   costPayerId,
   debug,
-}: UpdateOpenRewardConfigProps) {
+  pk,
+  hedera,
+}: UpdateOpenRewardConfigProps): Promise<TransactionResult> {
+  // Input validation
+  if (!email || !rewardAddress) {
+    throw new Error("Missing required parameters: email or rewardAddress");
+  }
+
   setLoading(true);
 
   try {
     const magicWeb3 = await createWeb3(magic);
 
-    if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email });
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      //if the user accounts is not found - update it on the console
-      if (accounts.length === 0) {
-        return { taskId: "no accounts found" };
-      }
-      const userAccount = accounts[0];
-      const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
-      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-      const config = {
-        maximumRLimit,
-        minimumRewardAmountForConversation: ethers.utils.parseEther(minimumRewardAmountForConversation),
-        minimumMeAmountForConversation: ethers.utils.parseEther(minimumMeAmountForConversation),
-        notifyRewardAmount,
-        notifyMeAmount,
-        defaultSlippageInPrecision,
-        allowSwaps,
-      };
-
-      const data = await brandService.updateOpenRewardsConfigurations(rewardAddress, config, ignoreDefault, JSON_RPC_URL, OPEN_REWARD_DIAMOND);
-
-      const relayInput = {
-        from: loggedInUserInfo.publicAddress,
-        data: data.data,
-        to: OPEN_REWARD_DIAMOND,
-      };
-
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        GELATO_API_KEY,
-        JSON_RPC_URL,
-        CHAIN_ID,
-        OPEN_REWARD_DIAMOND,
-        costPayerId,
-        debug
-      );
-
-      return { taskId };
-    } else {
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-
-      const { email: connectedEmail } = await magic.user.getInfo();
-      //IF THE PERSISTED USER INFO IS NOT THE INFO OF THE USER TRYING TO PERFORM THE FUNCTION logout and try to login again
-      if (email !== connectedEmail) {
-        await magic.user.logout();
-        await magic.auth.loginWithEmailOTP({ email });
-        let isConnected = magicWeb3;
-        while (!isConnected) {
-          await delay(1000); // Wait for 1 second
-          isConnected = magicWeb3;
-        }
-        const accounts = await magicWeb3.eth.getAccounts();
-        //if the user accounts is not found - update it on the console
-        if (accounts.length === 0) {
-          return { taskId: "no accounts found" };
-        }
-        const userAccount = accounts[0];
-        const provider = await magic.wallet.getProvider();
-        const web3Provider = new ethers.providers.Web3Provider(provider);
-        const signer = web3Provider.getSigner(userAccount);
-        const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-
-        const config = {
-          maximumRLimit,
-          minimumRewardAmountForConversation: ethers.utils.parseEther(minimumRewardAmountForConversation),
-          minimumMeAmountForConversation: ethers.utils.parseEther(minimumMeAmountForConversation),
-          notifyRewardAmount,
-          notifyMeAmount,
-          defaultSlippageInPrecision,
-          allowSwaps,
-        };
-
-        const data = await brandService.updateOpenRewardsConfigurations(rewardAddress, config, ignoreDefault, JSON_RPC_URL, OPEN_REWARD_DIAMOND);
-
-        const relayInput = {
-          from: loggedInUserInfo.publicAddress,
-          data: data.data,
-          to: OPEN_REWARD_DIAMOND,
-        };
-
-        const { taskId }: { taskId: string } = await relay(
-          relayInput,
-          signer,
-          meApiKey,
-          reqURL,
-          GELATO_API_KEY,
-          JSON_RPC_URL,
-          CHAIN_ID,
-          OPEN_REWARD_DIAMOND,
-          costPayerId,
-          debug
-        );
-
-        return { taskId };
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      //if the user accounts is not found - update it on the console
-      if (accounts.length === 0) {
-        return { taskId: "no accounts found" };
-      }
-      const userAccount = accounts[0];
-      // console.log(userAccount, "user account is this");
-      const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
-      const loggedInUserInfo = await magic.user.getInfo().then((info: any) => info);
-      const config = {
-        maximumRLimit,
-        minimumRewardAmountForConversation: ethers.utils.parseEther(minimumRewardAmountForConversation),
-        minimumMeAmountForConversation: ethers.utils.parseEther(minimumMeAmountForConversation),
-        notifyRewardAmount,
-        notifyMeAmount,
-        defaultSlippageInPrecision,
-        allowSwaps,
-      };
-
-      const data = await brandService.updateOpenRewardsConfigurations(rewardAddress, config, ignoreDefault, JSON_RPC_URL, OPEN_REWARD_DIAMOND);
-      const relayInput = {
-        from: loggedInUserInfo.publicAddress,
-        data: data.data,
-        to: OPEN_REWARD_DIAMOND,
-      };
-      const { taskId }: { taskId: string } = await relay(
-        relayInput,
-        signer,
-        meApiKey,
-        reqURL,
-        GELATO_API_KEY,
-        JSON_RPC_URL,
-        CHAIN_ID,
-        OPEN_REWARD_DIAMOND,
-        costPayerId,
-        debug
-      );
-
-      return { taskId };
+    if (!magicWeb3) {
+      throw new Error("Failed to create web3 instance");
     }
+
+    // Handle user authentication and setup
+    const { signer, userInfo } = await handleUserAuthentication(magic, magicWeb3, email);
+
+    // Execute the update configuration workflow
+    const result = await executeUpdateOpenRewardConfigWorkflow({
+      signer,
+      userInfo,
+      rewardAddress,
+      config: {
+        maximumRLimit: typeof maximumRLimit === "number" ? ethers.BigNumber.from(maximumRLimit) : maximumRLimit,
+        minimumRewardAmountForConversation,
+        minimumMeAmountForConversation,
+        notifyRewardAmount: typeof notifyRewardAmount === "number" ? ethers.BigNumber.from(notifyRewardAmount) : notifyRewardAmount,
+        notifyMeAmount: typeof notifyMeAmount === "number" ? ethers.BigNumber.from(notifyMeAmount) : notifyMeAmount,
+        defaultSlippageInPrecision:
+          typeof defaultSlippageInPrecision === "number" ? ethers.BigNumber.from(defaultSlippageInPrecision) : defaultSlippageInPrecision,
+        allowSwaps,
+      },
+      ignoreDefault,
+      meApiKey,
+      reqURL,
+      GELATO_API_KEY,
+      JSON_RPC_URL,
+      CHAIN_ID,
+      OPEN_REWARD_DIAMOND,
+      costPayerId,
+      debug,
+      pk,
+      hedera,
+    });
+
+    return result;
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Update open reward config transaction failed:", errorMessage);
+
     setError(error);
     throw error;
   } finally {
     setLoading(false);
+
+    // Always logout user after configuration update
+    try {
+      await magic.user.logout();
+    } catch (logoutError) {
+      console.warn("Failed to logout user:", logoutError);
+    }
   }
 }

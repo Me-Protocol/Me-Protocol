@@ -1,9 +1,18 @@
-import { ethers } from "ethers";
 import { createWeb3 } from "../lib/web3";
-import { delay } from "../helpers/delay";
-import { sendTransactionData, add_reward_manager_magic } from "@developeruche/runtime-sdk";
-import axios from "axios";
 import { AddRewardMagicProps } from "../lib/types";
+import { handleUserAuthentication } from "../helpers/authentication";
+import { executeAddRewardManagerWorkflow, ManagementWorkflowResult } from "../helpers/managementHelpers";
+
+/**
+ * Adds a reward manager to a brand.
+ *
+ * This function handles user authentication and executes the add reward manager
+ * workflow through runtime SDK.
+ *
+ * @param params - Configuration object containing all required parameters
+ * @returns Promise resolving to management workflow result
+ * @throws Error if authentication, management operation, or transaction execution fails
+ */
 export async function addRewardManagerFN({
   email,
   magic,
@@ -11,7 +20,6 @@ export async function addRewardManagerFN({
   setSpendLoading,
   setSpendingSteps,
   brand_id,
-  // reward_address,
   reward_manager,
   role_id,
   setError,
@@ -19,190 +27,57 @@ export async function addRewardManagerFN({
   reqURL,
   persist,
   RUNTIME_URL,
-}: AddRewardMagicProps) {
+}: AddRewardMagicProps): Promise<ManagementWorkflowResult | string> {
+  // Input validation
+  if (!email || !brand_id || !reward_manager || !role_id) {
+    throw new Error("Missing required parameters: email, brand_id, reward_manager, or role_id");
+  }
+
   setLoading(true);
+  setSpendLoading(true);
+
   try {
     const magicWeb3 = await createWeb3(magic);
 
-    if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email });
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      //if the user accounts is not found - update it on the console
-      if (accounts.length === 0) {
-        return "no accounts found";
-      }
-      const userAccount = accounts[0];
-      // console.log(userAccount, "user account is this");
-      const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
-
-      //=============================================== DO THE REST HERE==========================================================
-      setSpendLoading(true);
-      const {
-        data: add_reward_magic_data,
-        from,
-        hash,
-        nonce,
-        r,
-        s,
-        v,
-      }: sendTransactionData = await add_reward_manager_magic(
-        brand_id,
-        // reward_address,
-        reward_manager,
-        role_id,
-        signer,
-        RUNTIME_URL
-      );
-
-      return await axios.post(
-        `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
-        {
-          params: {
-            from,
-            nonce,
-            data: add_reward_magic_data,
-            r,
-            s,
-            v,
-            hash,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${meApiKey}`,
-          },
-        }
-      );
-    } else {
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-
-      const { email: connectedEmail } = await magic.user.getInfo();
-      //IF THE PERSISTED USER INFO IS NOT THE INFO OF THE USER TRYING TO PERFORM THE FUNCTION logout and try to login again
-      if (email !== connectedEmail) {
-        await magic.user.logout();
-        await magic.auth.loginWithEmailOTP({ email });
-        let isConnected = magicWeb3;
-        while (!isConnected) {
-          await delay(1000); // Wait for 1 second
-          isConnected = magicWeb3;
-        }
-        const accounts = await magicWeb3.eth.getAccounts();
-        //if the user accounts is not found - update it on the console
-        if (accounts.length === 0) {
-          return "no accounts found";
-        }
-        const userAccount = accounts[0];
-        // console.log(userAccount, "user account is this");
-        const provider = await magic.wallet.getProvider();
-        const web3Provider = new ethers.providers.Web3Provider(provider);
-        const signer = web3Provider.getSigner(userAccount);
-
-        //=============================================== DO THE REST HERE==========================================================
-        setSpendLoading(true);
-        const {
-          data: add_reward_magic_data,
-          from,
-          hash,
-          nonce,
-          r,
-          s,
-          v,
-        }: sendTransactionData = await add_reward_manager_magic(
-          brand_id,
-          // reward_address,
-          reward_manager,
-          role_id,
-          signer,
-          RUNTIME_URL
-        );
-
-        return await axios.post(
-          `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
-          {
-            params: {
-              from,
-              nonce,
-              data: add_reward_magic_data,
-              r,
-              s,
-              v,
-              hash,
-            },
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${meApiKey}`,
-            },
-          }
-        );
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      if (accounts.length === 0) {
-        return "no accounts found";
-      }
-      const userAccount = accounts[0];
-      const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
-
-      setSpendLoading(true);
-      const {
-        data: add_reward_magic_data,
-        from,
-        hash,
-        nonce,
-        r,
-        s,
-        v,
-      }: sendTransactionData = await add_reward_manager_magic(
-        brand_id,
-        // reward_address,
-        reward_manager,
-        role_id,
-        signer,
-        RUNTIME_URL
-      );
-
-      return await axios.post(
-        `${reqURL.replace("/cost/request/in-app", "")}/reward/push-transaction`,
-        {
-          params: {
-            from,
-            nonce,
-            data: add_reward_magic_data,
-            r,
-            s,
-            v,
-            hash,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${meApiKey}`,
-          },
-        }
-      );
+    if (!magicWeb3) {
+      throw new Error("Failed to create web3 instance");
     }
+
+    // Handle user authentication and setup
+    const { signer, userInfo } = await handleUserAuthentication(magic, magicWeb3, email);
+
+    // Execute the add reward manager workflow
+    const result = await executeAddRewardManagerWorkflow({
+      signer,
+      userInfo,
+      brandId: brand_id.toString(),
+      rewardManager: reward_manager,
+      roleId: role_id,
+      meApiKey,
+      reqURL,
+      RUNTIME_URL,
+      setSpendingSteps,
+    });
+
+    return result;
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Add reward manager operation failed:", errorMessage);
+
     setError(error);
     throw error;
   } finally {
     setLoading(false);
     setSpendLoading(false);
     setSpendingSteps(0);
+
+    // Logout user if not persisting session
     if (!persist) {
-      magic.user.logout();
+      try {
+        await magic.user.logout();
+      } catch (logoutError) {
+        console.warn("Failed to logout user:", logoutError);
+      }
     }
   }
 }

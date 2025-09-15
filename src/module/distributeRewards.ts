@@ -1,9 +1,19 @@
-import { distribute_reward_specific_magic } from "@developeruche/runtime-sdk";
-import { ethers } from "ethers";
 import { createWeb3 } from "../lib/web3";
-import { delay } from "../helpers/delay";
-import { sendTransactionData } from "@developeruche/runtime-sdk/dist/utils/interfaces";
 import { DistributeRewardsProps } from "../lib/types";
+import { sendTransactionData } from "@developeruche/runtime-sdk/dist/utils/interfaces";
+import { handleUserAuthentication } from "../helpers/authentication";
+import { executeDistributeRewardsWorkflow } from "../helpers/runtimeOperationHelpers";
+
+/**
+ * Distributes rewards to specified recipients.
+ *
+ * This function handles user authentication and executes the distribute rewards
+ * workflow through runtime SDK.
+ *
+ * @param params - Configuration object containing all required parameters
+ * @returns Promise resolving to transaction data
+ * @throws Error if authentication, distribution, or transaction execution fails
+ */
 export async function distributeRewardsFN({
   email,
   magic,
@@ -14,83 +24,51 @@ export async function distributeRewardsFN({
   setLoading,
   persist,
   RUNTIME_URL,
-}: DistributeRewardsProps) {
+}: DistributeRewardsProps): Promise<sendTransactionData | undefined> {
+  // Input validation
+  if (!email || !reward_address || !reward_recipient || !reward_amounts) {
+    throw new Error("Missing required parameters: email, reward_address, reward_recipient, or reward_amounts");
+  }
+
   setLoading(true);
+
   try {
     const magicWeb3 = await createWeb3(magic);
 
-    if (!(await magic.user.isLoggedIn())) {
-      await magic.auth.loginWithEmailOTP({ email });
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-      const accounts = await magicWeb3.eth.getAccounts();
-      if (accounts.length === 0) {
-        return undefined;
-      }
-      const userAccount = accounts[0];
-      const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
-      const res: sendTransactionData = await distribute_reward_specific_magic(reward_address, reward_recipient, reward_amounts, signer, RUNTIME_URL);
-
-      return res;
-    } else {
-      let isConnected = magicWeb3;
-      while (!isConnected) {
-        await delay(1000); // Wait for 1 second
-        isConnected = magicWeb3;
-      }
-
-      const { email: connectedEmail } = await magic.user.getInfo();
-      //IF THE PERSISTED USER INFO IS NOT THE INFO OF THE USER TRYING TO PERFORM THE FUNCTION logout and try to login again
-      if (email !== connectedEmail) {
-        await magic.user.logout();
-        await magic.auth.loginWithEmailOTP({ email });
-        let isConnected = magicWeb3;
-        while (!isConnected) {
-          await delay(1000); // Wait for 1 second
-          isConnected = magicWeb3;
-        }
-        const accounts = await magicWeb3.eth.getAccounts();
-        if (accounts.length === 0) {
-          return undefined;
-        }
-        const userAccount = accounts[0];
-        const provider = await magic.wallet.getProvider();
-        const web3Provider = new ethers.providers.Web3Provider(provider);
-        const signer = web3Provider.getSigner(userAccount);
-        const res: sendTransactionData = await distribute_reward_specific_magic(
-          reward_address,
-          reward_recipient,
-          reward_amounts,
-          signer,
-          RUNTIME_URL
-        );
-        return res;
-      }
-
-      // IF NOT, JUST PERFORM THE FN
-      const accounts = await magicWeb3.eth.getAccounts();
-      if (accounts.length === 0) {
-        return undefined;
-      }
-      const userAccount = accounts[0];
-      const provider = await magic.wallet.getProvider();
-      const web3Provider = new ethers.providers.Web3Provider(provider);
-      const signer = web3Provider.getSigner(userAccount);
-      const res: sendTransactionData = await distribute_reward_specific_magic(reward_address, reward_recipient, reward_amounts, signer, RUNTIME_URL);
-      return res;
+    if (!magicWeb3) {
+      throw new Error("Failed to create web3 instance");
     }
+
+    // Handle user authentication and setup
+    const { signer } = await handleUserAuthentication(magic, magicWeb3, email);
+
+    // Execute the distribute rewards workflow
+    const result = await executeDistributeRewardsWorkflow({
+      signer,
+      userInfo: { publicAddress: "", email }, // Not needed for this operation
+      rewardAddress: reward_address,
+      rewardRecipient: reward_recipient,
+      rewardAmounts: reward_amounts,
+      RUNTIME_URL,
+    });
+
+    return result;
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Distribute rewards failed:", errorMessage);
+
     setError(error);
     throw error;
   } finally {
     setLoading(false);
+
+    // Logout user if not persisting session
     if (!persist) {
-      magic.user.logout();
+      try {
+        await magic.user.logout();
+      } catch (logoutError) {
+        console.warn("Failed to logout user:", logoutError);
+      }
     }
   }
 }
