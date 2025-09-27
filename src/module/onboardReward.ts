@@ -24,6 +24,7 @@ export async function onBoardRewardsFN({
   setError,
   persist,
   RUNTIME_URL,
+  CHAIN_ID,
 }: OnBoardRewardsProps): Promise<sendTransactionData> {
   // Input validation
   if (!email || !brand_id || !reward_address) {
@@ -51,6 +52,7 @@ export async function onBoardRewardsFN({
       treasuryAmount: ethers.utils.parseEther("1000"),
       vaultAmount: ethers.utils.parseEther("1"),
       RUNTIME_URL,
+      chain_id: ethers.BigNumber.from(CHAIN_ID),
     });
 
     return result;

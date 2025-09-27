@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { VaultPermitParams, usersServiceWithPermit, relay } from "@developeruche/protocol-core";
 import { sendTransactionData, spend_reward_magic } from "@developeruche/runtime-sdk";
 import axios from "axios";
@@ -119,6 +119,7 @@ export async function executeSpendingWorkflow(params: SpendingWorkflowParams): P
       spendInfo.rewardAtHand,
       spendInfo.amountOfRewardAtHand,
       OPEN_REWARD_DIAMOND,
+      ethers.BigNumber.from(CHAIN_ID),
       signer,
       RUNTIME_URL
     );

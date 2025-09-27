@@ -64,10 +64,10 @@ export async function getUserRewardsRuntime(rewardListFromBackend: any[], userDa
 
     let result: Array<{ balance: string; contractAddress: string }> = [];
 
-    for (const address in data.result.balance) {
+    for (const address in data.result.chain_balances) {
       result.push({
         contractAddress: ethers.utils.getAddress(address),
-        balance: ethers.utils.formatEther(data.result.balance[address]),
+        balance: ethers.utils.formatEther(data.result.chain_balances[address].rewards[address]),
       });
     }
 

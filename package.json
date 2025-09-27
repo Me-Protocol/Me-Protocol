@@ -1,6 +1,6 @@
 {
   "name": "me-protocol",
-  "version": "0.0.202-multi-network",
+  "version": "0.0.205-multi-network",
   "description": "A library for interacting with the me-protocol ecosystem",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@developeruche/protocol-core": "0.10.51-ethers5",
-    "@developeruche/runtime-sdk": "0.11.1-development",
+    "@developeruche/runtime-sdk": "0.11.6-development",
     "@gelatonetwork/relay-sdk": "^4.0.0",
     "axios": "^1.4.0",
     "ethers": "^5.6.9",

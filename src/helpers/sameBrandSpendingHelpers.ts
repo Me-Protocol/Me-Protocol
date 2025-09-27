@@ -7,6 +7,7 @@ import { pushTransactionToBackend } from "./runtimeTransaction";
  * Same-brand spending workflow parameters
  */
 export interface SameBrandSpendingWorkflowParams {
+  CHAIN_ID: number;
   signer: ethers.Signer;
   userInfo: UserInfo;
   rewardAddress: string;
@@ -40,13 +41,19 @@ export interface SameBrandSpendingWorkflowResult {
  * @throws Error if any step fails
  */
 export async function executeSameBrandSpendingWorkflow(params: SameBrandSpendingWorkflowParams): Promise<SameBrandSpendingWorkflowResult> {
-  const { signer, rewardAddress, rewardAmount, rewardId, meApiKey, reqURL, RUNTIME_URL, orderId, setSpendingSteps } = params;
+  const { signer, rewardAddress, rewardAmount, rewardId, meApiKey, reqURL, RUNTIME_URL, orderId, setSpendingSteps, CHAIN_ID } = params;
 
   try {
     // Step 1: Execute same-brand reward redemption magic
     setSpendingSteps(1);
 
-    const transactionData: sendTransactionData = await same_brand_reward_redeption_magic(rewardAddress, rewardAmount, signer, RUNTIME_URL);
+    const transactionData: sendTransactionData = await same_brand_reward_redeption_magic(
+      rewardAddress,
+      rewardAmount,
+      ethers.BigNumber.from(CHAIN_ID),
+      signer,
+      RUNTIME_URL
+    );
 
     // Step 2: Push transaction to backend
     setSpendingSteps(2);

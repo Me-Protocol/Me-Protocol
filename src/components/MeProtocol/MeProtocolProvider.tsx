@@ -650,6 +650,7 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       setLoading,
       persist,
       RUNTIME_URL,
+      CHAIN_ID,
     });
   }
   async function spendRewardsOnIssuingBrandWithVaultPermit({
@@ -789,6 +790,7 @@ const MeProtocolProvider: React.FC<MeProtocolProviderProps> = ({
       reward_address,
       persist,
       RUNTIME_URL,
+      CHAIN_ID,
     });
   }
   async function deployRewardAndPool({

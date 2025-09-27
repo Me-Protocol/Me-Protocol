@@ -6,6 +6,7 @@ import { UserInfo } from "./types";
  * Runtime operation workflow parameters
  */
 export interface RuntimeOperationWorkflowParams {
+  chain_id: ethers.BigNumber;
   signer: ethers.Signer;
   userInfo: UserInfo;
   RUNTIME_URL: string;
@@ -34,10 +35,17 @@ export interface OnboardRewardParams extends RuntimeOperationWorkflowParams {
  * Executes the distribute rewards workflow
  */
 export async function executeDistributeRewardsWorkflow(params: DistributeRewardsParams): Promise<sendTransactionData> {
-  const { signer, rewardAddress, rewardRecipient, rewardAmounts, RUNTIME_URL } = params;
+  const { signer, rewardAddress, rewardRecipient, rewardAmounts, RUNTIME_URL, chain_id } = params;
 
   try {
-    const result: sendTransactionData = await distribute_reward_specific_magic(rewardAddress, rewardRecipient, rewardAmounts, signer, RUNTIME_URL);
+    const result: sendTransactionData = await distribute_reward_specific_magic(
+      rewardAddress,
+      rewardRecipient,
+      rewardAmounts,
+      chain_id,
+      signer,
+      RUNTIME_URL
+    );
 
     return result;
   } catch (error) {
@@ -49,7 +57,7 @@ export async function executeDistributeRewardsWorkflow(params: DistributeRewards
  * Executes the onboard reward workflow
  */
 export async function executeOnboardRewardWorkflow(params: OnboardRewardParams): Promise<sendTransactionData> {
-  const { signer, brandId, rewardAddress, treasuryAmount, vaultAmount, RUNTIME_URL } = params;
+  const { signer, brandId, rewardAddress, treasuryAmount, vaultAmount, RUNTIME_URL, chain_id } = params;
 
   try {
     // Use default amounts if not provided
@@ -61,6 +69,7 @@ export async function executeOnboardRewardWorkflow(params: OnboardRewardParams):
       rewardAddress,
       defaultTreasuryAmount,
       defaultVaultAmount,
+      chain_id,
       signer,
       RUNTIME_URL
     );

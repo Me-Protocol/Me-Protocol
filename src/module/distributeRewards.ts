@@ -3,6 +3,7 @@ import { DistributeRewardsProps } from "../lib/types";
 import { sendTransactionData } from "@developeruche/runtime-sdk/dist/utils/interfaces";
 import { handleUserAuthentication } from "../helpers/authentication";
 import { executeDistributeRewardsWorkflow } from "../helpers/runtimeOperationHelpers";
+import { ethers } from "ethers";
 
 /**
  * Distributes rewards to specified recipients.
@@ -24,6 +25,7 @@ export async function distributeRewardsFN({
   setLoading,
   persist,
   RUNTIME_URL,
+  CHAIN_ID,
 }: DistributeRewardsProps): Promise<sendTransactionData | undefined> {
   // Input validation
   if (!email || !reward_address || !reward_recipient || !reward_amounts) {
@@ -50,6 +52,7 @@ export async function distributeRewardsFN({
       rewardRecipient: reward_recipient,
       rewardAmounts: reward_amounts,
       RUNTIME_URL,
+      chain_id: ethers.BigNumber.from(CHAIN_ID),
     });
 
     return result;

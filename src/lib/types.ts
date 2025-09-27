@@ -64,6 +64,7 @@ export interface OnBoardRewardsProps {
   brand_id: BigNumber;
   persist: boolean;
   RUNTIME_URL: string;
+  CHAIN_ID: number;
 }
 
 export interface DeployRewardAndPoolProps {
@@ -131,6 +132,8 @@ export interface DistributeRewardsProps {
   reward_recipient: Array<string>;
   reward_amounts: Array<BigNumber>;
   persist: boolean;
+  CHAIN_ID: number;
+
   RUNTIME_URL: string;
 }
 export interface MagicProps {

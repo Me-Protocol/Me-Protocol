@@ -2,6 +2,7 @@ import { createWeb3 } from "../lib/web3";
 import { AddRewardMagicProps } from "../lib/types";
 import { handleUserAuthentication } from "../helpers/authentication";
 import { executeAddRewardManagerWorkflow, ManagementWorkflowResult } from "../helpers/managementHelpers";
+import { ethers } from "ethers";
 
 /**
  * Adds a reward manager to a brand.
@@ -27,6 +28,7 @@ export async function addRewardManagerFN({
   reqURL,
   persist,
   RUNTIME_URL,
+  CHAIN_ID,
 }: AddRewardMagicProps): Promise<ManagementWorkflowResult | string> {
   // Input validation
   if (!email || !brand_id || !reward_manager || !role_id) {
@@ -57,6 +59,7 @@ export async function addRewardManagerFN({
       reqURL,
       RUNTIME_URL,
       setSpendingSteps,
+      chain_id: ethers.BigNumber.from(CHAIN_ID),
     });
 
     return result;

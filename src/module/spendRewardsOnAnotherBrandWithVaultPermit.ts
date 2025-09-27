@@ -85,7 +85,7 @@ export async function spendRewardsOnAnotherBrandWithVaultPermitFN({
       hedera,
       orderId,
       setSpendingSteps,
-      shouldGetCoupon: true, // This function typically gets coupon data
+      shouldGetCoupon: true,
     });
 
     return result;

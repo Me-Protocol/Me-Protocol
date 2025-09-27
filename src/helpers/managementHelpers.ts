@@ -7,6 +7,7 @@ import { pushTransactionToBackend } from "./runtimeTransaction";
  * Management workflow parameters
  */
 export interface ManagementWorkflowParams {
+  chain_id: ethers.BigNumber;
   signer: ethers.Signer;
   userInfo: UserInfo;
   meApiKey: string;
@@ -53,7 +54,7 @@ export interface ManagementWorkflowResult {
  * @throws Error if any step fails
  */
 export async function executeAddRewardManagerWorkflow(params: AddRewardManagerParams): Promise<ManagementWorkflowResult> {
-  const { signer, brandId, rewardManager, roleId, meApiKey, reqURL, RUNTIME_URL, setSpendingSteps } = params;
+  const { signer, brandId, rewardManager, roleId, meApiKey, reqURL, RUNTIME_URL, setSpendingSteps, chain_id } = params;
 
   try {
     // Step 1: Execute add reward manager magic
@@ -63,6 +64,7 @@ export async function executeAddRewardManagerWorkflow(params: AddRewardManagerPa
       ethers.BigNumber.from(brandId),
       rewardManager,
       roleId,
+      chain_id,
       signer,
       RUNTIME_URL
     );
@@ -98,7 +100,7 @@ export async function executeAddRewardManagerWorkflow(params: AddRewardManagerPa
  * @throws Error if any step fails
  */
 export async function executeRemoveRewardManagerWorkflow(params: RemoveRewardManagerParams): Promise<ManagementWorkflowResult> {
-  const { signer, brandId, rewardManager, roleId, meApiKey, reqURL, RUNTIME_URL, setSpendingSteps } = params;
+  const { signer, brandId, rewardManager, roleId, meApiKey, reqURL, RUNTIME_URL, setSpendingSteps, chain_id } = params;
 
   try {
     // Step 1: Execute remove reward manager magic
@@ -108,6 +110,7 @@ export async function executeRemoveRewardManagerWorkflow(params: RemoveRewardMan
       ethers.BigNumber.from(brandId),
       rewardManager,
       roleId,
+      chain_id,
       signer,
       RUNTIME_URL
     );

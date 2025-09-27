@@ -30,6 +30,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
   setSpendingSteps,
   RUNTIME_URL,
   orderId,
+  CHAIN_ID,
 }: spendRewardsOnIssuingBrandWithVaultPermitProps): Promise<SameBrandSpendingWorkflowResult> {
   // Input validation
   if (!email || !reward_address || !reward_amount || !rewardId) {
@@ -61,6 +62,7 @@ export async function spendRewardsOnIssuingBrandWithVaultPermitFN({
       RUNTIME_URL,
       orderId,
       setSpendingSteps,
+      CHAIN_ID,
     });
 
     return result;
